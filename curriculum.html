@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum | Technical Excellence Program</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0b0f17;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Navigation -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+        <i class="fa-solid fa-code text-blue-500"></i>
+        <span>Tech<span class="text-blue-500">Academy</span></span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="index.html" class="hover:text-blue-400 transition-colors">Home</a>
+        <a href="curriculum.html" class="text-blue-400 border-b-2 border-blue-500 pb-1">Curriculum</a>
+      </nav>
+      <a href="index.html#contact" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30">
+        Enroll Now
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative py-16 px-6 max-w-7xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
+      <i class="fa-solid fa-graduation-cap"></i> Complete K-12 Tech Roadmap
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
+      Comprehensive <span class="gradient-text">Computer Science Curriculum</span>
+    </h1>
+    <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg">
+      From foundational logic and block coding to advanced machine learning, web analytics, and enterprise Java development.
+    </p>
+  </section>
+
+  <!-- Main Curriculum Grid -->
+  <main class="max-w-7xl mx-auto px-6 pb-20 space-y-12">
+
+    <!-- Middle School Years (6th - 8th) -->
+    <div>
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+        Foundational & Applied Data Years
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- 6th Standard -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-blue-400 border border-slate-700">Grade 6</span>
+              <i class="fa-solid fa-cube text-slate-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Computational Thinking & Logic Foundations</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Algorithmic Logic & Flowcharts</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Scratch Visual Block Programming</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Introduction to Web Mechanics & Internet</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Elementary Python Syntax & Variables</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Basic Digital Literacy & Safety</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
+            Focus: Logic, Sequencing & Scratch
+          </div>
+        </div>
+
+        <!-- 7th Standard -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-blue-400 border border-slate-700">Grade 7</span>
+              <i class="fa-solid fa-code text-slate-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Web Foundations, SQL & Python Core</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Structural HTML5 Web Markup</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> CSS3 Styling, Flexbox & Layouts</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Relational Databases & Structured Query Language (SQL)</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Core Python: Loops, Functions & Conditionals</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Static Website Capstone Development</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
+            Focus: Full HTML/CSS Markup & SQL
+          </div>
+        </div>
+
+        <!-- 8th Standard -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-blue-400 border border-slate-700">Grade 8</span>
+              <i class="fa-solid fa-chart-pie text-slate-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Data Analytics, Applied ML & Power BI</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Advanced Python: Refresher, Functions & File Handling</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Data Manipulation with Pandas & NumPy</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Data Visualization using Matplotlib & Seaborn</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Business Intelligence & Dashboards in Power BI</li>
+              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Applied Classification with Google Teachable Machine</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
+            Focus: Analytics, Machine Learning & BI
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- High School Years (9th) -->
+    <div>
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+        Advanced Intelligence & Problem Solving
+      </h2>
+      <div class="grid md:grid-cols-1 gap-6">
+
+        <!-- 9th Standard -->
+        <div class="glass-card rounded-2xl p-6">
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-purple-400 border border-slate-700">Grade 9</span>
+            <i class="fa-solid fa-brain text-slate-500"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-4">Algorithmic Problem Solving, Vision, NLP & Security</h3>
+          <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-300">
+            <ul class="space-y-2.5">
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Numerical Logic: Armstrong Numbers, Fibonacci, Prime Logic</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Computer Vision & Image Analytics via OpenCV</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Edge Detection, Binarization & Feature Tracking</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Natural Language Processing (NLP) & Tokenization</li>
+            </ul>
+            <ul class="space-y-2.5">
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Sentiment Analysis & Text Vectorization (TF-IDF)</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Deep Learning Concepts & Neural Network Layers</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Cybersecurity Fundamentals & Caesar Cipher Scripts</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Software Architecture & Technical Project Defense</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Specialized Senior Years (11th & 12th CSE) -->
+    <div class="relative overflow-hidden rounded-3xl p-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
+      <div class="bg-slate-950 rounded-[23px] p-8">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-800">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-2">
+              <i class="fa-solid fa-star"></i> Dedicated Stream for CSE Students
+            </div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white">11th & 12th Computer Science Practice Track</h2>
+          </div>
+          <span class="text-sm text-slate-400 max-w-md">
+            Tailored specifically for 11th and 12th Standard Computer Science students with dedicated time for practical problem-solving.
+          </span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+          <!-- 11th Standard Java -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-900/50 text-blue-300 border border-blue-700/50">Grade 11</span>
+              <h3 class="text-lg font-bold text-white">Java Language & Object-Oriented Programming</h3>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Java Virtual Machine (JVM, JDK, JRE) Architecture</li>
+              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Data Types, Variables, Control Flow & Loops</li>
+              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> OOP Pillar 1: Classes, Objects & Encapsulation</li>
+              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> OOP Pillar 2: Inheritance & Polymorphism</li>
+              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Abstraction: Abstract Classes & Interfaces</li>
+              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Exception Handling (`try-catch-finally`)</li>
+            </ul>
+          </div>
+
+          <!-- 12th Standard Java -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-indigo-900/50 text-indigo-300 border border-indigo-700/50">Grade 12</span>
+              <h3 class="text-lg font-bold text-white">Advanced Java, Data Structures & Practices</h3>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Java Collections Framework (`ArrayList`, `HashMap`)</li>
+              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Linear Data Structures: Stack, Queue & Linked List</li>
+              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Searching & Sorting Algorithms in Java</li>
+              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> File I/O Streams & Data Persistence</li>
+              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Database Connectivity via JDBC & SQL</li>
+              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Board Examination Practical Problem Suites</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="glass-card border-t border-slate-800/80 py-8 px-6 text-center text-sm text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <p>&copy; 2026 TechAcademy. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="index.html" class="hover:text-slate-300">Home</a>
+        <a href="curriculum.html" class="hover:text-slate-300">Curriculum</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
