@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- TITLE UPDATED -->
   <title>EarlyCraft EdTech</title>
   
-  <!-- FAVICON (.ICO) ADDED -->
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +13,7 @@
 
   <style>
     :root {
-      --bg-white: #ffffff;
+      --bg-dark: #0b0f19;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
       
@@ -25,25 +21,67 @@
       --accent-blue: #4facfe;
       --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
       
-      /* Dark blue transparent overlay */
-      --dark-blue-overlay: rgba(11, 15, 25, 0.88);
-
       --glass-border: rgba(255, 255, 255, 0.12);
-      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
     
-    /* Lock page height and disable scrolling for a static non-scrollable screen */
-    html, body { 
-      height: 100%; 
-      width: 100%; 
-      overflow: hidden; 
-      background-color: var(--bg-white); 
-      color: var(--text-main); 
+    html {
+      background-color: var(--bg-dark);
+      height: 100%;
     }
 
-    /* TOP HEADER BAR - MSME BADGE ON TOP RIGHT */
+    body {
+      background-color: var(--bg-dark) !important;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      color: var(--text-main);
+      
+      /* PREVENT ALL TEXT & IMAGE SELECTION */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      /* STARTING ENTRY STATE (Blank/Hidden Canvas) */
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+      filter: blur(4px);
+      transition: 
+        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
+    }
+
+    /* SMOOTH ENTRY TARGET STATE */
+    body.page-loaded { 
+      opacity: 1; 
+      transform: scale(1) translateY(0);
+      filter: blur(0px);
+    }
+
+    /* SMOOTH EXIT TARGET STATE */
+    body.page-exiting { 
+      opacity: 0; 
+      transform: scale(1.03) translateY(-6px); 
+      filter: blur(6px);
+      transition: 
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none; 
+    }
+
+    /* PREVENT IMAGE DRAGGING */
+    img {
+      -webkit-user-drag: none;
+      user-drag: none;
+      pointer-events: none;
+    }
+
+    /* HEADER */
     .top-header {
       position: absolute;
       top: 0;
@@ -68,10 +106,13 @@
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--accent-cyan);
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .msme-badge i { font-size: 0.95rem; color: #4facfe; }
+
+    .msme-badge:hover {
+      border-color: rgba(0, 242, 254, 0.4);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+    }
 
     /* HERO CONTAINER */
     .hero-banner { 
@@ -83,61 +124,43 @@
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-      background-color: var(--bg-white);
+      perspective: 1200px;
     }
 
-    /* WATERMARK ICON */
+    /* RIGHT-SIDE WAVE ANIMATION CANVAS */
+    #wave-canvas {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      mask-image: linear-gradient(to right, transparent 0%, black 25%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
+    }
+
+    /* 3D LOGO BADGE */
     .bg-watermark {
       position: absolute;
       top: 50%;
-      right: 12%;
-      transform: translateY(-50%);
-      max-width: 680px;
-      width: 52vw;
+      right: 10%;
+      width: 420px;
       height: auto;
-      object-fit: contain;
-      z-index: 1;
-      pointer-events: none;
-      user-select: none;
-      opacity: 0.85;
-      filter: drop-shadow(0 0 35px rgba(0, 242, 254, 0.3));
-      
-      -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.1) 100%);
-      mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.1) 100%);
+      object-fit: cover;
+      z-index: 3;
+      border-radius: 28px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      transform: translateY(-50%) rotateX(15deg) rotateY(-22deg) rotateZ(6deg);
+      box-shadow: 
+        -20px 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 45px rgba(0, 242, 254, 0.25);
     }
 
-    /* LIGHTENING OVERLAY */
-    .hero-banner::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: 5%;
-      transform: translateY(-50%);
-      width: 55vw;
-      height: 75vh;
-      background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, rgba(11, 15, 25, 0) 70%);
-      z-index: 2;
-      pointer-events: none;
-      border-radius: 50%;
-    }
-
-    /* TRANSPARENT DARK BLUE OVERLAY */
-    .hero-banner::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to right, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.75) 45%, rgba(11, 15, 25, 0.30) 100%);
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    /* FOREGROUND TEXT CONTENT */
+    /* FOREGROUND CONTENT */
     .hero-content { 
-      max-width: 620px; 
-      z-index: 3; 
+      max-width: 600px; 
+      z-index: 4; 
       position: relative; 
     }
 
@@ -146,7 +169,6 @@
       line-height: 1.15; 
       font-weight: 800; 
       margin-bottom: 1rem; 
-      color: #ffffff; 
     }
     .hero-title span { 
       background: var(--accent-gradient); 
@@ -158,12 +180,10 @@
     .hero-subtitle {
       font-size: 1.1rem;
       color: #cbd5e1;
-      font-weight: 400;
       margin-bottom: 2rem;
       line-height: 1.6;
     }
 
-    /* PUNCHY POINTS WITH STRICT ICON ALIGNMENT */
     .punch-points { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.2rem; }
     
     .punch-item { 
@@ -172,17 +192,11 @@
       gap: 12px; 
       font-size: 1.05rem; 
       color: #f1f5f9; 
-      font-weight: 500; 
     }
 
-    .punch-item i { 
-      color: var(--accent-cyan); 
-      font-size: 1.25rem; 
-      width: 28px;
-      text-align: center;
-      flex-shrink: 0;
-    }
+    .punch-item i { color: var(--accent-cyan); font-size: 1.25rem; width: 28px; }
 
+    /* BUTTON STYLES WITH HOVER EFFECT */
     .hero-btns { display: flex; gap: 1rem; }
     
     .btn-primary { 
@@ -192,11 +206,16 @@
       border-radius: 50px; 
       font-weight: 700; 
       text-decoration: none; 
-      font-size: 0.9rem; 
       box-shadow: 0 4px 10px rgba(0, 242, 254, 0.2); 
-      transition: 0.3s ease; 
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
-    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+      filter: brightness(1.08);
+    }
 
     .btn-secondary { 
       background: rgba(255, 255, 255, 0.08); 
@@ -206,12 +225,19 @@
       border-radius: 50px; 
       font-weight: 600; 
       text-decoration: none; 
-      font-size: 0.9rem; 
-      transition: 0.3s ease; 
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
-    .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
 
-    /* FLOATING GLASSFOOTER */
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(0, 242, 254, 0.4);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* FOOTER */
     .footer-bar {
       position: absolute;
       bottom: 1.2rem;
@@ -227,7 +253,6 @@
       border-radius: 50px;
       background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(16px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
       font-size: 0.85rem;
       color: var(--text-muted);
     }
@@ -235,19 +260,19 @@
     .footer-rights {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 500;
+      gap: 6px;
     }
 
-    .footer-rights span {
+    .footer-brand {
       color: #ffffff;
       font-weight: 700;
+      letter-spacing: 0.2px;
     }
 
+    /* CONTACT PILLS WITH LIGHT HOVER EFFECT */
     .footer-contacts {
       display: flex;
-      gap: 1.5rem;
-      align-items: center;
+      gap: 1rem;
     }
 
     .footer-pill {
@@ -262,39 +287,34 @@
       text-decoration: none;
       font-weight: 500;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .footer-pill:hover {
       background: rgba(0, 242, 254, 0.12);
       border-color: rgba(0, 242, 254, 0.4);
-      color: var(--accent-cyan);
+      color: #ffffff;
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 242, 254, 0.15);
     }
 
     .footer-pill i {
       color: var(--accent-cyan);
-      font-size: 0.9rem;
+      transition: transform 0.3s ease;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .top-header { padding: 1rem 5%; }
-      .hero-title { font-size: 2.2rem; }
-      .hero-subtitle { font-size: 0.95rem; }
-      .punch-item { font-size: 0.95rem; }
-      
-      .bg-watermark { 
-        right: -5%; 
-        width: 75vw; 
-      }
+    .footer-pill:hover i {
+      transform: scale(1.1);
+    }
 
+    @media (max-width: 900px) {
       .footer-bar { 
-        width: 92%;
+        width: 92%; 
         flex-direction: column; 
         gap: 0.8rem; 
         text-align: center; 
         padding: 0.8rem 1.2rem; 
-        border-radius: 20px;
+        border-radius: 20px; 
         bottom: 0.8rem;
       }
       .footer-contacts { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
@@ -304,20 +324,20 @@
 </head>
 <body>
 
-  <!-- TOP HEADER (MSME BADGE ON TOP RIGHT) -->
   <header class="top-header">
     <div class="msme-badge">
       <i class="fa-solid fa-award"></i> MSME REGISTERED
     </div>
   </header>
 
-  <!-- MAIN STATIC HERO SECTION -->
   <section class="hero-banner" id="home">
     
-    <!-- BACKGROUND WATERMARK ICON -->
-    <img src="assets/logo.png" alt="EarlyCraft Logo Watermark" class="bg-watermark" onerror="this.src='https://via.placeholder.com/500x500?text=Logo+Watermark'">
+    <!-- 3D WAVE CANVAS -->
+    <canvas id="wave-canvas"></canvas>
+
+    <!-- 3D LOGO BADGE -->
+    <img src="logo.png" alt="EarlyCraft Logo" class="bg-watermark" onerror="this.src='https://via.placeholder.com/500x500?text=Logo+Watermark'">
     
-    <!-- LEFT SIDE INTRO CONTENT -->
     <div class="hero-content">
       <h1 class="hero-title">Shaping Minds. <br><span>Empowering the Youth.</span></h1>
       
@@ -325,7 +345,6 @@
         "Investing in the youth is building the foundation of tomorrow"
       </p>
 
-      <!-- PUNCH POINTS -->
       <div class="punch-points">
         <div class="punch-item">
           <i class="fa-solid fa-handshake-simple"></i>
@@ -333,27 +352,24 @@
         </div>
         <div class="punch-item">
           <i class="fa-solid fa-lightbulb"></i>
-          <span>Practical, Hands-On Skill Development</span>
+          <span>Metro-Grade Skill Exposure</span>
         </div>
         <div class="punch-item">
           <i class="fa-solid fa-rocket"></i>
-          <span>Industry-Ready Career Tracks & Growth</span>
+          <span>Real Skills, Beyond Marks</span>
         </div>
       </div>
 
-      <!-- EXTERNAL NAVIGATION BUTTONS -->
       <div class="hero-btns">
-        <a href="curriculum.html" class="btn-primary">View Curriculum</a>
-        <a href="about.html" class="btn-secondary">Learn More</a>
+        <a href="curriculum.html" class="btn-primary nav-link">View Curriculum</a>
+        <a href="about.html" class="btn-secondary nav-link">Learn More</a>
       </div>
     </div>
-
   </section>
 
-  <!-- FLOATING GLASSFOOTER -->
   <footer class="footer-bar">
     <div class="footer-rights">
-      <span>EarlyCraft EdTech</span> &copy; All Rights Reserved
+      <span class="footer-brand">EarlyCraft EdTech</span> &copy; All Rights Reserved
     </div>
     <div class="footer-contacts">
       <a href="tel:7010885804" class="footer-pill">
@@ -364,6 +380,83 @@
       </a>
     </div>
   </footer>
+
+  <script>
+    // 1. ENFORCE BLANK PAGE ENTRANCE WITH DOUBLE-FRAME BUFFER
+    window.addEventListener("DOMContentLoaded", () => {
+      // Force initial frame to render invisible state
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.body.classList.add("page-loaded");
+        });
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 2. NAV LINK PAGE EXIT TRANSITION
+      const navLinks = document.querySelectorAll(".nav-link");
+      navLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetUrl = link.getAttribute("href");
+
+          document.body.classList.remove("page-loaded");
+          document.body.classList.add("page-exiting");
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 380);
+        });
+      });
+
+      // 3. SMOOTH 3D WAVE MESH ANIMATION
+      const canvas = document.getElementById("wave-canvas");
+      const ctx = canvas.getContext("2d");
+
+      function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      let step = 0;
+      const lines = 18;
+      const pointsPerLine = 35;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        step += 0.015;
+
+        for (let i = 0; i < lines; i++) {
+          ctx.beginPath();
+          
+          const alpha = (1 - i / lines) * 0.45;
+          ctx.strokeStyle = `rgba(0, 242, 254, ${alpha})`;
+          ctx.lineWidth = 1.8;
+
+          const yOffset = (canvas.height / lines) * i + 40;
+
+          for (let j = 0; j < pointsPerLine; j++) {
+            const x = (canvas.width / (pointsPerLine - 1)) * j;
+            const diagFactor = (x / canvas.width) * (yOffset / canvas.height);
+            const y = yOffset + Math.sin(step + j * 0.25 + i * 0.3) * (20 * diagFactor);
+
+            if (j === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+          ctx.stroke();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    });
+  </script>
 
 </body>
 </html>
