@@ -254,10 +254,9 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.8rem;
-      perspective: 1000px;
     }
 
-    /* EXPANDED MODULE CARDS */
+    /* EXPANDED MODULE CARDS WITH ELEVATED HOVER EFFECT */
     .module-card {
       background: var(--card-bg);
       border: 1px solid var(--glass-border);
@@ -269,14 +268,13 @@
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-      transform-style: preserve-3d;
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.4s ease;
-      will-change: transform;
     }
 
     .module-card:hover {
       border-color: rgba(0, 242, 254, 0.4);
       box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.15);
+      transform: translateY(-4px);
     }
 
     .card-icon-wrap {
@@ -513,13 +511,13 @@
                 <i class="fa-solid fa-microchip"></i>
                 <span class="card-tag">CORE LOGIC</span>
               </div>
-              <h3 class="card-title">Logic & Digital Fundamentals</h3>
+              <h3 class="card-title">Logic Fundamentals</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Algorithmic Logic</div>
-                <div class="topic-item"><span class="hyphen">-</span> Flowchart Design</div>
+                <div class="topic-item"><span class="hyphen">-</span> Computer OS & Hardware</div>
+                <div class="topic-item"><span class="hyphen">-</span> Programming Languages</div>
                 <div class="topic-item"><span class="hyphen">-</span> Binary Systems & Number Representations</div>
-                <div class="topic-item"><span class="hyphen">-</span> Boolean Algebra & Logic Gates</div>
-                <div class="topic-item"><span class="hyphen">-</span> Computational Problem Solving</div>
+                <div class="topic-item"><span class="hyphen">-</span> Algorithmic Logic & Flowchart Design</div>
+                <div class="topic-item"><span class="hyphen">-</span> Boolean Logic & Logic Gates</div>
               </div>
             </div>
 
@@ -531,10 +529,10 @@
               <h3 class="card-title">Software Suite & Web Basics</h3>
               <div class="topic-list">
                 <div class="topic-item"><span class="hyphen">-</span> MS Office Essentials (Word, Excel, PowerPoint)</div>
-                <div class="topic-item"><span class="hyphen">-</span> Structural HTML5 Web Markup</div>
-                <div class="topic-item"><span class="hyphen">-</span> CSS3 Layouts & Styling</div>
-                <div class="topic-item"><span class="hyphen">-</span> Web Mechanics & Client-Server Protocols</div>
-                <div class="topic-item"><span class="hyphen">-</span> Scratch & Visual Block Coding</div>
+                <div class="topic-item"><span class="hyphen">-</span> Canva Design Basics</div>
+                <div class="topic-item"><span class="hyphen">-</span> Structural HTML5 & CSS3 Layouts</div>
+                <div class="topic-item"><span class="hyphen">-</span> Prompt Engineering Techniques</div>
+                <div class="topic-item"><span class="hyphen">-</span> Vibe Coding (AI Coding in Web Development)</div>
               </div>
             </div>
 
@@ -543,13 +541,13 @@
                 <i class="fa-brands fa-python"></i>
                 <span class="card-tag">PROGRAMMING</span>
               </div>
-              <h3 class="card-title">Python Core Syntax</h3>
+              <h3 class="card-title">Python Basics</h3>
               <div class="topic-list">
                 <div class="topic-item"><span class="hyphen">-</span> Variables & Primitive Data Types</div>
                 <div class="topic-item"><span class="hyphen">-</span> Conditionals & Control Flow Statements</div>
-                <div class="topic-item"><span class="hyphen">-</span> Iterative Loops & Sequences</div>
-                <div class="topic-item"><span class="hyphen">-</span> Modular Functions & Scope</div>
-                <div class="topic-item"><span class="hyphen">-</span> Basic Exception & File Operations</div>
+                <div class="topic-item"><span class="hyphen">-</span> Iterative Loops & Functions</div>
+                <div class="topic-item"><span class="hyphen">-</span> File Handling & Exception Handling</div>
+                <div class="topic-item"><span class="hyphen">-</span> Problem Solving with Python</div>
               </div>
             </div>
           </div>
@@ -566,13 +564,13 @@
                 <i class="fa-solid fa-chart-column"></i>
                 <span class="card-tag">DATA & BI</span>
               </div>
-              <h3 class="card-title">Data Analytics & Visualization</h3>
+              <h3 class="card-title">Python & Data Science</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Data Analytics Pipelines</div>
+                <div class="topic-item"><span class="hyphen">-</span> Collections: List, Tuple, Set & Dictionary</div>
+                <div class="topic-item"><span class="hyphen">-</span> Introduction to Data & Data Processing</div>
                 <div class="topic-item"><span class="hyphen">-</span> Python Data Manipulation (Pandas & NumPy)</div>
                 <div class="topic-item"><span class="hyphen">-</span> Data Visualization (Matplotlib & Seaborn)</div>
                 <div class="topic-item"><span class="hyphen">-</span> Dashboard Engineering with Power BI</div>
-                <div class="topic-item"><span class="hyphen">-</span> Business Intelligence Reporting</div>
               </div>
             </div>
 
@@ -581,12 +579,12 @@
                 <i class="fa-solid fa-database"></i>
                 <span class="card-tag">DATABASE SYSTEMS</span>
               </div>
-              <h3 class="card-title">DBMS, SQL & NoSQL Architecture</h3>
+              <h3 class="card-title">DBMS, SQL & NoSQL</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Relational Database Management Systems (DBMS)</div>
-                <div class="topic-item"><span class="hyphen">-</span> Structured Query Language (SQL) Queries & Joins</div>
-                <div class="topic-item"><span class="hyphen">-</span> Database Normalization & Schema Design</div>
-                <div class="topic-item"><span class="hyphen">-</span> NoSQL Document Store Architecture</div>
+                <div class="topic-item"><span class="hyphen">-</span> Core Concepts of DBMS</div>
+                <div class="topic-item"><span class="hyphen">-</span> SQL Basics & Fundamental Queries</div>
+                <div class="topic-item"><span class="hyphen">-</span> SQL Intermediate Concepts & Joins</div>
+                <div class="topic-item"><span class="hyphen">-</span> Practical Problem Solving in SQL</div>
                 <div class="topic-item"><span class="hyphen">-</span> MongoDB CRUD Operations & Aggregations</div>
               </div>
             </div>
@@ -598,20 +596,20 @@
               </div>
               <h3 class="card-title">Java & Data Structures</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Object-Oriented Programming (OOP Principles)</div>
-                <div class="topic-item"><span class="hyphen">-</span> Java Virtual Machine (JVM / JDK Architecture)</div>
-                <div class="topic-item"><span class="hyphen">-</span> Linear Data Structures (Stack, Queue, Linked List)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Java Basics & OOP Principles</div>
+                <div class="topic-item"><span class="hyphen">-</span> File Handling & Exception Handling</div>
+                <div class="topic-item"><span class="hyphen">-</span> Data Structures (Collections Framework)</div>
                 <div class="topic-item"><span class="hyphen">-</span> Searching & Sorting Algorithms</div>
-                <div class="topic-item"><span class="hyphen">-</span> Graphics Software Development Foundations</div>
+                <div class="topic-item"><span class="hyphen">-</span> Algorithmic Problem Solving with Java</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- SLIDE 3: ADVANCED INTELLIGENCE -->
+        <!-- SLIDE 3: ADVANCED CONCEPTS -->
         <div class="level-slide">
           <h2 class="level-header">
-            <span class="level-indicator"></span> Advanced Intelligence & Infrastructure
+            <span class="level-indicator"></span> Advanced Concepts
           </h2>
           <div class="cards-grid">
             <div class="module-card">
@@ -621,11 +619,11 @@
               </div>
               <h3 class="card-title">AI, ML & Deep Learning</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Supervised & Unsupervised Machine Learning</div>
-                <div class="topic-item"><span class="hyphen">-</span> Deep Learning & Artificial Neural Networks (ANN)</div>
+                <div class="topic-item"><span class="hyphen">-</span> AI Basics & Types of Machine Learning</div>
                 <div class="topic-item"><span class="hyphen">-</span> AI & Expert Systems Architecture</div>
                 <div class="topic-item"><span class="hyphen">-</span> Knowledge Representation Systems</div>
-                <div class="topic-item"><span class="hyphen">-</span> Predictive Modeling & Classification</div>
+                <div class="topic-item"><span class="hyphen">-</span> Deep Learning & Neural Networks</div>
+                <div class="topic-item"><span class="hyphen">-</span> Model Architectures & Evaluation Metrics</div>
               </div>
             </div>
 
@@ -634,13 +632,13 @@
                 <i class="fa-solid fa-eye"></i>
                 <span class="card-tag">VISION & NLP</span>
               </div>
-              <h3 class="card-title">Computer Vision & Natural Language</h3>
+              <h3 class="card-title">Computer Vision & NLP</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Computer Vision Algorithms & OpenCV</div>
-                <div class="topic-item"><span class="hyphen">-</span> Image Analytics, Binarization & Feature Extraction</div>
-                <div class="topic-item"><span class="hyphen">-</span> Natural Language Processing (NLP) Pipelines</div>
-                <div class="topic-item"><span class="hyphen">-</span> Tokenization, Vectorization & TF-IDF</div>
-                <div class="topic-item"><span class="hyphen">-</span> Sentiment Analysis Systems</div>
+                <div class="topic-item"><span class="hyphen">-</span> Pixels & Digital Image Processing</div>
+                <div class="topic-item"><span class="hyphen">-</span> Real-Time Computer Vision Projects</div>
+                <div class="topic-item"><span class="hyphen">-</span> Text Analytics & Natural Language Processing</div>
+                <div class="topic-item"><span class="hyphen">-</span> NLP Models & Evaluation Metrics</div>
+                <div class="topic-item"><span class="hyphen">-</span> Real-Time NLP & Sentiment Projects</div>
               </div>
             </div>
 
@@ -651,11 +649,11 @@
               </div>
               <h3 class="card-title">Networks, Cloud & Cybersecurity</h3>
               <div class="topic-list">
-                <div class="topic-item"><span class="hyphen">-</span> Computer Networking Protocols & Layers</div>
-                <div class="topic-item"><span class="hyphen">-</span> Cybersecurity Operations & Encryption Mechanics</div>
-                <div class="topic-item"><span class="hyphen">-</span> Cloud Infrastructure Techniques & Virtualization</div>
-                <div class="topic-item"><span class="hyphen">-</span> Enterprise Cloud Tools & Deployment Platforms</div>
-                <div class="topic-item"><span class="hyphen">-</span> Software Architecture & System Security</div>
+                <div class="topic-item"><span class="hyphen">-</span> Computer Networking Basics & Protocols</div>
+                <div class="topic-item"><span class="hyphen">-</span> Cybersecurity Fundamentals & Awareness</div>
+                <div class="topic-item"><span class="hyphen">-</span> Encoding, Decoding & Encryption Mechanics</div>
+                <div class="topic-item"><span class="hyphen">-</span> Cloud Computing & Service Models</div>
+                <div class="topic-item"><span class="hyphen">-</span> Enterprise Cloud Tools & Deployment Techniques</div>
               </div>
             </div>
           </div>
@@ -786,24 +784,6 @@
         }
       }
     }
-
-    // SMOOTH 3D CARD TILT
-    document.querySelectorAll('.module-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -8;
-        const rotateY = ((x - centerX) / centerX) * 8;
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(0.98, 0.98, 0.98)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-      });
-    });
 
     // INITIALIZE SLIDER
     updateSlider();
