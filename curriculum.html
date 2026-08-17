@@ -1,243 +1,813 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Curriculum | Technical Excellence Program</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curriculum | EarlyCraft EdTech</title>
+  
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      
+      --accent-cyan: #00f2fe;
+      --accent-blue: #4facfe;
+      --accent-purple: #a855f7;
+      --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --card-bg: rgba(17, 24, 39, 0.65);
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+    }
+    
+    /* PREVENT VERTICAL OVERFLOW & SCROLLING */
+    html, body {
+      width: 100%;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden !important;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      
+      /* PREVENT SELECTION */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
     body {
-      background-color: #0b0f17;
-      color: #e2e8f0;
-      font-family: 'Inter', sans-serif;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .glass-card {
-      background: rgba(17, 24, 39, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+
+    body.page-loaded {
+      opacity: 1;
+      transform: scale(1);
     }
-    .glass-card:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+
+    body.page-exiting {
+      opacity: 0;
+      transform: scale(1.02);
+      pointer-events: none;
     }
-    .gradient-text {
-      background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+
+    /* BACKGROUND VISUALS */
+    .bg-visuals {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at 50% 40%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 40%, black 20%, transparent 80%);
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.22;
+      animation: floatGlow 12s ease-in-out infinite alternate;
+    }
+
+    .glow-1 {
+      width: 450px;
+      height: 450px;
+      background: var(--accent-cyan);
+      top: -100px;
+      left: -100px;
+    }
+
+    .glow-2 {
+      width: 500px;
+      height: 500px;
+      background: #3b82f6;
+      top: 30%;
+      right: -100px;
+    }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(20px, 30px) scale(1.05); }
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      width: 100%;
+      padding: 0.8rem 4%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      background: rgba(11, 15, 25, 0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+      flex-shrink: 0;
+    }
+
+    /* TOP-LEFT BRAND TEXT STYLING */
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .brand-text span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-left: 0.3rem;
+    }
+
+    .brand-text:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-secondary { 
+      background: rgba(255, 255, 255, 0.08); 
+      color: var(--text-main); 
+      border: 1px solid var(--glass-border); 
+      padding: 0.45rem 1.1rem; 
+      border-radius: 50px; 
+      font-weight: 600; 
+      font-size: 0.85rem;
+      text-decoration: none; 
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(0, 242, 254, 0.4);
+      color: #ffffff;
+    }
+
+    /* TITLE SECTION */
+    .hero-section {
+      padding: 1.4rem 2% 0.8rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .hero-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .hero-title span {
+      background: var(--accent-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    /* SLIDER & CURRICULUM MAIN AREA */
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      padding: 0 1.2rem;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .slider-container {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+    }
+
+    /* SLIDE LEVEL BLOCK */
+    .level-slide {
+      min-width: 100%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      padding: 0.2rem 2.8rem;
+    }
+
+    .level-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .level-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+    }
+
+    /* STRICT 3-COLUMN GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+      perspective: 1000px;
+    }
+
+    /* EXPANDED MODULE CARDS */
+    .module-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.8rem 1.6rem;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.4s ease;
+      will-change: transform;
+    }
+
+    .module-card:hover {
+      border-color: rgba(0, 242, 254, 0.4);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.15);
+    }
+
+    .card-icon-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.1rem;
+    }
+
+    .card-icon-wrap i {
+      font-size: 1.5rem;
+      color: var(--accent-cyan);
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.1rem;
+      line-height: 1.3;
+    }
+
+    .topic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.35;
+    }
+
+    .topic-item span.hyphen {
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    /* SIDE ARROWS */
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .arrow-btn:hover:not(:disabled) {
+      background: var(--accent-cyan);
+      color: #0b0f19;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 18px rgba(0, 242, 254, 0.5);
+    }
+
+    .arrow-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+
+    .arrow-prev { left: 0.5rem; }
+    .arrow-next { right: 0.5rem; }
+
+    /* PAGINATION DOTS */
+    .dots-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 0.5rem;
+      margin-bottom: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .dot {
+      width: 24px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: var(--accent-cyan);
+      width: 36px;
+      box-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+    }
+
+    /* FOOTER BAR */
+    .footer-bar {
+      width: 88%;
+      margin: 0 auto 1.5rem auto;
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(16px);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .footer-rights {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-brand {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .footer-contacts {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.4rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 30px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .footer-pill:hover {
+      background: rgba(0, 242, 254, 0.12);
+      border-color: rgba(0, 242, 254, 0.4);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .footer-pill i {
+      color: var(--accent-cyan);
+    }
+
+    /* RESPONSIVE LAYOUT ADJUSTMENTS */
+    @media (max-width: 1024px) {
+      .level-slide { padding: 0.2rem 1.8rem; }
+      .cards-grid { gap: 1rem; }
+      .module-card { padding: 1.2rem; }
+      .topic-list { font-size: 0.82rem; }
+    }
+
+    @media (max-width: 768px) {
+      html, body { height: auto; min-height: 100vh; overflow-y: auto !important; }
+      .level-slide { padding: 0; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .slider-wrapper { padding: 0 1rem; }
+      .arrow-btn { display: none; }
+      .footer-bar { width: 92%; flex-direction: column; gap: 0.8rem; text-align: center; padding: 0.8rem 1.2rem; border-radius: 20px; }
+      .footer-contacts { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+      .footer-pill { font-size: 0.78rem; padding: 0.3rem 0.8rem; }
+    }
   </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col justify-between">
+<body>
 
-  <!-- Navigation -->
-  <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-6 py-4">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <a href="index.html" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-        <i class="fa-solid fa-code text-blue-500"></i>
-        <span>Tech<span class="text-blue-500">Academy</span></span>
-      </a>
-      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-        <a href="index.html" class="hover:text-blue-400 transition-colors">Home</a>
-        <a href="curriculum.html" class="text-blue-400 border-b-2 border-blue-500 pb-1">Curriculum</a>
-      </nav>
-      <a href="index.html#contact" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30">
-        Enroll Now
-      </a>
-    </div>
+  <!-- BACKGROUND VISUALS -->
+  <div class="bg-visuals">
+    <div class="bg-grid"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+  </div>
+
+  <!-- HEADER WITH TEXT BRANDING -->
+  <header class="top-header">
+    <a href="index.html" class="brand-text nav-link">
+      EarlyCraft <span>EdTech</span>
+    </a>
+    <a href="index.html" class="btn-secondary nav-link">Home</a>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative py-16 px-6 max-w-7xl mx-auto text-center">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
-      <i class="fa-solid fa-graduation-cap"></i> Complete K-12 Tech Roadmap
-    </div>
-    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
-      Comprehensive <span class="gradient-text">Computer Science Curriculum</span>
-    </h1>
-    <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg">
-      From foundational logic and block coding to advanced machine learning, web analytics, and enterprise Java development.
-    </p>
+  <!-- TITLE SECTION -->
+  <section class="hero-section">
+    <h1 class="hero-title">Structured Technical <span>Curriculum</span></h1>
   </section>
 
-  <!-- Main Curriculum Grid -->
-  <main class="max-w-7xl mx-auto px-6 pb-20 space-y-12">
+  <!-- SLIDER WRAPPER -->
+  <div class="slider-wrapper">
+    <!-- LEFT ARROW -->
+    <button class="arrow-btn arrow-prev" id="prevBtn" aria-label="Previous Slide">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
 
-    <!-- Middle School Years (6th - 8th) -->
-    <div>
-      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-        <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-        Foundational & Applied Data Years
-      </h2>
-      <div class="grid md:grid-cols-3 gap-6">
+    <!-- SLIDER CONTAINER -->
+    <div class="slider-container">
+      <div class="slider-track" id="sliderTrack">
 
-        <!-- 6th Standard -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start mb-4">
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-blue-400 border border-slate-700">Grade 6</span>
-              <i class="fa-solid fa-cube text-slate-500"></i>
+        <!-- SLIDE 1: BASIC FOUNDATIONS -->
+        <div class="level-slide">
+          <h2 class="level-header">
+            <span class="level-indicator"></span> Basic Foundations
+          </h2>
+          <div class="cards-grid">
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-microchip"></i>
+                <span class="card-tag">CORE LOGIC</span>
+              </div>
+              <h3 class="card-title">Logic & Digital Fundamentals</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Algorithmic Logic</div>
+                <div class="topic-item"><span class="hyphen">-</span> Flowchart Design</div>
+                <div class="topic-item"><span class="hyphen">-</span> Binary Systems & Number Representations</div>
+                <div class="topic-item"><span class="hyphen">-</span> Boolean Algebra & Logic Gates</div>
+                <div class="topic-item"><span class="hyphen">-</span> Computational Problem Solving</div>
+              </div>
             </div>
-            <h3 class="text-xl font-bold text-white mb-4">Computational Thinking & Logic Foundations</h3>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Algorithmic Logic & Flowcharts</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Scratch Visual Block Programming</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Introduction to Web Mechanics & Internet</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Elementary Python Syntax & Variables</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Basic Digital Literacy & Safety</li>
-            </ul>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
-            Focus: Logic, Sequencing & Scratch
+
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-laptop-code"></i>
+                <span class="card-tag">OFFICE & WEB</span>
+              </div>
+              <h3 class="card-title">Software Suite & Web Basics</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> MS Office Essentials (Word, Excel, PowerPoint)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Structural HTML5 Web Markup</div>
+                <div class="topic-item"><span class="hyphen">-</span> CSS3 Layouts & Styling</div>
+                <div class="topic-item"><span class="hyphen">-</span> Web Mechanics & Client-Server Protocols</div>
+                <div class="topic-item"><span class="hyphen">-</span> Scratch & Visual Block Coding</div>
+              </div>
+            </div>
+
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-brands fa-python"></i>
+                <span class="card-tag">PROGRAMMING</span>
+              </div>
+              <h3 class="card-title">Python Core Syntax</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Variables & Primitive Data Types</div>
+                <div class="topic-item"><span class="hyphen">-</span> Conditionals & Control Flow Statements</div>
+                <div class="topic-item"><span class="hyphen">-</span> Iterative Loops & Sequences</div>
+                <div class="topic-item"><span class="hyphen">-</span> Modular Functions & Scope</div>
+                <div class="topic-item"><span class="hyphen">-</span> Basic Exception & File Operations</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 7th Standard -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start mb-4">
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-blue-400 border border-slate-700">Grade 7</span>
-              <i class="fa-solid fa-code text-slate-500"></i>
+        <!-- SLIDE 2: INTERMEDIATE ENGINEERING -->
+        <div class="level-slide">
+          <h2 class="level-header">
+            <span class="level-indicator"></span> Intermediate Engineering
+          </h2>
+          <div class="cards-grid">
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="card-tag">DATA & BI</span>
+              </div>
+              <h3 class="card-title">Data Analytics & Visualization</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Data Analytics Pipelines</div>
+                <div class="topic-item"><span class="hyphen">-</span> Python Data Manipulation (Pandas & NumPy)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Data Visualization (Matplotlib & Seaborn)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Dashboard Engineering with Power BI</div>
+                <div class="topic-item"><span class="hyphen">-</span> Business Intelligence Reporting</div>
+              </div>
             </div>
-            <h3 class="text-xl font-bold text-white mb-4">Web Foundations, SQL & Python Core</h3>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Structural HTML5 Web Markup</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> CSS3 Styling, Flexbox & Layouts</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Relational Databases & Structured Query Language (SQL)</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Core Python: Loops, Functions & Conditionals</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Static Website Capstone Development</li>
-            </ul>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
-            Focus: Full HTML/CSS Markup & SQL
+
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-database"></i>
+                <span class="card-tag">DATABASE SYSTEMS</span>
+              </div>
+              <h3 class="card-title">DBMS, SQL & NoSQL Architecture</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Relational Database Management Systems (DBMS)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Structured Query Language (SQL) Queries & Joins</div>
+                <div class="topic-item"><span class="hyphen">-</span> Database Normalization & Schema Design</div>
+                <div class="topic-item"><span class="hyphen">-</span> NoSQL Document Store Architecture</div>
+                <div class="topic-item"><span class="hyphen">-</span> MongoDB CRUD Operations & Aggregations</div>
+              </div>
+            </div>
+
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-brands fa-java"></i>
+                <span class="card-tag">SOFTWARE ENG</span>
+              </div>
+              <h3 class="card-title">Java & Data Structures</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Object-Oriented Programming (OOP Principles)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Java Virtual Machine (JVM / JDK Architecture)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Linear Data Structures (Stack, Queue, Linked List)</div>
+                <div class="topic-item"><span class="hyphen">-</span> Searching & Sorting Algorithms</div>
+                <div class="topic-item"><span class="hyphen">-</span> Graphics Software Development Foundations</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 8th Standard -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start mb-4">
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-blue-400 border border-slate-700">Grade 8</span>
-              <i class="fa-solid fa-chart-pie text-slate-500"></i>
+        <!-- SLIDE 3: ADVANCED INTELLIGENCE -->
+        <div class="level-slide">
+          <h2 class="level-header">
+            <span class="level-indicator"></span> Advanced Intelligence & Infrastructure
+          </h2>
+          <div class="cards-grid">
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-brain"></i>
+                <span class="card-tag">AI SYSTEMS</span>
+              </div>
+              <h3 class="card-title">AI, ML & Deep Learning</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Supervised & Unsupervised Machine Learning</div>
+                <div class="topic-item"><span class="hyphen">-</span> Deep Learning & Artificial Neural Networks (ANN)</div>
+                <div class="topic-item"><span class="hyphen">-</span> AI & Expert Systems Architecture</div>
+                <div class="topic-item"><span class="hyphen">-</span> Knowledge Representation Systems</div>
+                <div class="topic-item"><span class="hyphen">-</span> Predictive Modeling & Classification</div>
+              </div>
             </div>
-            <h3 class="text-xl font-bold text-white mb-4">Data Analytics, Applied ML & Power BI</h3>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Advanced Python: Refresher, Functions & File Handling</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Data Manipulation with Pandas & NumPy</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Data Visualization using Matplotlib & Seaborn</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Business Intelligence & Dashboards in Power BI</li>
-              <li class="flex items-start gap-2"><span class="text-blue-500">-</span> Applied Classification with Google Teachable Machine</li>
-            </ul>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
-            Focus: Analytics, Machine Learning & BI
+
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-eye"></i>
+                <span class="card-tag">VISION & NLP</span>
+              </div>
+              <h3 class="card-title">Computer Vision & Natural Language</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Computer Vision Algorithms & OpenCV</div>
+                <div class="topic-item"><span class="hyphen">-</span> Image Analytics, Binarization & Feature Extraction</div>
+                <div class="topic-item"><span class="hyphen">-</span> Natural Language Processing (NLP) Pipelines</div>
+                <div class="topic-item"><span class="hyphen">-</span> Tokenization, Vectorization & TF-IDF</div>
+                <div class="topic-item"><span class="hyphen">-</span> Sentiment Analysis Systems</div>
+              </div>
+            </div>
+
+            <div class="module-card">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span class="card-tag">INFRASTRUCTURE</span>
+              </div>
+              <h3 class="card-title">Networks, Cloud & Cybersecurity</h3>
+              <div class="topic-list">
+                <div class="topic-item"><span class="hyphen">-</span> Computer Networking Protocols & Layers</div>
+                <div class="topic-item"><span class="hyphen">-</span> Cybersecurity Operations & Encryption Mechanics</div>
+                <div class="topic-item"><span class="hyphen">-</span> Cloud Infrastructure Techniques & Virtualization</div>
+                <div class="topic-item"><span class="hyphen">-</span> Enterprise Cloud Tools & Deployment Platforms</div>
+                <div class="topic-item"><span class="hyphen">-</span> Software Architecture & System Security</div>
+              </div>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- High School Years (9th) -->
-    <div>
-      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-        <span class="w-3 h-3 rounded-full bg-purple-500"></span>
-        Advanced Intelligence & Problem Solving
-      </h2>
-      <div class="grid md:grid-cols-1 gap-6">
+    <!-- RIGHT ARROW -->
+    <button class="arrow-btn arrow-next" id="nextBtn" aria-label="Next Slide">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
 
-        <!-- 9th Standard -->
-        <div class="glass-card rounded-2xl p-6">
-          <div class="flex justify-between items-start mb-4">
-            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-purple-400 border border-slate-700">Grade 9</span>
-            <i class="fa-solid fa-brain text-slate-500"></i>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-4">Algorithmic Problem Solving, Vision, NLP & Security</h3>
-          <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-300">
-            <ul class="space-y-2.5">
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Numerical Logic: Armstrong Numbers, Fibonacci, Prime Logic</li>
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Computer Vision & Image Analytics via OpenCV</li>
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Edge Detection, Binarization & Feature Tracking</li>
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Natural Language Processing (NLP) & Tokenization</li>
-            </ul>
-            <ul class="space-y-2.5">
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Sentiment Analysis & Text Vectorization (TF-IDF)</li>
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Deep Learning Concepts & Neural Network Layers</li>
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Cybersecurity Fundamentals & Caesar Cipher Scripts</li>
-              <li class="flex items-start gap-2"><span class="text-purple-400">-</span> Software Architecture & Technical Project Defense</li>
-            </ul>
-          </div>
-        </div>
+  <!-- DOTS INDICATORS -->
+  <div class="dots-container" id="dotsContainer">
+    <div class="dot active" data-index="0"></div>
+    <div class="dot" data-index="1"></div>
+    <div class="dot" data-index="2"></div>
+  </div>
 
-      </div>
+  <!-- FOOTER -->
+  <footer class="footer-bar">
+    <div class="footer-rights">
+      <span class="footer-brand">EarlyCraft EdTech</span> &copy; All Rights Reserved
     </div>
-
-    <!-- Specialized Senior Years (11th & 12th CSE) -->
-    <div class="relative overflow-hidden rounded-3xl p-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
-      <div class="bg-slate-950 rounded-[23px] p-8">
-        
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-800">
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-2">
-              <i class="fa-solid fa-star"></i> Dedicated Stream for CSE Students
-            </div>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-white">11th & 12th Computer Science Practice Track</h2>
-          </div>
-          <span class="text-sm text-slate-400 max-w-md">
-            Tailored specifically for 11th and 12th Standard Computer Science students with dedicated time for practical problem-solving.
-          </span>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-8">
-
-          <!-- 11th Standard Java -->
-          <div class="space-y-4">
-            <div class="flex items-center gap-3">
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-900/50 text-blue-300 border border-blue-700/50">Grade 11</span>
-              <h3 class="text-lg font-bold text-white">Java Language & Object-Oriented Programming</h3>
-            </div>
-            <ul class="space-y-2 text-sm text-slate-300">
-              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Java Virtual Machine (JVM, JDK, JRE) Architecture</li>
-              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Data Types, Variables, Control Flow & Loops</li>
-              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> OOP Pillar 1: Classes, Objects & Encapsulation</li>
-              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> OOP Pillar 2: Inheritance & Polymorphism</li>
-              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Abstraction: Abstract Classes & Interfaces</li>
-              <li class="flex items-start gap-2"><span class="text-blue-400">-</span> Exception Handling (`try-catch-finally`)</li>
-            </ul>
-          </div>
-
-          <!-- 12th Standard Java -->
-          <div class="space-y-4">
-            <div class="flex items-center gap-3">
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-indigo-900/50 text-indigo-300 border border-indigo-700/50">Grade 12</span>
-              <h3 class="text-lg font-bold text-white">Advanced Java, Data Structures & Practices</h3>
-            </div>
-            <ul class="space-y-2 text-sm text-slate-300">
-              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Java Collections Framework (`ArrayList`, `HashMap`)</li>
-              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Linear Data Structures: Stack, Queue & Linked List</li>
-              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Searching & Sorting Algorithms in Java</li>
-              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> File I/O Streams & Data Persistence</li>
-              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Database Connectivity via JDBC & SQL</li>
-              <li class="flex items-start gap-2"><span class="text-indigo-400">-</span> Board Examination Practical Problem Suites</li>
-            </ul>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="glass-card border-t border-slate-800/80 py-8 px-6 text-center text-sm text-slate-500">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-      <p>&copy; 2026 TechAcademy. All rights reserved.</p>
-      <div class="flex gap-6">
-        <a href="index.html" class="hover:text-slate-300">Home</a>
-        <a href="curriculum.html" class="hover:text-slate-300">Curriculum</a>
-      </div>
+    <div class="footer-contacts">
+      <a href="tel:7010885804" class="footer-pill">
+        <i class="fa-solid fa-phone"></i> +91 7010885804
+      </a>
+      <a href="mailto:earlycraftedtech@gmail.com" class="footer-pill">
+        <i class="fa-solid fa-envelope"></i> earlycraftedtech@gmail.com
+      </a>
     </div>
   </footer>
+
+  <script>
+    // PAGE INITIALIZATION
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("page-loaded");
+    });
+
+    // NAV TRANSITION
+    document.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetUrl = link.getAttribute("href");
+        document.body.classList.remove("page-loaded");
+        document.body.classList.add("page-exiting");
+        setTimeout(() => { window.location.href = targetUrl; }, 350);
+      });
+    });
+
+    // SWIPER LOGIC
+    const track = document.getElementById("sliderTrack");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const dots = document.querySelectorAll(".dot");
+    let currentIndex = 0;
+    const maxIndex = 2;
+
+    function updateSlider() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === maxIndex;
+
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === currentIndex);
+      });
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < maxIndex) {
+        currentIndex++;
+        updateSlider();
+      }
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener("click", (e) => {
+        currentIndex = parseInt(e.target.getAttribute("data-index"));
+        updateSlider();
+      });
+    });
+
+    // KEYBOARD NAVIGATION
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft" && currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+      } else if (e.key === "ArrowRight" && currentIndex < maxIndex) {
+        currentIndex++;
+        updateSlider();
+      }
+    });
+
+    // TOUCH SWIPE SUPPORT FOR MOBILE
+    let startX = 0;
+    let endX = 0;
+    const sliderContainer = document.querySelector(".slider-container");
+
+    sliderContainer.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    sliderContainer.addEventListener("touchend", (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && currentIndex < maxIndex) {
+          currentIndex++;
+          updateSlider();
+        } else if (diff < 0 && currentIndex > 0) {
+          currentIndex--;
+          updateSlider();
+        }
+      }
+    }
+
+    // SMOOTH 3D CARD TILT
+    document.querySelectorAll('.module-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(0.98, 0.98, 0.98)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      });
+    });
+
+    // INITIALIZE SLIDER
+    updateSlider();
+  </script>
 
 </body>
 </html>
