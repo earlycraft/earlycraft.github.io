@@ -32,7 +32,8 @@
       box-sizing: border-box; 
       font-family: 'Plus Jakarta Sans', sans-serif; 
     }
-    
+
+    /* HIDE SCROLLBAR GLOBALLY WHILE KEEPING SCROLLING FUNCTIONAL */
     html, body {
       width: 100%;
       min-height: 100vh;
@@ -42,10 +43,30 @@
       flex-direction: column;
       position: relative;
       
+      /* Firefox */
+      scrollbar-width: none;
+      /* IE and Edge */
+      -ms-overflow-style: none;
+
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+    }
+
+    /* Chrome, Safari, and Opera */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    /* Firefox and IE/Edge fallback for all scrollable elements */
+    * {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
     body {
