@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EarlyCraft EdTech</title>
   
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,38 +13,42 @@
 
   <style>
     :root {
-      --bg-dark: #0b0f19;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
+      --bg-light: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
       
-      --accent-cyan: #00f2fe;
-      --accent-blue: #4facfe;
-      --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      --accent-cyan: #0284c7;
+      --accent-blue: #2563eb;
+      --accent-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
       
-      --glass-border: rgba(255, 255, 255, 0.12);
+      --color-red: #ef4444;
+      --color-green: #10b981;
+      --color-yellow: #f59e0b;
+
+      --glass-border: rgba(15, 23, 42, 0.12);
+      --card-bg: rgba(255, 255, 255, 0.85);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
     
     html {
-      background-color: var(--bg-dark);
+      background-color: var(--bg-light);
       height: 100%;
     }
 
     body {
-      background-color: var(--bg-dark) !important;
-      height: 100%;
+      background-color: var(--bg-light) !important;
+      min-height: 100vh;
       width: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       color: var(--text-main);
       
-      /* PREVENT ALL TEXT & IMAGE SELECTION */
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
 
-      /* STARTING ENTRY STATE (Blank/Hidden Canvas) */
       opacity: 0;
       transform: scale(0.96) translateY(8px);
       filter: blur(4px);
@@ -55,14 +59,12 @@
       will-change: opacity, transform, filter;
     }
 
-    /* SMOOTH ENTRY TARGET STATE */
     body.page-loaded { 
       opacity: 1; 
       transform: scale(1) translateY(0);
       filter: blur(0px);
     }
 
-    /* SMOOTH EXIT TARGET STATE */
     body.page-exiting { 
       opacity: 0; 
       transform: scale(1.03) translateY(-6px); 
@@ -74,73 +76,38 @@
       pointer-events: none; 
     }
 
-    /* PREVENT IMAGE DRAGGING */
     img {
       -webkit-user-drag: none;
       user-drag: none;
       pointer-events: none;
     }
 
-    /* HEADER */
-    .top-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 1.5rem 6%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      z-index: 10;
-    }
-
-    .msme-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0.5rem 1.2rem;
-      background: rgba(23, 31, 48, 0.6);
-      border: 1px solid var(--glass-border);
-      border-radius: 50px;
-      backdrop-filter: blur(12px);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--accent-cyan);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .msme-badge:hover {
-      border-color: rgba(0, 242, 254, 0.4);
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
-    }
-
-    /* HERO CONTAINER */
+    /* HERO CONTAINER WITH EXTENDED SPACING */
     .hero-banner { 
-      height: 100vh; 
+      min-height: 90vh; 
       width: 100vw;
-      padding: 5rem 6% 5rem; 
+      padding: 7rem 6% 6rem;
       display: flex; 
       align-items: center;
       justify-content: space-between;
       position: relative;
       overflow: hidden;
       perspective: 1200px;
+      margin-bottom: 2rem;
     }
 
-    /* RIGHT-SIDE WAVE ANIMATION CANVAS */
     #wave-canvas {
       position: absolute;
       top: 0;
       right: 0;
       width: 55vw;
-      height: 100vh;
+      height: 100%;
       z-index: 1;
       pointer-events: none;
       mask-image: linear-gradient(to right, transparent 0%, black 25%);
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
     }
 
-    /* 3D LOGO BADGE */
     .bg-watermark {
       position: absolute;
       top: 50%;
@@ -150,99 +117,356 @@
       object-fit: cover;
       z-index: 3;
       border-radius: 28px;
-      border: 1px solid rgba(0, 242, 254, 0.3);
+      border: 1px solid rgba(2, 132, 199, 0.25);
       transform: translateY(-50%) rotateX(15deg) rotateY(-22deg) rotateZ(6deg);
       box-shadow: 
-        -20px 25px 50px rgba(0, 0, 0, 0.6),
-        0 0 45px rgba(0, 242, 254, 0.25);
+        -20px 25px 50px rgba(15, 23, 42, 0.08),
+        0 0 45px rgba(2, 132, 199, 0.15);
     }
 
-    /* FOREGROUND CONTENT */
     .hero-content { 
-      max-width: 600px; 
+      max-width: 680px; 
       z-index: 4; 
       position: relative; 
     }
 
+    /* SINGLE LINE HERO TITLE */
     .hero-title { 
       font-size: 3.2rem; 
-      line-height: 1.15; 
+      line-height: 1.2; 
       font-weight: 800; 
-      margin-bottom: 1rem; 
+      margin-bottom: 0.8rem; 
+      color: var(--text-main);
+      white-space: nowrap;
     }
     .hero-title span { 
       background: var(--accent-gradient); 
       background-clip: text;
       -webkit-background-clip: text; 
       -webkit-text-fill-color: transparent; 
+      display: inline;
     }
 
     .hero-subtitle {
       font-size: 1.1rem;
-      color: #cbd5e1;
-      margin-bottom: 2rem;
+      color: var(--text-muted);
+      margin-bottom: 2.2rem;
       line-height: 1.6;
+      font-weight: 500;
     }
 
-    .punch-points { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.2rem; }
-    
-    .punch-item { 
-      display: flex; 
-      align-items: center; 
-      gap: 12px; 
-      font-size: 1.05rem; 
-      color: #f1f5f9; 
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 2.2rem;
     }
 
-    .punch-item i { color: var(--accent-cyan); font-size: 1.25rem; width: 28px; }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      padding: 1.2rem 1rem;
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+      text-align: left;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
-    /* BUTTON STYLES WITH HOVER EFFECT */
+    .stat-card:hover { transform: translateY(-3px); }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-card.stat-red .stat-number { color: var(--color-red); }
+    .stat-card.stat-red .stat-label i { color: var(--color-red); }
+    .stat-card.stat-red:hover {
+      border-color: rgba(239, 68, 68, 0.4);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.12);
+    }
+
+    .stat-card.stat-green .stat-number { color: var(--color-green); }
+    .stat-card.stat-green .stat-label i { color: var(--color-green); }
+    .stat-card.stat-green:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.12);
+    }
+
+    .stat-card.stat-yellow .stat-number { color: var(--color-yellow); }
+    .stat-card.stat-yellow .stat-label i { color: var(--color-yellow); }
+    .stat-card.stat-yellow:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.12);
+    }
+
     .hero-btns { display: flex; gap: 1rem; }
     
     .btn-primary { 
       background: var(--accent-gradient); 
-      color: #0b0f19; 
-      padding: 0.75rem 1.8rem; 
+      color: #ffffff; 
+      padding: 0.85rem 2rem; 
       border-radius: 50px; 
       font-weight: 700; 
       text-decoration: none; 
-      box-shadow: 0 4px 10px rgba(0, 242, 254, 0.2); 
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); 
       transition: all 0.3s ease;
       cursor: pointer;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
-      filter: brightness(1.08);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+      filter: brightness(1.05);
     }
 
     .btn-secondary { 
-      background: rgba(255, 255, 255, 0.08); 
+      background: var(--card-bg); 
       color: var(--text-main); 
       border: 1px solid var(--glass-border); 
-      padding: 0.75rem 1.8rem; 
+      padding: 0.85rem 2rem; 
       border-radius: 50px; 
       font-weight: 600; 
       text-decoration: none; 
       transition: all 0.3s ease;
       cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(0, 242, 254, 0.4);
-      color: #ffffff;
+      background: #ffffff;
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    /* RECYCLING TICKER & PARTNERS SECTION */
+    .partners-section {
+      width: 100vw;
+      padding: 2.5rem 0;
+      background: rgba(255, 255, 255, 0.5);
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: inline-block;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    /* GRADIENT UNDERLINE FOR OUR PARTNERS */
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 4px;
+      background: var(--accent-gradient);
+      border-radius: 4px;
+    }
+
+    .partners-slider {
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+      white-space: nowrap;
+      padding: 15px 0;
+      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+    }
+
+    .partners-track {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      will-change: transform;
+      padding-left: 0;
+    }
+
+    /* PARTNER LOGO WITH ZOOM EFFECT ON HOVER */
+    .partner-logo {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(100%) opacity(0.65);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      flex-shrink: 0;
+      cursor: pointer;
+      pointer-events: auto !important;
+    }
+
+    .partner-logo:hover {
+      filter: grayscale(0%) opacity(1);
+      transform: scale(1.18);
+      z-index: 10;
+    }
+
+    /* INTERNSHIP SECTION WITH ANIMATED GRADIENT BORDER */
+    .internship-section {
+      width: 100vw;
+      padding: 1rem 6% 3.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .internship-border-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 30px;
+      padding: 3px;
+      background: linear-gradient(115deg, #0284c7, #2563eb, #10b981, #0284c7);
+      background-size: 300% 300%;
+      animation: rotateBorder 6s ease infinite;
+      box-shadow: 0 15px 35px rgba(2, 132, 199, 0.12);
+    }
+
+    @keyframes rotateBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .internship-container {
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: 27px;
+      padding: 3.5rem;
+      backdrop-filter: blur(16px);
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 4rem;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    /* FLOATING 3D CERTIFICATE ANIMATION */
+    .cert-preview-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: floatCert 4.5s ease-in-out infinite;
+    }
+
+    @keyframes floatCert {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+
+    .tilted-cert-img {
+      width: 110%;
+      height: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(2, 132, 199, 0.2);
+      box-shadow: 
+        0 20px 30px -10px rgba(15, 23, 42, 0.15),
+        0 0 20px rgba(2, 132, 199, 0.1);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: perspective(1000px) rotateY(-8deg) rotateX(4deg);
+    }
+
+    .cert-preview-wrapper:hover .tilted-cert-img {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.03);
+      box-shadow: 
+        0 25px 45px -10px rgba(2, 132, 199, 0.25),
+        0 0 30px rgba(37, 99, 235, 0.2);
+    }
+
+    .internship-content-right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .internship-main-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1.8rem;
+      line-height: 1.2;
+    }
+
+    .internship-main-title span { color: var(--accent-cyan); }
+
+    /* HIGH-LEGIBILITY BULLET LIST */
+    .internship-points-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .internship-points-list li {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .internship-points-list li strong {
+      color: var(--text-main);
+      font-weight: 700;
+      display: inline;
+    }
+
+    .icon-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.12) 0%, rgba(37, 99, 235, 0.12) 100%);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent-cyan);
+      font-size: 1.1rem;
+      box-shadow: 0 3px 10px rgba(2, 132, 199, 0.08);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .internship-points-list li:hover .icon-badge {
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 5px 15px rgba(2, 132, 199, 0.2);
+      color: var(--accent-blue);
     }
 
     /* FOOTER */
     .footer-bar {
-      position: absolute;
-      bottom: 1.2rem;
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
+      margin: 1.5rem auto 2rem;
       width: 88%;
       padding: 0.85rem 2rem;
       display: flex;
@@ -251,10 +475,11 @@
       z-index: 10;
       border: 1px solid var(--glass-border);
       border-radius: 50px;
-      background: rgba(15, 23, 42, 0.65);
+      background: var(--card-bg);
       backdrop-filter: blur(16px);
       font-size: 0.85rem;
       color: var(--text-muted);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     }
 
     .footer-rights {
@@ -264,12 +489,11 @@
     }
 
     .footer-brand {
-      color: #ffffff;
+      color: var(--text-main);
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
-    /* CONTACT PILLS WITH LIGHT HOVER EFFECT */
     .footer-contacts {
       display: flex;
       gap: 1rem;
@@ -280,22 +504,22 @@
       align-items: center;
       gap: 8px;
       padding: 0.4rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--glass-border);
       border-radius: 30px;
       color: var(--text-main);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: all 0.3s ease;
       cursor: pointer;
     }
 
     .footer-pill:hover {
-      background: rgba(0, 242, 254, 0.12);
-      border-color: rgba(0, 242, 254, 0.4);
-      color: #ffffff;
+      background: #ffffff;
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 242, 254, 0.15);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
     }
 
     .footer-pill i {
@@ -303,11 +527,31 @@
       transition: transform 0.3s ease;
     }
 
-    .footer-pill:hover i {
-      transform: scale(1.1);
+    .footer-pill:hover i { transform: scale(1.1); }
+
+    @media (max-width: 1100px) {
+      .hero-title { font-size: 2.5rem; white-space: normal; }
+    }
+
+    @media (max-width: 1024px) {
+      .internship-container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 2.5rem;
+      }
+      .tilted-cert-img {
+        transform: none;
+        max-width: 450px;
+      }
     }
 
     @media (max-width: 900px) {
+      .hero-banner { padding: 4rem 5% 3rem; }
+      .bg-watermark { display: none; }
+      .stats-container { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+      .stat-card { padding: 0.8rem 0.6rem; }
+      .stat-number { font-size: 1.8rem; }
+      .stat-label { font-size: 0.75rem; }
       .footer-bar { 
         width: 92%; 
         flex-direction: column; 
@@ -315,7 +559,6 @@
         text-align: center; 
         padding: 0.8rem 1.2rem; 
         border-radius: 20px; 
-        bottom: 0.8rem;
       }
       .footer-contacts { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
       .footer-pill { font-size: 0.78rem; padding: 0.3rem 0.8rem; }
@@ -324,19 +567,11 @@
 </head>
 <body>
 
-  <header class="top-header">
-    <div class="msme-badge">
-      <i class="fa-solid fa-award"></i> MSME REGISTERED
-    </div>
-  </header>
-
+  <!-- HERO BANNER SECTION WITH EXTENDED SPACING -->
   <section class="hero-banner" id="home">
-    
-    <!-- 3D WAVE CANVAS -->
     <canvas id="wave-canvas"></canvas>
 
-    <!-- 3D LOGO BADGE -->
-    <img src="assets/logo.png" alt="EarlyCraft Logo" class="bg-watermark" onerror="this.src='https://via.placeholder.com/500x500?text=Logo+Watermark'">
+    <img src="logo.png" alt="EarlyCraft Logo" class="bg-watermark" onerror="this.src='https://via.placeholder.com/500x500?text=Logo+Watermark'">
     
     <div class="hero-content">
       <h1 class="hero-title">Shaping Minds. <br><span>Empowering the Youth.</span></h1>
@@ -345,28 +580,99 @@
         "Investing in the youth is building the foundation of tomorrow"
       </p>
 
-      <div class="punch-points">
-        <div class="punch-item">
-          <i class="fa-solid fa-handshake-simple"></i>
-          <span>Direct Strategic Company Partnerships</span>
+      <div class="stats-container">
+        <div class="stat-card stat-red">
+          <div class="stat-number">
+            <span class="counter" data-target="10">0</span>+
+          </div>
+          <div class="stat-label">
+            <i class="fa-solid fa-user-graduate"></i> Students Trained
+          </div>
         </div>
-        <div class="punch-item">
-          <i class="fa-solid fa-lightbulb"></i>
-          <span>Metro-Grade Skill Exposure</span>
+
+        <div class="stat-card stat-green">
+          <div class="stat-number">
+            <span class="counter" data-target="10">0</span>+
+          </div>
+          <div class="stat-label">
+            <i class="fa-solid fa-briefcase"></i> Free Internships
+          </div>
         </div>
-        <div class="punch-item">
-          <i class="fa-solid fa-rocket"></i>
-          <span>Real Skills, Beyond Marks</span>
+
+        <div class="stat-card stat-yellow">
+          <div class="stat-number">
+            <span class="counter" data-target="100">0</span>%
+          </div>
+          <div class="stat-label">
+            <i class="fa-solid fa-diagram-project"></i> Project Delivery
+          </div>
         </div>
       </div>
 
       <div class="hero-btns">
-        <a href="curriculum.html" class="btn-primary nav-link">View Curriculum</a>
+        <a href="courses.html" class="btn-primary nav-link">View Courses</a>
         <a href="about.html" class="btn-secondary nav-link">Learn More</a>
       </div>
     </div>
   </section>
 
+  <!-- RECYCLING INFINITE TICKER (STOPS & ZOOMS LOGO ON HOVER) -->
+  <section class="partners-section">
+    <div class="section-header">
+      <h2 class="section-title">Our Partners</h2>
+    </div>
+    <div class="partners-slider" id="partnersSlider">
+      <div class="partners-track" id="partnersTrack">
+        <img src="assets/partners/partner1.png" alt="Partner 1" class="partner-logo" onerror="this.src='https://via.placeholder.com/180x60?text=Partner+1'" />
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERNSHIP SECTION WITH GRADIENT BORDER & CONCISE BOLD BULLETS -->
+  <section class="internship-section">
+    <div class="internship-border-wrapper">
+      <div class="internship-container">
+        <div class="cert-preview-wrapper">
+          <img src="assets/samplecert.png" alt="Sample Internship Certificate" class="tilted-cert-img" onerror="this.src='https://via.placeholder.com/600x420?text=Sample+Internship+Certificate'" />
+        </div>
+
+        <div class="internship-content-right">
+          <h2 class="internship-main-title">
+            How Could We Provide <span>Free Internships?</span>
+          </h2>
+          
+          <ul class="internship-points-list">
+            <li>
+              <div class="icon-badge">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <span><strong>100% Free & Zero Tuition:</strong> No hidden costs, mandatory course purchases, or enrollment fees.</span>
+            </li>
+            <li>
+              <div class="icon-badge">
+                <i class="fa-solid fa-laptop-code"></i>
+              </div>
+              <span><strong>Production-Grade Projects:</strong> Hands-on experience building active enterprise software applications.</span>
+            </li>
+            <li>
+              <div class="icon-badge">
+                <i class="fa-solid fa-award"></i>
+              </div>
+              <span><strong>Verified Certification:</strong> Industry-recognized internship certificate upon milestone verification.</span>
+            </li>
+            <li>
+              <div class="icon-badge">
+                <i class="fa-solid fa-copyright"></i>
+              </div>
+              <span><strong>Commercial Rights Model:</strong> Code base contributions power company products to fund the program.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer class="footer-bar">
     <div class="footer-rights">
       <span class="footer-brand">EarlyCraft EdTech</span> &copy; All Rights Reserved
@@ -382,18 +688,92 @@
   </footer>
 
   <script>
-    // 1. ENFORCE BLANK PAGE ENTRANCE WITH DOUBLE-FRAME BUFFER
+    // 1. PAGE LOAD ENTRY
     window.addEventListener("DOMContentLoaded", () => {
-      // Force initial frame to render invisible state
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           document.body.classList.add("page-loaded");
+          setTimeout(animateCounters, 300);
         });
       });
     });
 
+    // 2. COUNTER ANIMATION
+    function animateCounters() {
+      const counters = document.querySelectorAll('.counter');
+      const duration = 1800;
+
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const startTime = performance.now();
+
+        function updateCounter(currentTime) {
+          const elapsedTime = currentTime - startTime;
+          const progress = Math.min(elapsedTime / duration, 1);
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const currentVal = Math.floor(easeOut * target);
+
+          counter.innerText = currentVal;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.innerText = target;
+          }
+        }
+
+        requestAnimationFrame(updateCounter);
+      });
+    }
+
+    // 3. ZERO-GLITCH TICKER (STOPS & ZOOMS LOGO ON HOVER)
     document.addEventListener("DOMContentLoaded", () => {
-      // 2. NAV LINK PAGE EXIT TRANSITION
+      const slider = document.getElementById('partnersSlider');
+      const track = document.getElementById('partnersTrack');
+      
+      const originalItems = Array.from(track.children);
+      const gap = 60;
+
+      function ensureViewportFilled() {
+        while (track.scrollWidth < window.innerWidth * 2.5) {
+          originalItems.forEach(item => {
+            const clone = item.cloneNode(true);
+            track.appendChild(clone);
+          });
+        }
+      }
+      ensureViewportFilled();
+
+      let offset = 0;
+      const speed = 0.4;
+      let isPaused = false;
+
+      slider.addEventListener('mouseenter', () => isPaused = true);
+      slider.addEventListener('mouseleave', () => isPaused = false);
+
+      function tickerLoop() {
+        if (!isPaused) {
+          offset -= speed;
+
+          const firstChild = track.firstElementChild;
+          if (firstChild) {
+            const itemWidth = firstChild.getBoundingClientRect().width + gap;
+
+            if (Math.abs(offset) >= itemWidth) {
+              track.appendChild(firstChild);
+              offset += itemWidth;
+            }
+          }
+
+          track.style.transform = `translate3d(${offset}px, 0, 0)`;
+        }
+
+        requestAnimationFrame(tickerLoop);
+      }
+
+      requestAnimationFrame(tickerLoop);
+
+      // 4. NAV LINK EXIT TRANSITION
       const navLinks = document.querySelectorAll(".nav-link");
       navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -409,7 +789,7 @@
         });
       });
 
-      // 3. SMOOTH 3D WAVE MESH ANIMATION
+      // 5. 3D WAVE CANVAS
       const canvas = document.getElementById("wave-canvas");
       const ctx = canvas.getContext("2d");
 
@@ -424,15 +804,14 @@
       const lines = 18;
       const pointsPerLine = 35;
 
-      function draw() {
+      function drawWave() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         step += 0.015;
 
         for (let i = 0; i < lines; i++) {
           ctx.beginPath();
-          
-          const alpha = (1 - i / lines) * 0.45;
-          ctx.strokeStyle = `rgba(0, 242, 254, ${alpha})`;
+          const alpha = (1 - i / lines) * 0.35;
+          ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
           ctx.lineWidth = 1.8;
 
           const yOffset = (canvas.height / lines) * i + 40;
@@ -451,10 +830,10 @@
           ctx.stroke();
         }
 
-        requestAnimationFrame(draw);
+        requestAnimationFrame(drawWave);
       }
 
-      draw();
+      drawWave();
     });
   </script>
 
