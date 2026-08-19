@@ -25,15 +25,15 @@
       --color-green: #10b981;
       --color-yellow: #f59e0b;
 
-      --glass-border: rgba(15, 23, 42, 0.12);
-      --card-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(15, 23, 42, 0.08);
+      --card-bg: rgba(255, 255, 255, 0.9);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
     
     html {
       background-color: var(--bg-light);
-      height: 100%;
+      min-height: 100%;
     }
 
     body {
@@ -50,7 +50,7 @@
       user-select: none;
 
       opacity: 0;
-      transform: scale(0.96) translateY(8px);
+      transform: scale(0.98) translateY(8px);
       filter: blur(4px);
       transition: 
         opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
@@ -67,7 +67,7 @@
 
     body.page-exiting { 
       opacity: 0; 
-      transform: scale(1.03) translateY(-6px); 
+      transform: scale(1.02) translateY(-6px); 
       filter: blur(6px);
       transition: 
         opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -82,25 +82,25 @@
       pointer-events: none;
     }
 
-    /* HERO CONTAINER WITH EXTENDED SPACING */
+    /* HERO CONTAINER */
     .hero-banner { 
-      min-height: 90vh; 
+      min-height: 85vh; 
       width: 100vw;
-      padding: 7rem 6% 6rem;
-      display: flex; 
+      padding: clamp(3rem, 6vh, 8rem) 8%;
+      display: grid;
+      grid-template-columns: minmax(300px, 1.2fr) minmax(300px, 0.8fr);
       align-items: center;
-      justify-content: space-between;
+      gap: clamp(2rem, 5vw, 6rem);
       position: relative;
       overflow: hidden;
       perspective: 1200px;
-      margin-bottom: 2rem;
     }
 
     #wave-canvas {
       position: absolute;
       top: 0;
       right: 0;
-      width: 55vw;
+      width: 60vw;
       height: 100%;
       z-index: 1;
       pointer-events: none;
@@ -108,64 +108,82 @@
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
     }
 
+    .watermark-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+      width: 100%;
+      perspective: 1000px;
+    }
+
     .bg-watermark {
-      position: absolute;
-      top: 50%;
-      right: 10%;
-      width: 420px;
+      width: clamp(280px, 28vw, 480px);
       height: auto;
       object-fit: cover;
-      z-index: 3;
       border-radius: 28px;
       border: 1px solid rgba(2, 132, 199, 0.25);
-      transform: translateY(-50%) rotateX(15deg) rotateY(-22deg) rotateZ(6deg);
+      animation: floatLogo 6s ease-in-out infinite;
       box-shadow: 
-        -20px 25px 50px rgba(15, 23, 42, 0.08),
-        0 0 45px rgba(2, 132, 199, 0.15);
+        -15px 20px 40px rgba(15, 23, 42, 0.08),
+        0 0 35px rgba(2, 132, 199, 0.15);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% {
+        transform: rotateX(12deg) rotateY(-18deg) rotateZ(4deg) translateY(0px);
+        box-shadow: -15px 20px 40px rgba(15, 23, 42, 0.08), 0 0 35px rgba(2, 132, 199, 0.15);
+      }
+      50% {
+        transform: rotateX(8deg) rotateY(-12deg) rotateZ(2deg) translateY(-14px);
+        box-shadow: -20px 30px 50px rgba(15, 23, 42, 0.12), 0 0 50px rgba(2, 132, 199, 0.25);
+      }
     }
 
     .hero-content { 
-      max-width: 680px; 
+      max-width: 720px; 
       z-index: 4; 
       position: relative; 
     }
 
-    /* SINGLE LINE HERO TITLE */
     .hero-title { 
-      font-size: 3.2rem; 
-      line-height: 1.2; 
+      font-size: clamp(2.2rem, 3.8vw, 4.2rem); 
+      line-height: 1.15; 
       font-weight: 800; 
-      margin-bottom: 0.8rem; 
+      margin-bottom: clamp(0.8rem, 2vh, 1.5rem); 
       color: var(--text-main);
-      white-space: nowrap;
     }
+
     .hero-title span { 
       background: var(--accent-gradient); 
       background-clip: text;
       -webkit-background-clip: text; 
       -webkit-text-fill-color: transparent; 
-      display: inline;
+      display: inline-block;
     }
 
     .hero-subtitle {
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 1.2vw, 1.25rem);
       color: var(--text-muted);
-      margin-bottom: 2.2rem;
+      margin-bottom: clamp(1.5rem, 3vh, 2.8rem);
       line-height: 1.6;
       font-weight: 500;
     }
 
     .stats-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin-bottom: 2.2rem;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: clamp(0.8rem, 1.5vw, 1.5rem);
+      margin-bottom: clamp(1.5rem, 3vh, 2.8rem);
     }
 
     .stat-card {
       background: var(--card-bg);
       border: 1px solid var(--glass-border);
-      padding: 1.2rem 1rem;
+      padding: clamp(0.8rem, 1.2vw, 1.4rem);
       border-radius: 18px;
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
@@ -176,7 +194,7 @@
     .stat-card:hover { transform: translateY(-3px); }
 
     .stat-number {
-      font-size: 2.5rem;
+      font-size: clamp(1.8rem, 2.5vw, 2.8rem);
       font-weight: 800;
       line-height: 1;
       margin-bottom: 0.4rem;
@@ -185,7 +203,7 @@
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 0.85vw, 0.95rem);
       color: var(--text-muted);
       font-weight: 600;
       line-height: 1.35;
@@ -215,14 +233,15 @@
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.12);
     }
 
-    .hero-btns { display: flex; gap: 1rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
     
     .btn-primary { 
       background: var(--accent-gradient); 
       color: #ffffff; 
-      padding: 0.85rem 2rem; 
+      padding: clamp(0.75rem, 1vw, 1rem) clamp(1.5rem, 2vw, 2.5rem); 
       border-radius: 50px; 
       font-weight: 700; 
+      font-size: clamp(0.9rem, 1vw, 1.05rem);
       text-decoration: none; 
       box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); 
       transition: all 0.3s ease;
@@ -239,9 +258,10 @@
       background: var(--card-bg); 
       color: var(--text-main); 
       border: 1px solid var(--glass-border); 
-      padding: 0.85rem 2rem; 
+      padding: clamp(0.75rem, 1vw, 1rem) clamp(1.5rem, 2vw, 2.5rem); 
       border-radius: 50px; 
       font-weight: 600; 
+      font-size: clamp(0.9rem, 1vw, 1.05rem);
       text-decoration: none; 
       transition: all 0.3s ease;
       cursor: pointer;
@@ -256,179 +276,200 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
     }
 
-    /* RECYCLING TICKER & PARTNERS SECTION */
+    /* ENHANCED RESPONSIVE PARTNERS CAROUSEL */
     .partners-section {
       width: 100vw;
-      padding: 2.5rem 0;
-      background: rgba(255, 255, 255, 0.5);
+      padding: clamp(2.5rem, 5vh, 4.5rem) 0;
+      background: rgba(255, 255, 255, 0.7);
       border-top: 1px solid var(--glass-border);
       border-bottom: 1px solid var(--glass-border);
       backdrop-filter: blur(12px);
-      margin-bottom: 3.5rem;
+      margin-bottom: clamp(2.5rem, 5vh, 4.5rem);
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: clamp(1.8rem, 3.5vh, 3.2rem);
     }
 
     .section-title {
-      font-size: 2rem;
+      font-size: clamp(1.6rem, 2.5vw, 2.6rem);
       font-weight: 800;
       color: var(--text-main);
       display: inline-block;
       position: relative;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
     }
 
-    /* GRADIENT UNDERLINE FOR OUR PARTNERS */
     .section-title::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 60%;
+      width: 65%;
       height: 4px;
       background: var(--accent-gradient);
       border-radius: 4px;
     }
 
-    .partners-slider {
-      width: 100%;
+    .marquee-container {
+      width: 100vw;
       overflow: hidden;
-      display: flex;
       position: relative;
-      white-space: nowrap;
-      padding: 15px 0;
-      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      padding: clamp(10px, 2vh, 20px) 0;
+      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
     }
 
-    .partners-track {
+    .marquee-track {
       display: flex;
       align-items: center;
-      gap: 60px;
+      width: max-content;
       will-change: transform;
-      padding-left: 0;
+      white-space: nowrap;
     }
 
-    /* PARTNER LOGO WITH ZOOM EFFECT ON HOVER */
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      gap: clamp(45px, 4vw, 110px);
+      padding-right: clamp(45px, 4vw, 110px);
+      flex-shrink: 0;
+    }
+
     .partner-logo {
-      height: 120px;
+      height: clamp(90px, 17vh, 160px);
       width: auto;
+      max-width: clamp(220px, 25vw, 380px);
       object-fit: contain;
-      filter: grayscale(100%) opacity(0.65);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      filter: grayscale(10%) opacity(0.95);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
       flex-shrink: 0;
       cursor: pointer;
       pointer-events: auto !important;
+      padding: clamp(6px, 1vw, 12px);
     }
 
     .partner-logo:hover {
       filter: grayscale(0%) opacity(1);
-      transform: scale(1.18);
-      z-index: 10;
+      transform: scale(1.1);
     }
 
-    /* INTERNSHIP SECTION WITH ANIMATED GRADIENT BORDER */
+    /* REDESIGNED ELEGANT INTERNSHIP SECTION */
     .internship-section {
       width: 100vw;
-      padding: 1rem 6% 3.5rem;
+      padding: 1rem 8% clamp(2.5rem, 5vh, 5rem);
       margin-bottom: 2rem;
     }
 
-    .internship-border-wrapper {
-      max-width: 1200px;
+    .internship-wrapper {
+      max-width: 1350px;
       margin: 0 auto;
       position: relative;
-      border-radius: 30px;
-      padding: 3px;
-      background: linear-gradient(115deg, #0284c7, #2563eb, #10b981, #0284c7);
-      background-size: 300% 300%;
-      animation: rotateBorder 6s ease infinite;
-      box-shadow: 0 15px 35px rgba(2, 132, 199, 0.12);
-    }
-
-    @keyframes rotateBorder {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      border-radius: 28px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.3) 0%, rgba(37, 99, 235, 0.15) 50%, rgba(2, 132, 199, 0.3) 100%);
+      box-shadow: 
+        0 20px 50px -10px rgba(2, 132, 199, 0.12),
+        0 10px 30px -15px rgba(15, 23, 42, 0.08);
     }
 
     .internship-container {
       width: 100%;
-      background: var(--card-bg);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 246, 255, 0.9) 100%);
       border-radius: 27px;
-      padding: 3.5rem;
-      backdrop-filter: blur(16px);
+      padding: clamp(2.2rem, 4.5vw, 4.5rem);
+      backdrop-filter: blur(20px);
       display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 4rem;
+      grid-template-columns: minmax(300px, 0.85fr) minmax(320px, 1.15fr);
+      gap: clamp(2rem, 4vw, 5rem);
       align-items: center;
       perspective: 1200px;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* FLOATING 3D CERTIFICATE ANIMATION */
+    .internship-container::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(2, 132, 199, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
     .cert-preview-wrapper {
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      animation: floatCert 4.5s ease-in-out infinite;
-    }
-
-    @keyframes floatCert {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(1deg); }
+      perspective: 1000px;
+      width: 100%;
     }
 
     .tilted-cert-img {
-      width: 110%;
+      width: 100%;
+      max-width: 550px;
       height: auto;
       border-radius: 16px;
-      border: 1px solid rgba(2, 132, 199, 0.2);
-      box-shadow: 
-        0 20px 30px -10px rgba(15, 23, 42, 0.15),
-        0 0 20px rgba(2, 132, 199, 0.1);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      transform: perspective(1000px) rotateY(-8deg) rotateX(4deg);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      animation: floatCert 5.5s ease-in-out infinite;
+      transform-style: preserve-3d;
+      will-change: transform, box-shadow;
+    }
+
+    @keyframes floatCert {
+      0%, 100% {
+        transform: rotateY(-8deg) rotateX(5deg) translateZ(0px) translateY(0px);
+        box-shadow: 
+          0 20px 30px -10px rgba(15, 23, 42, 0.15),
+          0 0 20px rgba(2, 132, 199, 0.12);
+      }
+      50% {
+        transform: rotateY(-3deg) rotateX(1deg) translateZ(15px) translateY(-12px);
+        box-shadow: 
+          0 30px 45px -10px rgba(2, 132, 199, 0.22),
+          0 0 35px rgba(37, 99, 235, 0.2);
+      }
     }
 
     .cert-preview-wrapper:hover .tilted-cert-img {
-      transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.03);
+      transform: rotateY(0deg) rotateX(0deg) scale(1.03);
       box-shadow: 
-        0 25px 45px -10px rgba(2, 132, 199, 0.25),
-        0 0 30px rgba(37, 99, 235, 0.2);
+        0 35px 50px -10px rgba(2, 132, 199, 0.3),
+        0 0 40px rgba(37, 99, 235, 0.25);
     }
 
     .internship-content-right {
       display: flex;
       flex-direction: column;
+      z-index: 2;
     }
 
     .internship-main-title {
-      font-size: 2rem;
+      font-size: clamp(1.6rem, 2.5vw, 2.6rem);
       font-weight: 800;
       color: var(--text-main);
-      margin-bottom: 1.8rem;
-      line-height: 1.2;
+      margin-bottom: clamp(1.2rem, 2.5vh, 2.2rem);
+      line-height: 1.25;
     }
 
     .internship-main-title span { color: var(--accent-cyan); }
 
-    /* HIGH-LEGIBILITY BULLET LIST */
     .internship-points-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 1.4rem;
+      gap: clamp(1rem, 1.8vh, 1.6rem);
     }
 
     .internship-points-list li {
-      font-size: 1.05rem;
+      font-size: clamp(0.95rem, 1.1vw, 1.15rem);
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.45;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -441,33 +482,34 @@
     }
 
     .icon-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(2, 132, 199, 0.12) 0%, rgba(37, 99, 235, 0.12) 100%);
-      border: 1px solid rgba(2, 132, 199, 0.25);
+      width: clamp(38px, 3vw, 46px);
+      height: clamp(38px, 3vw, 46px);
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(2, 132, 199, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       color: var(--accent-cyan);
-      font-size: 1.1rem;
-      box-shadow: 0 3px 10px rgba(2, 132, 199, 0.08);
+      font-size: clamp(1rem, 1.2vw, 1.25rem);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
       transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .internship-points-list li:hover .icon-badge {
       transform: translateY(-2px) scale(1.05);
       border-color: var(--accent-cyan);
-      box-shadow: 0 5px 15px rgba(2, 132, 199, 0.2);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.2);
       color: var(--accent-blue);
     }
 
     /* FOOTER */
     .footer-bar {
       position: relative;
-      margin: 1.5rem auto 2rem;
-      width: 88%;
+      margin: 1.5rem auto 2.5rem;
+      width: 84%;
+      max-width: 1400px;
       padding: 0.85rem 2rem;
       display: flex;
       justify-content: space-between;
@@ -529,29 +571,40 @@
 
     .footer-pill:hover i { transform: scale(1.1); }
 
-    @media (max-width: 1100px) {
-      .hero-title { font-size: 2.5rem; white-space: normal; }
-    }
-
-    @media (max-width: 1024px) {
+    /* RESPONSIVE LAYOUT BREAKPOINTS */
+    @media (max-width: 992px) {
+      .hero-banner {
+        grid-template-columns: 1fr;
+        padding-top: 4rem;
+        text-align: center;
+      }
+      .watermark-wrapper {
+        order: -1;
+        margin-bottom: 1rem;
+      }
+      .bg-watermark {
+        width: clamp(220px, 45vw, 360px);
+      }
+      .hero-content {
+        max-width: 100%;
+      }
+      .hero-btns {
+        justify-content: center;
+      }
       .internship-container {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
-        padding: 2.5rem;
-      }
-      .tilted-cert-img {
-        transform: none;
-        max-width: 450px;
       }
     }
 
-    @media (max-width: 900px) {
-      .hero-banner { padding: 4rem 5% 3rem; }
-      .bg-watermark { display: none; }
-      .stats-container { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-      .stat-card { padding: 0.8rem 0.6rem; }
-      .stat-number { font-size: 1.8rem; }
-      .stat-label { font-size: 0.75rem; }
+    @media (max-width: 768px) {
+      .partner-logo {
+        height: clamp(65px, 10vh, 100px);
+        max-width: clamp(160px, 42vw, 240px);
+      }
+      .marquee-group {
+        gap: clamp(25px, 4vw, 50px);
+        padding-right: clamp(25px, 4vw, 50px);
+      }
       .footer-bar { 
         width: 92%; 
         flex-direction: column; 
@@ -567,12 +620,10 @@
 </head>
 <body>
 
-  <!-- HERO BANNER SECTION WITH EXTENDED SPACING -->
+  <!-- HERO BANNER SECTION -->
   <section class="hero-banner" id="home">
     <canvas id="wave-canvas"></canvas>
 
-    <img src="assets/logoimg.png" alt="EarlyCraft Logo" class="bg-watermark" onerror="this.src='https://via.placeholder.com/500x500?text=Logo+Watermark'">
-    
     <div class="hero-content">
       <h1 class="hero-title">Shaping Minds. <br><span>Empowering the Youth.</span></h1>
       
@@ -610,27 +661,34 @@
       </div>
 
       <div class="hero-btns">
-        <a href="courses.html" class="btn-primary nav-link">View Courses</a>
+        <a href="curriculum.html" class="btn-primary nav-link">View Courses</a>
         <a href="about.html" class="btn-secondary nav-link">Learn More</a>
       </div>
     </div>
+
+    <div class="watermark-wrapper">
+      <img src="assets/logoimg.png" alt="EarlyCraft Logo" class="bg-watermark" onerror="this.src='https://via.placeholder.com/500x500?text=Logo+Watermark'">
+    </div>
   </section>
 
-  <!-- RECYCLING INFINITE TICKER (STOPS & ZOOMS LOGO ON HOVER) -->
+  <!-- SEAMLESS CONTINUOUS PARTNERS CAROUSEL -->
   <section class="partners-section">
     <div class="section-header">
       <h2 class="section-title">Our Partners</h2>
     </div>
-    <div class="partners-slider" id="partnersSlider">
-      <div class="partners-track" id="partnersTrack">
-        <img src="assets/partners/partner1.png" alt="Partner 1" class="partner-logo" onerror="this.src='https://via.placeholder.com/180x60?text=Partner+1'" />
+    <div class="marquee-container" id="marqueeContainer">
+      <div class="marquee-track" id="marqueeTrack">
+        <div class="marquee-group" id="primaryGroup">
+          <img src="assets/partners/partner1.png" alt="Partner 1" class="partner-logo" onerror="this.src='https://via.placeholder.com/320x140?text=Partner+1'" />
+          <img src="assets/partners/partner2.png" alt="Partner 2" class="partner-logo" onerror="this.src='https://via.placeholder.com/320x140?text=Partner+2'" />
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- INTERNSHIP SECTION WITH GRADIENT BORDER & CONCISE BOLD BULLETS -->
+  <!-- REDESIGNED ELEGANT INTERNSHIP SECTION -->
   <section class="internship-section">
-    <div class="internship-border-wrapper">
+    <div class="internship-wrapper">
       <div class="internship-container">
         <div class="cert-preview-wrapper">
           <img src="assets/samplecert.png" alt="Sample Internship Certificate" class="tilted-cert-img" onerror="this.src='https://via.placeholder.com/600x420?text=Sample+Internship+Certificate'" />
@@ -646,7 +704,7 @@
               <div class="icon-badge">
                 <i class="fa-solid fa-wallet"></i>
               </div>
-              <span><strong>100% Free & Zero Tuition:</strong> No hidden costs, mandatory course purchases, or enrollment fees.</span>
+              <span><strong>100% Free & Zero Tuition:</strong> No hidden costs, No mandatory course purchases, No enrollment fees.</span>
             </li>
             <li>
               <div class="icon-badge">
@@ -726,54 +784,9 @@
       });
     }
 
-    // 3. ZERO-GLITCH TICKER (STOPS & ZOOMS LOGO ON HOVER)
+    // 3. MAIN INITIALIZATION
     document.addEventListener("DOMContentLoaded", () => {
-      const slider = document.getElementById('partnersSlider');
-      const track = document.getElementById('partnersTrack');
-      
-      const originalItems = Array.from(track.children);
-      const gap = 60;
-
-      function ensureViewportFilled() {
-        while (track.scrollWidth < window.innerWidth * 2.5) {
-          originalItems.forEach(item => {
-            const clone = item.cloneNode(true);
-            track.appendChild(clone);
-          });
-        }
-      }
-      ensureViewportFilled();
-
-      let offset = 0;
-      const speed = 0.4;
-      let isPaused = false;
-
-      slider.addEventListener('mouseenter', () => isPaused = true);
-      slider.addEventListener('mouseleave', () => isPaused = false);
-
-      function tickerLoop() {
-        if (!isPaused) {
-          offset -= speed;
-
-          const firstChild = track.firstElementChild;
-          if (firstChild) {
-            const itemWidth = firstChild.getBoundingClientRect().width + gap;
-
-            if (Math.abs(offset) >= itemWidth) {
-              track.appendChild(firstChild);
-              offset += itemWidth;
-            }
-          }
-
-          track.style.transform = `translate3d(${offset}px, 0, 0)`;
-        }
-
-        requestAnimationFrame(tickerLoop);
-      }
-
-      requestAnimationFrame(tickerLoop);
-
-      // 4. NAV LINK EXIT TRANSITION
+      // Nav Link Transition
       const navLinks = document.querySelectorAll(".nav-link");
       navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -789,7 +802,7 @@
         });
       });
 
-      // 5. 3D WAVE CANVAS
+      // 3D Wave Canvas
       const canvas = document.getElementById("wave-canvas");
       const ctx = canvas.getContext("2d");
 
@@ -834,6 +847,90 @@
       }
 
       drawWave();
+
+      // 4. UNINTERRUPTED CONTINUOUS MARQUEE ENGINE
+      const marqueeContainer = document.getElementById("marqueeContainer");
+      const marqueeTrack = document.getElementById("marqueeTrack");
+      const primaryGroup = document.getElementById("primaryGroup");
+
+      if (marqueeContainer && marqueeTrack && primaryGroup) {
+        let singleWidth = 0;
+        let position = 0;
+        let isPaused = false;
+        const speed = 1.0; // Movement speed in px per frame
+
+        // Function to build and extend track to span entire screen + duplicate buffer
+        function setupTrack() {
+          singleWidth = primaryGroup.offsetWidth;
+          if (singleWidth <= 0) return;
+
+          // Clear previous clones except original group
+          while (marqueeTrack.children.length > 1) {
+            marqueeTrack.removeChild(marqueeTrack.lastChild);
+          }
+
+          // Multiply sets so the track spans wider than full screen width twice over
+          const requiredCopies = Math.max(3, Math.ceil((window.innerWidth * 2.5) / singleWidth));
+          for (let i = 1; i < requiredCopies; i++) {
+            const clone = primaryGroup.cloneNode(true);
+            clone.removeAttribute("id");
+            clone.setAttribute("aria-hidden", "true");
+            marqueeTrack.appendChild(clone);
+          }
+        }
+
+        // Handle dynamic layout recalculations on resize
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            setupTrack();
+          }, 100);
+        });
+
+        // Wait until logo images are loaded to prevent inaccurate layout width calculations
+        const partnerImages = primaryGroup.querySelectorAll("img");
+        let loadedCount = 0;
+
+        function checkInit() {
+          loadedCount++;
+          if (loadedCount >= partnerImages.length) {
+            setupTrack();
+          }
+        }
+
+        partnerImages.forEach(img => {
+          if (img.complete) {
+            checkInit();
+          } else {
+            img.addEventListener("load", checkInit);
+            img.addEventListener("error", checkInit);
+          }
+        });
+
+        // Fallback init on window load
+        window.addEventListener("load", setupTrack);
+
+        function animateMarquee() {
+          if (!isPaused && singleWidth > 0) {
+            position -= speed;
+
+            // Reset smoothly without jump when one entire pattern width leaves left side
+            if (Math.abs(position) >= singleWidth) {
+              position += singleWidth;
+            }
+
+            marqueeTrack.style.transform = `translate3d(${position}px, 0, 0)`;
+          }
+          requestAnimationFrame(animateMarquee);
+        }
+
+        marqueeContainer.addEventListener("mouseenter", () => { isPaused = true; });
+        marqueeContainer.addEventListener("mouseleave", () => { isPaused = false; });
+
+        // Start render loop
+        requestAnimationFrame(animateMarquee);
+      }
     });
   </script>
 
