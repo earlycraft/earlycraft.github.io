@@ -11,22 +11,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
+
   <style>
     :root {
       --bg-light: #f8fafc;
       --text-main: #0f172a;
       --text-muted: #475569;
-      
       --accent-cyan: #0284c7;
       --accent-blue: #2563eb;
       --accent-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-      
       --color-red: #ef4444;
       --color-green: #10b981;
       --color-yellow: #f59e0b;
-
       --glass-border: rgba(15, 23, 42, 0.08);
-      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --nav-height: 80px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -34,6 +39,7 @@
     html {
       background-color: var(--bg-light);
       min-height: 100%;
+      scroll-behavior: auto;
     }
 
     body {
@@ -43,36 +49,36 @@
       overflow-x: hidden;
       overflow-y: auto;
       color: var(--text-main);
-      
+      padding-top: var(--nav-height);
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
-
       opacity: 0;
-      transform: scale(0.98) translateY(8px);
-      filter: blur(4px);
+      transform: scale(0.96) translateY(24px) rotateX(4deg);
+      filter: blur(12px) brightness(1.1);
+      transform-origin: center top;
       transition: 
-        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform, filter;
     }
 
     body.page-loaded { 
       opacity: 1; 
-      transform: scale(1) translateY(0);
-      filter: blur(0px);
+      transform: scale(1) translateY(0) rotateX(0deg);
+      filter: blur(0px) brightness(1);
     }
 
     body.page-exiting { 
       opacity: 0; 
-      transform: scale(1.02) translateY(-6px); 
-      filter: blur(6px);
+      transform: scale(1.04) translateY(-28px) rotateX(-3deg); 
+      filter: blur(14px) brightness(0.92);
       transition: 
-        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity 0.45s cubic-bezier(0.7, 0, 0.84, 0),
+        transform 0.45s cubic-bezier(0.7, 0, 0.84, 0),
+        filter 0.45s cubic-bezier(0.7, 0, 0.84, 0);
       pointer-events: none; 
     }
 
@@ -82,11 +88,112 @@
       pointer-events: none;
     }
 
-    /* HERO CONTAINER */
+    .navbar-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 5%;
+      transition: all 0.4s ease;
+    }
+
+    .navbar-container {
+      width: 100%;
+      max-width: 1300px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5rem;
+      box-shadow: 
+        0 10px 30px -10px rgba(15, 23, 42, 0.05),
+        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-brand-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .nav-brand-font {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      list-style: none;
+    }
+
+    .nav-item-link {
+      position: relative;
+      padding: 0.55rem 1.25rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border-radius: 30px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-item-link:hover {
+      color: var(--accent-cyan);
+      background: rgba(2, 132, 199, 0.06);
+    }
+
+    .nav-item-link.active {
+      color: #ffffff !important;
+      background: var(--accent-gradient);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.35rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+
+    .mobile-nav-toggle:hover {
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--accent-cyan);
+    }
+
     .hero-banner { 
-      min-height: 85vh; 
+      min-height: calc(85vh - var(--nav-height)); 
       width: 100vw;
-      padding: clamp(3rem, 6vh, 8rem) 8%;
+      padding: clamp(2rem, 5vh, 6rem) 8%;
       display: grid;
       grid-template-columns: minmax(300px, 1.2fr) minmax(300px, 0.8fr);
       align-items: center;
@@ -276,7 +383,6 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
     }
 
-    /* ENHANCED RESPONSIVE PARTNERS CAROUSEL */
     .partners-section {
       width: 100vw;
       padding: clamp(2.5rem, 5vh, 4.5rem) 0;
@@ -356,7 +462,6 @@
       transform: scale(1.1);
     }
 
-    /* REDESIGNED ELEGANT INTERNSHIP SECTION */
     .internship-section {
       width: 100vw;
       padding: 1rem 8% clamp(2.5rem, 5vh, 5rem);
@@ -504,7 +609,6 @@
       color: var(--accent-blue);
     }
 
-    /* FOOTER */
     .footer-bar {
       position: relative;
       margin: 1.5rem auto 2.5rem;
@@ -571,11 +675,11 @@
 
     .footer-pill:hover i { transform: scale(1.1); }
 
-    /* RESPONSIVE LAYOUT BREAKPOINTS */
     @media (max-width: 992px) {
+      .navbar-container { padding: 0 1.2rem; }
       .hero-banner {
         grid-template-columns: 1fr;
-        padding-top: 4rem;
+        padding-top: 2rem;
         text-align: center;
       }
       .watermark-wrapper {
@@ -585,26 +689,62 @@
       .bg-watermark {
         width: clamp(220px, 45vw, 360px);
       }
-      .hero-content {
-        max-width: 100%;
-      }
-      .hero-btns {
-        justify-content: center;
-      }
-      .internship-container {
-        grid-template-columns: 1fr;
-      }
+      .hero-content { max-width: 100%; }
+      .hero-btns { justify-content: center; }
+      .internship-container { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
+      :root { --nav-height: 70px; }
+      .navbar-wrapper { padding: 0 4%; }
+      .mobile-nav-toggle { display: block; }
+      .nav-brand-font { height: 22px; }
+
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 240px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.12);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 1000;
+      }
+
+      .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+      }
+
+      .nav-links li { width: 100%; }
+      .nav-item-link {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+      }
+
       .partner-logo {
-        height: clamp(65px, 10vh, 100px);
+        height: clamp(65px, 12vh, 100px);
         max-width: clamp(160px, 42vw, 240px);
       }
+
       .marquee-group {
         gap: clamp(25px, 4vw, 50px);
         padding-right: clamp(25px, 4vw, 50px);
       }
+
       .footer-bar { 
         width: 92%; 
         flex-direction: column; 
@@ -613,12 +753,34 @@
         padding: 0.8rem 1.2rem; 
         border-radius: 20px; 
       }
+      
       .footer-contacts { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
       .footer-pill { font-size: 0.78rem; padding: 0.3rem 0.8rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- FLOATING NAVIGATION BAR WITH LOGO FONT -->
+  <header class="navbar-wrapper">
+    <nav class="navbar-container">
+      <a href="index.html" class="nav-brand nav-link" aria-label="EarlyCraft Home">
+        <img src="assets/logo.png" alt="EarlyCraft Logo" class="nav-brand-logo" onerror="this.style.display='none'">
+        <img src="assets/logofont.png" alt="EarlyCraft" class="nav-brand-font" onerror="this.style.display='none'">
+      </a>
+      
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item-link nav-link active">Home</a></li>
+        <li><a href="about.html" class="nav-item-link nav-link">About</a></li>
+        <li><a href="internship.html" class="nav-item-link nav-link">Internship</a></li>
+        <li><a href="contact.html" class="nav-item-link nav-link">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- HERO BANNER SECTION -->
   <section class="hero-banner" id="home">
@@ -661,8 +823,8 @@
       </div>
 
       <div class="hero-btns">
-        <a href="curriculum.html" class="btn-primary nav-link">View Courses</a>
-        <a href="about.html" class="btn-secondary nav-link">Learn More</a>
+        <a href="courses.html" class="btn-primary nav-link">View Courses</a>
+        <a href="events.html" class="btn-secondary nav-link">Learn More</a>
       </div>
     </div>
 
@@ -680,12 +842,13 @@
       <div class="marquee-track" id="marqueeTrack">
         <div class="marquee-group" id="primaryGroup">
           <img src="assets/partners/partner1.png" alt="Partner 1" class="partner-logo" onerror="this.src='https://via.placeholder.com/320x140?text=Partner+1'" />
+          <img src="assets/partners/partner2.png" alt="Partner 2" class="partner-logo" onerror="this.src='https://via.placeholder.com/320x140?text=Partner+2'" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- REDESIGNED ELEGANT INTERNSHIP SECTION -->
+  <!-- ELEGANT INTERNSHIP SECTION -->
   <section class="internship-section">
     <div class="internship-wrapper">
       <div class="internship-container">
@@ -745,20 +908,25 @@
   </footer>
 
   <script>
-    // 1. PAGE LOAD ENTRY
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
+
     window.addEventListener("DOMContentLoaded", () => {
+      window.scrollTo(0, 0);
       requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
         requestAnimationFrame(() => {
           document.body.classList.add("page-loaded");
-          setTimeout(animateCounters, 300);
+          document.documentElement.style.scrollBehavior = 'smooth';
+          setTimeout(animateCounters, 350);
         });
       });
     });
 
-    // 2. COUNTER ANIMATION
     function animateCounters() {
       const counters = document.querySelectorAll('.counter');
-      const duration = 1800;
+      const duration = 2000;
 
       counters.forEach(counter => {
         const target = +counter.getAttribute('data-target');
@@ -767,7 +935,7 @@
         function updateCounter(currentTime) {
           const elapsedTime = currentTime - startTime;
           const progress = Math.min(elapsedTime / duration, 1);
-          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const easeOut = 1 - Math.pow(1 - progress, 4);
           const currentVal = Math.floor(easeOut * target);
 
           counter.innerText = currentVal;
@@ -783,25 +951,50 @@
       });
     }
 
-    // 3. MAIN INITIALIZATION
     document.addEventListener("DOMContentLoaded", () => {
-      // Nav Link Transition
+      const mobileNavToggle = document.getElementById("mobileNavToggle");
+      const navLinksMenu = document.getElementById("navLinks");
+      const toggleIcon = document.getElementById("toggleIcon");
+
+      if (mobileNavToggle && navLinksMenu) {
+        mobileNavToggle.addEventListener("click", () => {
+          navLinksMenu.classList.toggle("active");
+          if (navLinksMenu.classList.contains("active")) {
+            toggleIcon.classList.remove("fa-bars");
+            toggleIcon.classList.add("fa-xmark");
+          } else {
+            toggleIcon.classList.remove("fa-xmark");
+            toggleIcon.classList.add("fa-bars");
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!mobileNavToggle.contains(e.target) && !navLinksMenu.contains(e.target)) {
+            navLinksMenu.classList.remove("active");
+            toggleIcon.classList.remove("fa-xmark");
+            toggleIcon.classList.add("fa-bars");
+          }
+        });
+      }
+
       const navLinks = document.querySelectorAll(".nav-link");
       navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
-          e.preventDefault();
           const targetUrl = link.getAttribute("href");
+          if (!targetUrl || targetUrl.startsWith("#") || targetUrl.startsWith("javascript")) return;
 
+          e.preventDefault();
+
+          if (navLinksMenu) navLinksMenu.classList.remove("active");
           document.body.classList.remove("page-loaded");
           document.body.classList.add("page-exiting");
 
           setTimeout(() => {
             window.location.href = targetUrl;
-          }, 380);
+          }, 420);
         });
       });
 
-      // 3D Wave Canvas
       const canvas = document.getElementById("wave-canvas");
       const ctx = canvas.getContext("2d");
 
@@ -813,25 +1006,25 @@
       window.addEventListener("resize", resize);
 
       let step = 0;
-      const lines = 18;
-      const pointsPerLine = 35;
+      const lines = 20;
+      const pointsPerLine = 40;
 
       function drawWave() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        step += 0.015;
+        step += 0.012;
 
         for (let i = 0; i < lines; i++) {
           ctx.beginPath();
-          const alpha = (1 - i / lines) * 0.35;
+          const alpha = (1 - i / lines) * 0.38;
           ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
           ctx.lineWidth = 1.8;
 
-          const yOffset = (canvas.height / lines) * i + 40;
+          const yOffset = (canvas.height / lines) * i + 30;
 
           for (let j = 0; j < pointsPerLine; j++) {
             const x = (canvas.width / (pointsPerLine - 1)) * j;
             const diagFactor = (x / canvas.width) * (yOffset / canvas.height);
-            const y = yOffset + Math.sin(step + j * 0.25 + i * 0.3) * (20 * diagFactor);
+            const y = yOffset + Math.sin(step + j * 0.22 + i * 0.28) * (22 * diagFactor);
 
             if (j === 0) {
               ctx.moveTo(x, y);
@@ -847,7 +1040,6 @@
 
       drawWave();
 
-      // 4. UNINTERRUPTED CONTINUOUS MARQUEE ENGINE
       const marqueeContainer = document.getElementById("marqueeContainer");
       const marqueeTrack = document.getElementById("marqueeTrack");
       const primaryGroup = document.getElementById("primaryGroup");
@@ -856,19 +1048,16 @@
         let singleWidth = 0;
         let position = 0;
         let isPaused = false;
-        const speed = 1.0; // Movement speed in px per frame
+        const speed = 1.2;
 
-        // Function to build and extend track to span entire screen + duplicate buffer
         function setupTrack() {
           singleWidth = primaryGroup.offsetWidth;
           if (singleWidth <= 0) return;
 
-          // Clear previous clones except original group
           while (marqueeTrack.children.length > 1) {
             marqueeTrack.removeChild(marqueeTrack.lastChild);
           }
 
-          // Multiply sets so the track spans wider than full screen width twice over
           const requiredCopies = Math.max(3, Math.ceil((window.innerWidth * 2.5) / singleWidth));
           for (let i = 1; i < requiredCopies; i++) {
             const clone = primaryGroup.cloneNode(true);
@@ -878,16 +1067,12 @@
           }
         }
 
-        // Handle dynamic layout recalculations on resize
         let resizeTimeout;
         window.addEventListener("resize", () => {
           clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(() => {
-            setupTrack();
-          }, 100);
+          resizeTimeout = setTimeout(setupTrack, 100);
         });
 
-        // Wait until logo images are loaded to prevent inaccurate layout width calculations
         const partnerImages = primaryGroup.querySelectorAll("img");
         let loadedCount = 0;
 
@@ -907,14 +1092,12 @@
           }
         });
 
-        // Fallback init on window load
         window.addEventListener("load", setupTrack);
 
         function animateMarquee() {
           if (!isPaused && singleWidth > 0) {
             position -= speed;
 
-            // Reset smoothly without jump when one entire pattern width leaves left side
             if (Math.abs(position) >= singleWidth) {
               position += singleWidth;
             }
@@ -927,7 +1110,6 @@
         marqueeContainer.addEventListener("mouseenter", () => { isPaused = true; });
         marqueeContainer.addEventListener("mouseleave", () => { isPaused = false; });
 
-        // Start render loop
         requestAnimationFrame(animateMarquee);
       }
     });
