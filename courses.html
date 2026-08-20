@@ -566,10 +566,15 @@
       pathway.classList.remove('is-closing');
       document.body.classList.add('course-open');
       document.documentElement.style.setProperty('--accent', course.color);
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
       pathway.innerHTML = `<div class="path-head"><h2>${course.title}</h2></div><div class="timeline"><div class="timeline-progress"></div>${course.agenda.map(chapter => `<article class="step"><span class="step-dot"></span><div class="step-card">${chapterMarkup(chapter)}<ul class="concept-list">${chapter.topics.map(topic => `<li>${topic}</li>`).join('')}</ul></div></article>`).join('')}</div><div class="finish"><i class="fa-solid fa-star"></i></div>`;
       hub.classList.add('is-hidden');
       pathway.classList.add('is-active');
-      window.scrollTo({ top:0, behavior:'smooth' });
+      document.documentElement.style.scrollBehavior = 'smooth';
+      pathway.querySelector('.step').classList.add('revealed');
       observer = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('revealed')), { threshold:.28 });
       pathway.querySelectorAll('.step').forEach(step => observer.observe(step));
       window.addEventListener('scroll', scheduleProgress, { passive:true });
@@ -587,7 +592,11 @@
       const timeline = pathway.querySelector('.timeline');
       const progress = pathway.querySelector('.timeline-progress');
       const bounds = timeline.getBoundingClientRect();
-      const amount = Math.min(1, Math.max(0, (window.innerHeight * .58 - bounds.top) / bounds.height));
+      const firstStep = pathway.querySelector('.step');
+      const firstStepEnd = firstStep.offsetTop + firstStep.offsetHeight * .72;
+      const firstChapterProgress = Math.min(1, Math.max(0, firstStepEnd / timeline.offsetHeight));
+      const scrollProgress = Math.min(1, Math.max(0, (window.innerHeight * .58 - bounds.top) / bounds.height));
+      const amount = Math.max(firstChapterProgress, scrollProgress);
       progress.style.height = `${amount * 100}%`;
       pathway.querySelectorAll('.step').forEach(step => {
         if (step.getBoundingClientRect().top < window.innerHeight * .82) step.classList.add('revealed');
