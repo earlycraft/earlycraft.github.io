@@ -125,6 +125,8 @@
       .course-card h2 { font-size:clamp(.88rem,3.8vw,1.12rem); }
       .action-badge { min-width:0; width:100%; height:clamp(38px,10vw,46px); padding:0 8px; gap:6px; font-size:clamp(.52rem,2.2vw,.68rem); }
       .pathway { padding:110px 7vw 90px; }
+      .pathway.is-active { animation:mobilePathOpen .42s ease-out both; }
+      @keyframes mobilePathOpen { from { opacity:0; } to { opacity:1; } }
       .path-head { text-align:left; padding-bottom:38px; }
       .timeline::before, .timeline-progress { left:9px; transform:none; }
       .step, .step:nth-child(even) { width:100%; margin-left:0; padding:22px 0 22px 42px; text-align:left; }
@@ -573,12 +575,17 @@
       pathway.innerHTML = `<div class="path-head"><h2>${course.title}</h2></div><div class="timeline"><div class="timeline-progress"></div>${course.agenda.map(chapter => `<article class="step"><span class="step-dot"></span><div class="step-card">${chapterMarkup(chapter)}<ul class="concept-list">${chapter.topics.map(topic => `<li>${topic}</li>`).join('')}</ul></div></article>`).join('')}</div><div class="finish"><i class="fa-solid fa-star"></i></div>`;
       hub.classList.add('is-hidden');
       pathway.classList.add('is-active');
-      document.documentElement.style.scrollBehavior = 'smooth';
       pathway.querySelector('.step').classList.add('revealed');
       observer = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('revealed')), { threshold:.28 });
       pathway.querySelectorAll('.step').forEach(step => observer.observe(step));
       window.addEventListener('scroll', scheduleProgress, { passive:true });
       updateProgress();
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        updateProgress();
+      });
     }
     function scheduleProgress() {
       if (progressFrame) return;
@@ -593,7 +600,7 @@
       const progress = pathway.querySelector('.timeline-progress');
       const bounds = timeline.getBoundingClientRect();
       const firstStep = pathway.querySelector('.step');
-      const firstStepEnd = firstStep.offsetTop + firstStep.offsetHeight * .72;
+      const firstStepEnd = firstStep.offsetTop + firstStep.offsetHeight;
       const firstChapterProgress = Math.min(1, Math.max(0, firstStepEnd / timeline.offsetHeight));
       const scrollProgress = Math.min(1, Math.max(0, (window.innerHeight * .58 - bounds.top) / bounds.height));
       const amount = Math.max(firstChapterProgress, scrollProgress);
