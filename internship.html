@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apply for Internship - EarlyCraft EdTech</title>
+  <title>Internship | EarlyCraft</title>
   
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,19 +100,7 @@
 
     img {
       -webkit-user-drag: none;
-      user-drag: none;
       pointer-events: none;
-    }
-
-    #wave-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.6;
     }
 
     /* NAVIGATION BAR MATCHING INDEX.HTML */
@@ -724,8 +712,6 @@
 </head>
 <body>
 
-  <canvas id="wave-canvas"></canvas>
-
   <header class="navbar-wrapper">
     <nav class="navbar-container">
       <a href="index.html" class="nav-brand nav-link" aria-label="EarlyCraft Home">
@@ -887,7 +873,7 @@
       </div>
       <h2 class="banner-title">Application <span>Received!</span></h2>
       <p class="banner-text">
-        Your application has been logged successfully. Further instructions and program onboarding details will be delivered to your inbox within two days.
+        Your application has been logged successfully. Further instructions will be delivered to your inbox within two days.
       </p>
     </div>
 
@@ -1066,66 +1052,6 @@
       }, 500);
     }
 
-    // 5. BACKGROUND CANVAS PARTICLES / WAVE ENGINE
-    const canvas = document.getElementById('wave-canvas');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      let width, height;
-      let particles = [];
-
-      function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-
-      class Particle {
-        constructor() {
-          this.reset();
-        }
-
-        reset() {
-          this.x = Math.random() * width;
-          this.y = Math.random() * height;
-          this.vx = (Math.random() - 0.5) * 0.4;
-          this.vy = (Math.random() - 0.5) * 0.4;
-          this.radius = Math.random() * 2 + 1;
-          this.alpha = Math.random() * 0.5 + 0.1;
-        }
-
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-
-          if (this.x < 0 || this.x > width) this.vx *= -1;
-          if (this.y < 0 || this.y > height) this.vy *= -1;
-        }
-
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(2, 132, 199, ${this.alpha})`;
-          ctx.fill();
-        }
-      }
-
-      for (let i = 0; i < 45; i++) {
-        particles.push(new Particle());
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-    }
   </script>
 </body>
 </html>
