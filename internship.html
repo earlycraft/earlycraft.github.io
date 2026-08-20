@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply for Internship - EarlyCraft EdTech</title>
+  
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
+
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --surface-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      
+      --brand-primary: #0284c7;
+      --brand-secondary: #2563eb;
+      --brand-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      
+      --border-color: #e2e8f0;
+      --border-focus: #3b82f6;
+      --ring-focus: rgba(59, 130, 246, 0.15);
+      --glass-border: rgba(15, 23, 42, 0.08);
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      
+      --nav-height: 80px;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+    } 
+    
+    html {
+      background-color: var(--bg-main);
+      min-height: 100%;
+      scroll-behavior: auto;
+    }
+
+    /* PAGE TRANSITIONS & CANVAS ENHANCEMENTS */
+    body {
+      background-color: var(--bg-main) !important;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      color: var(--text-primary);
+      padding-top: var(--nav-height);
+      
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      opacity: 0;
+      transform: scale(0.96) translateY(24px) rotateX(4deg);
+      filter: blur(12px) brightness(1.1);
+      transform-origin: center top;
+      transition: 
+        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
+    }
+
+    body.page-loaded { 
+      opacity: 1; 
+      transform: scale(1) translateY(0) rotateX(0deg);
+      filter: blur(0px) brightness(1);
+    }
+
+    body.page-exiting { 
+      opacity: 0; 
+      transform: scale(1.04) translateY(-28px) rotateX(-3deg); 
+      filter: blur(14px) brightness(0.92);
+      transition: 
+        opacity 0.45s cubic-bezier(0.7, 0, 0.84, 0),
+        transform 0.45s cubic-bezier(0.7, 0, 0.84, 0),
+        filter 0.45s cubic-bezier(0.7, 0, 0.84, 0);
+      pointer-events: none; 
+    }
+
+    img {
+      -webkit-user-drag: none;
+      user-drag: none;
+      pointer-events: none;
+    }
+
+    #wave-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* NAVIGATION BAR MATCHING INDEX.HTML */
+    .navbar-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 5%;
+      transition: all 0.4s ease;
+    }
+
+    .navbar-container {
+      width: 100%;
+      max-width: 1300px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5rem;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 10px 30px -10px rgba(15, 23, 42, 0.05),
+        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-brand-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .nav-brand-font {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+
+    .nav-item-link {
+      position: relative;
+      padding: 0.55rem 1.25rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border-radius: 30px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-item-link:hover { color: var(--brand-primary); background: rgba(2, 132, 199, 0.06); }
+
+    .nav-item-link.active {
+      color: #ffffff !important;
+      background: var(--brand-gradient);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .page-header,
+    .form-wrapper,
+    .footer-bar {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* MOBILE NAVIGATION TOGGLE */
+    .mobile-nav-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.35rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+
+    .mobile-nav-toggle:hover {
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--brand-primary);
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      text-align: center;
+      padding: clamp(2.5rem, 5vh, 3.5rem) 5% 1rem;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .page-title span {
+      background: var(--brand-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* FORM & GRID LAYOUT */
+    .form-wrapper {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 4rem;
+      perspective: 1200px;
+    }
+
+    .three-box-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .form-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-box:hover {
+      border-color: #cbd5e1;
+      box-shadow: var(--shadow-md);
+    }
+
+    .box-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--brand-secondary);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .box-header i { font-size: 1.1rem; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-label span.req { color: #ef4444; }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-primary);
+      font-size: 0.925rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control::placeholder {
+      color: #94a3b8;
+    }
+
+    .form-control:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 4px var(--ring-focus);
+    }
+
+    /* CUSTOM THEMED DROPDOWN STYLES */
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-dropdown-trigger {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: #94a3b8;
+      font-size: 0.925rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .custom-dropdown-trigger.has-value {
+      color: var(--text-primary);
+    }
+
+    .custom-dropdown-trigger:hover {
+      border-color: #cbd5e1;
+    }
+
+    .custom-dropdown.open .custom-dropdown-trigger {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 4px var(--ring-focus);
+    }
+
+    .custom-dropdown-trigger i {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .custom-dropdown.open .custom-dropdown-trigger i {
+      transform: rotate(180deg);
+      color: var(--brand-primary);
+    }
+
+    .custom-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      box-shadow: 0 12px 30px -5px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+      padding: 6px;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px) scale(0.98);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      list-style: none;
+    }
+
+    .custom-dropdown.open .custom-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .custom-dropdown-option {
+      padding: 0.65rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .custom-dropdown-option:hover {
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--brand-primary);
+    }
+
+    .custom-dropdown-option.selected {
+      background: var(--brand-gradient);
+      color: #ffffff;
+    }
+
+    /* CHECKBOX OPTION */
+    .options-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .custom-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.75rem 0.85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .custom-option:hover {
+      background: #ffffff;
+      border-color: #cbd5e1;
+    }
+
+    .custom-option:has(input:checked) {
+      background: #ffffff;
+      border-color: var(--brand-secondary);
+      box-shadow: 0 0 0 1px var(--brand-secondary);
+    }
+
+    .custom-option input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--brand-secondary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .option-text {
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    /* SUBMIT BUTTON WITH SHIMMER & SHADOW HOVER */
+    .submit-container {
+      width: 100%;
+      max-width: 480px;
+      margin: 2.2rem auto 0;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--brand-gradient);
+      color: #ffffff;
+      padding: clamp(0.95rem, 1.2vw, 1.15rem);
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: clamp(1rem, 1.1vw, 1.15rem);
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transform: rotate(30deg) translateY(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .btn-submit:hover::after {
+      transform: rotate(30deg) translateY(100%);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
+      filter: brightness(1.05);
+    }
+
+    .btn-submit:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* FORM FADE-OUT ANIMATION ON SUBMISSION */
+    .form-collapsing {
+      opacity: 0;
+      transform: scale(0.95) translateY(-20px) rotateX(10deg);
+      pointer-events: none;
+    }
+
+    /* HIGH-IMPACT 3D SUCCESS BANNER */
+    #submission-banner {
+      display: none;
+      opacity: 0;
+      padding: clamp(2.5rem, 5vw, 4rem) 2rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 249, 255, 0.9) 100%);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      border-radius: 28px;
+      text-align: center;
+      max-width: 680px;
+      margin: 1rem auto;
+      box-shadow: 
+        0 25px 50px -12px rgba(2, 132, 199, 0.25),
+        0 0 40px rgba(37, 99, 235, 0.15);
+      backdrop-filter: blur(16px);
+      transform-style: preserve-3d;
+      transform: rotateX(-20px) translateY(40px) scale(0.9);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+    }
+
+    #submission-banner.show-3d {
+      display: block;
+      opacity: 1;
+      transform: rotateX(0deg) translateY(0) scale(1);
+    }
+
+    .success-icon-wrapper {
+      width: 88px;
+      height: 88px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: #ffffff;
+      font-size: 2.5rem;
+      box-shadow: 
+        0 12px 30px rgba(16, 185, 129, 0.4),
+        0 0 0 8px rgba(16, 185, 129, 0.15);
+      animation: floatBadge 4s ease-in-out infinite, pulseGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4), 0 0 0 8px rgba(16, 185, 129, 0.15); }
+      100% { box-shadow: 0 18px 40px rgba(16, 185, 129, 0.6), 0 0 0 16px rgba(16, 185, 129, 0.05); }
+    }
+
+    .banner-title {
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .banner-title span {
+      background: linear-gradient(135deg, #10b981 0%, #0284c7 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .banner-text {
+      font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 600;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* FOOTER */
+    .footer-bar {
+      position: relative;
+      margin: 2rem auto 2.5rem;
+      width: 84%;
+      max-width: 1400px;
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      background: var(--surface-card);
+      backdrop-filter: blur(16px);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .footer-rights { display: flex; align-items: center; gap: 6px; }
+    .footer-brand { color: var(--text-primary); font-weight: 700; letter-spacing: 0.2px; }
+    .footer-contacts { display: flex; gap: 1rem; }
+
+    .footer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.4rem 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .footer-pill:hover {
+      background: #ffffff;
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+    }
+
+    .footer-pill i { color: var(--brand-primary); transition: transform 0.3s ease; }
+    .footer-pill:hover i { transform: scale(1.1); }
+
+    /* RESPONSIVE LAYOUT MATCHING INDEX.HTML */
+    @media (max-width: 992px) {
+      .navbar-container { padding: 0 1.2rem; }
+      .three-box-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --nav-height: 70px; }
+      .navbar-wrapper { padding: 0 4%; }
+      .mobile-nav-toggle { display: block; }
+      .nav-brand-font { height: 22px; }
+
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 240px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.12);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 1000;
+      }
+
+      .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+      }
+
+      .nav-links li { width: 100%; }
+      .nav-item-link {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+      }
+
+      .footer-bar { 
+        width: 92%; 
+        flex-direction: column; 
+        gap: 0.8rem; 
+        text-align: center; 
+        padding: 0.8rem 1.2rem; 
+        border-radius: 20px; 
+      }
+      .footer-contacts { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+      .footer-pill { font-size: 0.78rem; padding: 0.3rem 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="wave-canvas"></canvas>
+
+  <header class="navbar-wrapper">
+    <nav class="navbar-container">
+      <a href="index.html" class="nav-brand nav-link" aria-label="EarlyCraft Home">
+        <img src="assets/logo.png" alt="EarlyCraft Logo" class="nav-brand-logo" onerror="this.style.display='none'">
+        <img src="assets/logofont.png" alt="EarlyCraft" class="nav-brand-font" onerror="this.style.display='none'">
+      </a>
+
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item-link nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-item-link nav-link">About</a></li>
+        <li><a href="internship.html" class="nav-item-link nav-link active">Internship</a></li>
+        <li><a href="contact.html" class="nav-item-link nav-link">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="page-header">
+    <h1 class="page-title">Apply for <span>100% Free Internship</span></h1>
+  </section>
+
+  <section class="form-wrapper">
+    
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){handleResponse();}"></iframe>
+    
+    <form id="applicationForm" action="https://script.google.com/macros/s/AKfycbxfdBflSujerNzavhsumzVghwP49Ctz1fAklfM2dyVeaWAZdW0JcfFCiLgCKpWDuV06/exec" method="POST" target="hidden_iframe" onsubmit="return handleSubmit();">
+      
+      <div class="three-box-grid" id="formGrid">
+        
+        <div class="form-box">
+          <div class="box-header">
+            <i class="fa-solid fa-user"></i>
+            <span>1. Personal Details</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="fullName">
+              Full Name <span class="req">*</span>
+            </label>
+            <input type="text" id="fullName" name="fullName" class="form-control" placeholder="John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">
+              Official Email <span class="req">*</span>
+            </label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phone">
+              Phone Number <span class="req">*</span>
+            </label>
+            <input type="tel" id="phone" name="phone" class="form-control" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
+          </div>
+        </div>
+
+        <div class="form-box">
+          <div class="box-header">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>2. Academic Background</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="institution">
+              Institution Name <span class="req">*</span>
+            </label>
+            <input type="text" id="institution" name="institution" class="form-control" placeholder="College or University" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="department">
+              Department <span class="req">*</span>
+            </label>
+            <input type="text" id="department" name="department" class="form-control" placeholder="e.g. Computer Science" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="gradYear">
+              Graduation Year <span class="req">*</span>
+            </label>
+            <input type="text" id="gradYear" name="gradYear" class="form-control" placeholder="e.g. 2026" pattern="[0-9]{4}" required>
+          </div>
+        </div>
+
+        <div class="form-box">
+          <div class="box-header">
+            <i class="fa-solid fa-sliders"></i>
+            <span>3. Program & Terms</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              Domain Choice <span class="req">*</span>
+            </label>
+            <input type="hidden" id="domain" name="domain" required>
+            <div class="custom-dropdown" id="domainDropdown">
+              <div class="custom-dropdown-trigger">
+                <span class="selected-text">Select a domain...</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <ul class="custom-dropdown-menu">
+                <li class="custom-dropdown-option" data-value="Web Development">Web Development</li>
+                <li class="custom-dropdown-option" data-value="Artificial Intelligence">Artificial Intelligence</li>
+                <li class="custom-dropdown-option" data-value="Machine Learning / Deep Learning">Machine Learning / Deep Learning</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              Internship Period <span class="req">*</span>
+            </label>
+            <input type="hidden" id="duration" name="duration" required>
+            <div class="custom-dropdown" id="durationDropdown">
+              <div class="custom-dropdown-trigger">
+                <span class="selected-text">Select duration...</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <ul class="custom-dropdown-menu">
+                <li class="custom-dropdown-option" data-value="15 Days">15 Days</li>
+                <li class="custom-dropdown-option" data-value="30 Days">30 Days</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              Commercial Terms <span class="req">*</span>
+            </label>
+            <div class="options-stack">
+              <label class="custom-option">
+                <input type="checkbox" name="terms" value="Accepted" required>
+                <span class="option-text">
+                  I agree that to receive the Certificate, I must submit a fully functional project by the deadline. I grant EarlyCraft EdTech rights to all submitted project assets.
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="submit-container" id="submitBtnContainer">
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span>Submit Application</span>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+
+    </form>
+
+    <div id="submission-banner">
+      <div class="success-icon-wrapper">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h2 class="banner-title">Application <span>Received!</span></h2>
+      <p class="banner-text">
+        Your application has been logged successfully. Further instructions and program onboarding details will be delivered to your inbox within two days.
+      </p>
+    </div>
+
+  </section>
+
+  <footer class="footer-bar">
+    <div class="footer-rights">
+      <span class="footer-brand">EarlyCraft EdTech</span> &copy; All Rights Reserved
+    </div>
+    <div class="footer-contacts">
+      <a href="tel:7010885804" class="footer-pill">
+        <i class="fa-solid fa-phone"></i> +91 7010885804
+      </a>
+      <a href="mailto:earlycraftedtech@gmail.com" class="footer-pill">
+        <i class="fa-solid fa-envelope"></i> earlycraftedtech@gmail.com
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    let submitted = false;
+
+    // FORCE HARD RESET SCROLL TO TOP
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
+
+    // 1. PAGE ENTER PIPELINE MATCHING INDEX.HTML
+    window.addEventListener("DOMContentLoaded", () => {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+        requestAnimationFrame(() => {
+          document.body.classList.add("page-loaded");
+          document.documentElement.style.scrollBehavior = 'smooth';
+        });
+      });
+    });
+
+    // 2. PAGE EXIT & MOBILE MENU ENGINE
+    document.addEventListener("DOMContentLoaded", () => {
+      const mobileNavToggle = document.getElementById("mobileNavToggle");
+      const navLinksMenu = document.getElementById("navLinks");
+      const toggleIcon = document.getElementById("toggleIcon");
+
+      if (mobileNavToggle && navLinksMenu) {
+        mobileNavToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navLinksMenu.classList.toggle("active");
+          const isOpen = navLinksMenu.classList.contains("active");
+          toggleIcon.classList.toggle("fa-bars", !isOpen);
+          toggleIcon.classList.toggle("fa-xmark", isOpen);
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!mobileNavToggle.contains(e.target) && !navLinksMenu.contains(e.target)) {
+            navLinksMenu.classList.remove("active");
+            toggleIcon.classList.remove("fa-xmark");
+            toggleIcon.classList.add("fa-bars");
+          }
+        });
+      }
+
+      const navLinks = document.querySelectorAll(".nav-link");
+      navLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+          const targetUrl = link.getAttribute("href");
+          if (!targetUrl || targetUrl.startsWith("#") || targetUrl.startsWith("javascript")) return;
+
+          e.preventDefault();
+          if (navLinksMenu) navLinksMenu.classList.remove("active");
+          if (toggleIcon) {
+            toggleIcon.classList.remove("fa-xmark");
+            toggleIcon.classList.add("fa-bars");
+          }
+          document.body.classList.remove("page-loaded");
+          document.body.classList.add("page-exiting");
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 420);
+        });
+      });
+
+      // 3. CUSTOM THEMED DROPDOWNS ENGINE
+      const setupDropdown = (dropdownId, hiddenInputId) => {
+        const dropdown = document.getElementById(dropdownId);
+        if (!dropdown) return;
+        const trigger = dropdown.querySelector('.custom-dropdown-trigger');
+        const selectedText = dropdown.querySelector('.selected-text');
+        const options = dropdown.querySelectorAll('.custom-dropdown-option');
+        const hiddenInput = document.getElementById(hiddenInputId);
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.custom-dropdown').forEach(d => {
+            if (d !== dropdown) d.classList.remove('open');
+          });
+          dropdown.classList.toggle('open');
+        });
+
+        options.forEach(option => {
+          option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = option.getAttribute('data-value');
+            const label = option.textContent;
+
+            hiddenInput.value = val;
+            selectedText.textContent = label;
+            trigger.classList.add('has-value');
+
+            options.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+
+            dropdown.classList.remove('open');
+          });
+        });
+      };
+
+      setupDropdown('domainDropdown', 'domain');
+      setupDropdown('durationDropdown', 'duration');
+
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('open'));
+      });
+    });
+
+    // 4. FORM SUBMISSION & SMOOTH TRANSITION ENGINE
+    function handleSubmit() {
+      const phoneInput = document.getElementById('phone');
+      const phoneValue = phoneInput.value.trim();
+      const domainValue = document.getElementById('domain').value;
+      const durationValue = document.getElementById('duration').value;
+      
+      if (!/^\d{10}$/.test(phoneValue)) {
+        alert("Please enter a valid 10-digit phone number.");
+        phoneInput.focus();
+        return false;
+      }
+
+      if (!domainValue) {
+        alert("Please select a Domain Choice.");
+        document.getElementById('domainDropdown').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
+
+      if (!durationValue) {
+        alert("Please select an Internship Period.");
+        document.getElementById('durationDropdown').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
+
+      submitted = true;
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Submitting Application...</span><i class="fa-solid fa-spinner fa-spin"></i>';
+      return true;
+    }
+
+    function handleResponse() {
+      const formGrid = document.getElementById('formGrid');
+      const submitContainer = document.getElementById('submitBtnContainer');
+      const banner = document.getElementById('submission-banner');
+
+      if (formGrid) formGrid.classList.add('form-collapsing');
+      if (submitContainer) submitContainer.classList.add('form-collapsing');
+
+      setTimeout(() => {
+        if (formGrid) formGrid.style.display = 'none';
+        if (submitContainer) submitContainer.style.display = 'none';
+        
+        if (banner) {
+          banner.classList.add('show-3d');
+          banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500);
+    }
+
+    // 5. BACKGROUND CANVAS PARTICLES / WAVE ENGINE
+    const canvas = document.getElementById('wave-canvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.4;
+          this.vy = (Math.random() - 0.5) * 0.4;
+          this.radius = Math.random() * 2 + 1;
+          this.alpha = Math.random() * 0.5 + 0.1;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(2, 132, 199, ${this.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 45; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+  </script>
+</body>
+</html>
