@@ -57,6 +57,35 @@
       word-break: keep-all !important;
       overflow-wrap: break-word !important;
     }
+
+    /* Responsive Document Preview Wrapper for Mobile Views */
+    .doc-preview-wrapper {
+      width: 100%;
+      background: #e2e8f0;
+      padding: 20px 10px;
+      border-radius: 16px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .doc-scale-container {
+      width: 794px;
+      height: 1120px;
+      transform-origin: top center;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    /* Dynamic viewport adjustment for mobile devices */
+    @media (max-width: 840px) {
+      .doc-preview-wrapper {
+        padding: 12px 5px;
+      }
+    }
   </style>
 
   <script>
@@ -239,68 +268,71 @@
         </button>
       </div>
 
-      <div style="width: 100%; overflow-x: auto; background: #e2e8f0; padding: 25px; border-radius: 16px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); display: flex; justify-content: center;">
-        
-        <div id="offerLetterDocument" style="width: 794px; height: 1120px; background: #ffffff; padding: 45px 50px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', Arial, sans-serif; color: #0f172a; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 4px; flex-shrink: 0; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; page-break-after: avoid; page-break-inside: avoid;">
+      <div class="doc-preview-wrapper" id="docPreviewWrapper">
+        <div class="doc-scale-container" id="docScaleContainer">
           
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 18px; margin-bottom: 25px;">
-              
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <img id="doc-logo-img" src="assets/logo.png" alt="Logo" style="height: 50px; width: auto; object-fit: contain;">
-                <img id="doc-logofont-img" src="assets/logofont.png" alt="EarlyCraft" style="height: 40px; width: auto; object-fit: contain;">
-              </div>
-
-              <div style="text-align: right; color: #334155; font-size: 13px; line-height: 1.4;">
-                <div style="font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 2px;">OFFER LETTER</div>
-                <div style="font-weight: 600;">REF NO.: <span id="pdf-ref-id">EC/2026/00000000</span></div>
-                <div style="font-weight: 600;">DATE: <span id="pdf-issue-date">DD-MMM-YYYY</span></div>
-              </div>
-            </div>
-
-            <div class="document-body-text" style="font-size: 13.5px; color: #1e293b; width: 100%;">
-              
-              <p style="font-size: 15.5px; font-weight: 700; margin-bottom: 18px; text-align: left !important;">
-                Dear <span id="pdf-candidate-name">Candidate</span>,
-              </p>
-
-              <p>
-                Congratulations! We are pleased to offer you a <strong>Virtual Internship</strong> at <strong>EarlyCraft EdTech</strong> in the domain of <strong id="pdf-domain">Domain</strong> for a duration of <strong id="pdf-duration">15 Days</strong>.
-              </p>
-
-              <p>
-                Throughout this program, you will expand your technical capabilities by developing industry-aligned projects tailored to your track. To qualify for successful completion, you will be expected to complete all assigned milestones and submit your technical codebase alongside a structured project summary.
-              </p>
-
-              <p>
-                Following your project submission, you will participate in an interactive technical evaluation hosted via an Online Meet. This session includes a brief Viva Voce designed to discuss your project design choices, code implementation, and problem-solving framework.
-              </p>
-
-              <p>
-                Based on your evaluation performance, your official <strong>Certificate of Completion</strong> will feature a Gold Badge, Silver Badge, or Bronze Badge, and will be verified and issued.
-              </p>
-
-              <p>
-                By accepting this offer, you agree that your project submissions may be archived, referenced, or showcased as part of EarlyCraft EdTech’s open learning and platform development initiatives. You retain personal portfolio rights to demonstrate your contributions.
-              </p>
-
-              <p style="margin-bottom: 12px;">
-                We are thrilled to welcome you to EarlyCraft EdTech and look forward to supporting your professional growth.
-              </p>
-
-            </div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 10px;">
+          <div id="offerLetterDocument" style="width: 794px; height: 1120px; background: #ffffff; padding: 45px 50px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', Arial, sans-serif; color: #0f172a; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 4px; flex-shrink: 0; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; page-break-after: avoid; page-break-inside: avoid;">
             
-            <div style="display: flex; align-items: center;">
-              <img id="doc-msme-img" src="assets/msmelogo.png" alt="MSME Registered" style="height: 90px; width: auto; object-fit: contain;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 18px; margin-bottom: 25px;">
+                
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <img id="doc-logo-img" src="assets/logo.png" alt="Logo" style="height: 50px; width: auto; object-fit: contain;">
+                  <img id="doc-logofont-img" src="assets/logofont.png" alt="EarlyCraft" style="height: 40px; width: auto; object-fit: contain;">
+                </div>
+
+                <div style="text-align: right; color: #334155; font-size: 13px; line-height: 1.4;">
+                  <div style="font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 2px;">OFFER LETTER</div>
+                  <div style="font-weight: 600;">REF NO.: <span id="pdf-ref-id">EC/2026/00000000</span></div>
+                  <div style="font-weight: 600;">DATE: <span id="pdf-issue-date">DD-MMM-YYYY</span></div>
+                </div>
+              </div>
+
+              <div class="document-body-text" style="font-size: 13.5px; color: #1e293b; width: 100%;">
+                
+                <p style="font-size: 15.5px; font-weight: 700; margin-bottom: 18px; text-align: left !important;">
+                  Dear <span id="pdf-candidate-name">Candidate</span>,
+                </p>
+
+                <p>
+                  Congratulations! We are pleased to offer you a <strong>Virtual Internship</strong> at <strong>EarlyCraft EdTech</strong> in the domain of <strong id="pdf-domain">Domain</strong> for a duration of <strong id="pdf-duration">Duration</strong>.
+                </p>
+
+                <p>
+                  Throughout this program, you will expand your technical capabilities by developing industry-aligned projects tailored to your track. To qualify for successful completion, you will be expected to complete all assigned milestones and submit your technical codebase alongside a structured project summary.
+                </p>
+
+                <p>
+                  Following your project submission, you will participate in an interactive technical evaluation hosted via an Online Meet. This session includes a brief Viva Voce designed to discuss your project design choices, code implementation, and problem-solving framework.
+                </p>
+
+                <p>
+                  Based on your evaluation performance, your official <strong>Certificate of Completion</strong> will feature a Gold Badge, Silver Badge, or Bronze Badge, and will be verified and issued.
+                </p>
+
+                <p>
+                  By accepting this offer, you agree that your project submissions may be archived, referenced, or showcased as part of EarlyCraft EdTech’s open learning and platform development initiatives. You retain personal portfolio rights to demonstrate your contributions.
+                </p>
+
+                <p style="margin-bottom: 12px;">
+                  We are thrilled to welcome you to EarlyCraft EdTech and look forward to supporting your professional growth.
+                </p>
+
+              </div>
             </div>
 
-            <div style="text-align: center;">
-              <img id="doc-digsign-img" src="assets/digsign.png" alt="Signature" style="height: 48px; width: auto; object-fit: contain; display: block; margin: 0 auto 4px auto;">
-              <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">Founder & CEO</div>
-              <div style="font-size: 12px; color: #64748b; font-weight: 600;">EarlyCraft EdTech</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 10px;">
+              
+              <div style="display: flex; align-items: center;">
+                <img id="doc-msme-img" src="assets/msmelogo.png" alt="MSME Registered" style="height: 90px; width: auto; object-fit: contain;">
+              </div>
+
+              <div style="text-align: center;">
+                <img id="doc-digsign-img" src="assets/digsign.png" alt="Signature" style="height: 48px; width: auto; object-fit: contain; display: block; margin: 0 auto 4px auto;">
+                <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">Founder & CEO</div>
+                <div style="font-size: 12px; color: #64748b; font-weight: 600;">EarlyCraft EdTech</div>
+              </div>
+
             </div>
 
           </div>
@@ -330,6 +362,24 @@
     window.onbeforeunload = function () {
       window.scrollTo(0, 0);
     };
+
+    function adaptMobilePreviewScale() {
+      const wrapper = document.getElementById('docPreviewWrapper');
+      const scaleContainer = document.getElementById('docScaleContainer');
+      if (!wrapper || !scaleContainer) return;
+
+      const availableWidth = wrapper.clientWidth - 20; // 10px padding each side
+      const docWidth = 794; // Target A4 Width
+
+      if (availableWidth < docWidth) {
+        const scale = availableWidth / docWidth;
+        scaleContainer.style.transform = `scale(${scale})`;
+        wrapper.style.height = `${1120 * scale + 30}px`;
+      } else {
+        scaleContainer.style.transform = 'scale(1)';
+        wrapper.style.height = 'auto';
+      }
+    }
 
     function convertImgToBase64(imgElement) {
       return new Promise((resolve) => {
@@ -361,6 +411,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       window.scrollTo(0, 0);
+      window.addEventListener('resize', adaptMobilePreviewScale);
 
       const mobileNavToggle = document.getElementById("mobileNavToggle");
       const navLinksMenu = document.getElementById("navLinks");
@@ -491,6 +542,9 @@
         const successSection = document.getElementById('successSection');
         successSection.style.display = 'block';
         successSection.classList.add('success-card-entrance');
+
+        // Dynamically recalculate scale for preview on mobile render
+        adaptMobilePreviewScale();
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 350);
