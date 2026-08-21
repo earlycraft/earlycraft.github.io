@@ -805,6 +805,4 @@ img {
     gap: clamp(25px, 4vw, 50px);
     padding-right: clamp(25px, 4vw, 50px);
   }
-
-  
 }
