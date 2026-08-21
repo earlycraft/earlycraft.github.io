@@ -10,6 +10,39 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="styles/internship.css" />
+
+  <style>
+    /* Inline Lifecycle & Animation Enhancements */
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .animate-entry {
+      animation: fadeInScale 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .fade-out-collapse {
+      opacity: 0 !important;
+      transform: translateY(-10px) !important;
+      transition: opacity 0.35s ease, transform 0.35s ease !important;
+      pointer-events: none;
+    }
+
+    .success-card-entrance {
+      animation: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
 
   <script>
     if ('scrollRestoration' in history) {
@@ -17,700 +50,8 @@
     }
     window.scrollTo(0, 0);
   </script>
-
-  <style>
-    :root {
-      --bg-main: #f8fafc;
-      --surface-card: #ffffff;
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #64748b;
-      
-      --brand-primary: #0284c7;
-      --brand-secondary: #2563eb;
-      --brand-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-      
-      --border-color: #e2e8f0;
-      --border-focus: #3b82f6;
-      --ring-focus: rgba(59, 130, 246, 0.15);
-      --glass-border: rgba(15, 23, 42, 0.08);
-      
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-      
-      --nav-height: 80px;
-    }
-
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
-    } 
-    
-    html {
-      background-color: var(--bg-main);
-      min-height: 100%;
-      scroll-behavior: auto;
-    }
-
-    /* PAGE TRANSITIONS & CANVAS ENHANCEMENTS */
-    body {
-      background-color: var(--bg-main) !important;
-      min-height: 100vh;
-      width: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-      color: var(--text-primary);
-      padding-top: var(--nav-height);
-      
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-
-      opacity: 0;
-      transform: scale(0.96) translateY(24px) rotateX(4deg);
-      filter: blur(12px) brightness(1.1);
-      transform-origin: center top;
-      transition: 
-        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform, filter;
-    }
-
-    body.page-loaded { 
-      opacity: 1; 
-      transform: scale(1) translateY(0) rotateX(0deg);
-      filter: blur(0px) brightness(1);
-    }
-
-    body.page-exiting { 
-      opacity: 0; 
-      transform: scale(1.04) translateY(-28px) rotateX(-3deg); 
-      filter: blur(14px) brightness(0.92);
-      transition: 
-        opacity 0.45s cubic-bezier(0.7, 0, 0.84, 0),
-        transform 0.45s cubic-bezier(0.7, 0, 0.84, 0),
-        filter 0.45s cubic-bezier(0.7, 0, 0.84, 0);
-      pointer-events: none; 
-    }
-
-    img {
-      -webkit-user-drag: none;
-      pointer-events: none;
-    }
-
-    /* NAVIGATION BAR MATCHING INDEX.HTML */
-    .navbar-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: var(--nav-height);
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 5%;
-      transition: all 0.4s ease;
-    }
-
-    .navbar-container {
-      width: 100%;
-      max-width: 1300px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--glass-border);
-      border-radius: 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1.5rem;
-      position: relative;
-      transition: all 0.3s ease;
-      box-shadow: 
-        0 10px 30px -10px rgba(15, 23, 42, 0.05),
-        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .nav-brand-logo {
-      height: 36px;
-      width: auto;
-      object-fit: contain;
-      border-radius: 8px;
-    }
-
-    .nav-brand-font {
-      height: 28px;
-      width: auto;
-      object-fit: contain;
-      display: block;
-    }
-
-    .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
-
-    .nav-item-link {
-      position: relative;
-      padding: 0.55rem 1.25rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.92rem;
-      border-radius: 30px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .nav-item-link:hover { color: var(--brand-primary); background: rgba(2, 132, 199, 0.06); }
-
-    .nav-item-link.active {
-      color: #ffffff !important;
-      background: var(--brand-gradient);
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-    }
-
-    .page-header,
-    .form-wrapper,
-    .footer-bar {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* MOBILE NAVIGATION TOGGLE */
-    .mobile-nav-toggle {
-      display: none;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.35rem;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-      z-index: 1001;
-    }
-
-    .mobile-nav-toggle:hover {
-      background: rgba(2, 132, 199, 0.08);
-      color: var(--brand-primary);
-    }
-
-    /* PAGE HEADER */
-    .page-header {
-      text-align: center;
-      padding: clamp(2.5rem, 5vh, 3.5rem) 5% 1rem;
-    }
-
-    .page-title {
-      font-size: clamp(2rem, 3vw, 3rem);
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-    }
-
-    .page-title span {
-      background: var(--brand-gradient);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* FORM & GRID LAYOUT */
-    .form-wrapper {
-      width: 100%;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 1.5rem 1.5rem 4rem;
-      perspective: 1200px;
-    }
-
-    .three-box-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      align-items: stretch;
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .form-box {
-      background: var(--surface-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 1.75rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .form-box:hover {
-      border-color: #cbd5e1;
-      box-shadow: var(--shadow-md);
-    }
-
-    .box-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid #f1f5f9;
-      color: var(--brand-secondary);
-      font-weight: 700;
-      font-size: 1.05rem;
-    }
-
-    .box-header i { font-size: 1.1rem; }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .form-label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .form-label span.req { color: #ef4444; }
-
-    .form-control {
-      width: 100%;
-      padding: 0.75rem 0.9rem;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: #ffffff;
-      color: var(--text-primary);
-      font-size: 0.925rem;
-      font-weight: 500;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .form-control::placeholder {
-      color: #94a3b8;
-    }
-
-    .form-control:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 4px var(--ring-focus);
-    }
-
-    /* CUSTOM THEMED DROPDOWN STYLES */
-    .custom-dropdown {
-      position: relative;
-      width: 100%;
-    }
-
-    .custom-dropdown-trigger {
-      width: 100%;
-      padding: 0.75rem 0.9rem;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: #ffffff;
-      color: #94a3b8;
-      font-size: 0.925rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .custom-dropdown-trigger.has-value {
-      color: var(--text-primary);
-    }
-
-    .custom-dropdown-trigger:hover {
-      border-color: #cbd5e1;
-    }
-
-    .custom-dropdown.open .custom-dropdown-trigger {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 4px var(--ring-focus);
-    }
-
-    .custom-dropdown-trigger i {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .custom-dropdown.open .custom-dropdown-trigger i {
-      transform: rotate(180deg);
-      color: var(--brand-primary);
-    }
-
-    .custom-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      box-shadow: 0 12px 30px -5px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
-      padding: 6px;
-      z-index: 100;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px) scale(0.98);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      list-style: none;
-    }
-
-    .custom-dropdown.open .custom-dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-    }
-
-    .custom-dropdown-option {
-      padding: 0.65rem 0.85rem;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.2s ease;
-    }
-
-    .custom-dropdown-option:hover {
-      background: rgba(2, 132, 199, 0.08);
-      color: var(--brand-primary);
-    }
-
-    .custom-dropdown-option.selected {
-      background: var(--brand-gradient);
-      color: #ffffff;
-    }
-
-    /* CHECKBOX OPTION */
-    .options-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .custom-option {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 0.75rem 0.85rem;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: #f8fafc;
-      cursor: pointer;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .custom-option:hover {
-      background: #ffffff;
-      border-color: #cbd5e1;
-    }
-
-    .custom-option:has(input:checked) {
-      background: #ffffff;
-      border-color: var(--brand-secondary);
-      box-shadow: 0 0 0 1px var(--brand-secondary);
-    }
-
-    .custom-option input[type="checkbox"] {
-      margin-top: 3px;
-      accent-color: var(--brand-secondary);
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
-    .option-text {
-      font-size: 0.825rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      line-height: 1.45;
-    }
-
-    /* SUBMIT BUTTON WITH SHIMMER & SHADOW HOVER */
-    .submit-container {
-      width: 100%;
-      max-width: 480px;
-      margin: 2.2rem auto 0;
-      transition: transform 0.5s ease, opacity 0.5s ease;
-    }
-
-    .btn-submit {
-      width: 100%;
-      background: var(--brand-gradient);
-      color: #ffffff;
-      padding: clamp(0.95rem, 1.2vw, 1.15rem);
-      border: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: clamp(1rem, 1.1vw, 1.15rem);
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-submit::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-      transform: rotate(30deg) translateY(-100%);
-      transition: transform 0.6s ease;
-    }
-
-    .btn-submit:hover::after {
-      transform: rotate(30deg) translateY(100%);
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
-      filter: brightness(1.05);
-    }
-
-    .btn-submit:active {
-      transform: translateY(-1px) scale(0.99);
-    }
-
-    .btn-submit:disabled {
-      opacity: 0.85;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* FORM FADE-OUT ANIMATION ON SUBMISSION */
-    .form-collapsing {
-      opacity: 0;
-      transform: scale(0.95) translateY(-20px) rotateX(10deg);
-      pointer-events: none;
-    }
-
-    /* HIGH-IMPACT 3D SUCCESS BANNER */
-    #submission-banner {
-      display: none;
-      opacity: 0;
-      padding: clamp(2.5rem, 5vw, 4rem) 2rem;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 249, 255, 0.9) 100%);
-      border: 1px solid rgba(2, 132, 199, 0.25);
-      border-radius: 28px;
-      text-align: center;
-      max-width: 680px;
-      margin: 1rem auto;
-      box-shadow: 
-        0 25px 50px -12px rgba(2, 132, 199, 0.25),
-        0 0 40px rgba(37, 99, 235, 0.15);
-      backdrop-filter: blur(16px);
-      transform-style: preserve-3d;
-      transform: rotateX(-20px) translateY(40px) scale(0.9);
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-    }
-
-    #submission-banner.show-3d {
-      display: block;
-      opacity: 1;
-      transform: rotateX(0deg) translateY(0) scale(1);
-    }
-
-    .success-icon-wrapper {
-      width: 88px;
-      height: 88px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      color: #ffffff;
-      font-size: 2.5rem;
-      box-shadow: 
-        0 12px 30px rgba(16, 185, 129, 0.4),
-        0 0 0 8px rgba(16, 185, 129, 0.15);
-      animation: floatBadge 4s ease-in-out infinite, pulseGlow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatBadge {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(5deg); }
-    }
-
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4), 0 0 0 8px rgba(16, 185, 129, 0.15); }
-      100% { box-shadow: 0 18px 40px rgba(16, 185, 129, 0.6), 0 0 0 16px rgba(16, 185, 129, 0.05); }
-    }
-
-    .banner-title {
-      font-size: clamp(2rem, 3.5vw, 2.75rem);
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .banner-title span {
-      background: linear-gradient(135deg, #10b981 0%, #0284c7 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .banner-text {
-      font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-weight: 600;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    /* FOOTER */
-    .footer-bar {
-      position: relative;
-      margin: 2rem auto 2.5rem;
-      width: 84%;
-      max-width: 1400px;
-      padding: 0.85rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-      border: 1px solid var(--glass-border);
-      border-radius: 50px;
-      background: var(--surface-card);
-      backdrop-filter: blur(16px);
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .footer-rights { display: flex; align-items: center; gap: 6px; }
-    .footer-brand { color: var(--text-primary); font-weight: 700; letter-spacing: 0.2px; }
-    .footer-contacts { display: flex; gap: 1rem; }
-
-    .footer-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0.4rem 1rem;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid var(--glass-border);
-      border-radius: 30px;
-      color: var(--text-primary);
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .footer-pill:hover {
-      background: #ffffff;
-      border-color: var(--brand-primary);
-      color: var(--brand-primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
-    }
-
-    .footer-pill i { color: var(--brand-primary); transition: transform 0.3s ease; }
-    .footer-pill:hover i { transform: scale(1.1); }
-
-    /* RESPONSIVE LAYOUT MATCHING INDEX.HTML */
-    @media (max-width: 992px) {
-      .navbar-container { padding: 0 1.2rem; }
-      .three-box-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      :root { --nav-height: 70px; }
-      .navbar-wrapper { padding: 0 4%; }
-      .mobile-nav-toggle { display: block; }
-      .nav-brand-font { height: 22px; }
-
-      .nav-links {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        width: 240px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(25px) saturate(180%);
-        -webkit-backdrop-filter: blur(25px) saturate(180%);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.12);
-        flex-direction: column;
-        padding: 1rem;
-        gap: 0.5rem;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-12px) scale(0.95);
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 1000;
-      }
-
-      .nav-links.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0) scale(1);
-      }
-
-      .nav-links li { width: 100%; }
-      .nav-item-link {
-        display: block;
-        width: 100%;
-        text-align: center;
-        padding: 0.75rem 1rem;
-      }
-
-      .footer-bar { 
-        width: 92%; 
-        flex-direction: column; 
-        gap: 0.8rem; 
-        text-align: center; 
-        padding: 0.8rem 1.2rem; 
-        border-radius: 20px; 
-      }
-      .footer-contacts { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
-      .footer-pill { font-size: 0.78rem; padding: 0.3rem 0.8rem; }
-    }
-  </style>
 </head>
-<body>
+<body class="animate-entry">
 
   <header class="navbar-wrapper">
     <nav class="navbar-container">
@@ -731,19 +72,17 @@
     </nav>
   </header>
 
-  <section class="page-header">
+  <section class="page-header" id="pageHeader">
     <h1 class="page-title">Apply for <span>100% Free Internship</span></h1>
   </section>
 
   <section class="form-wrapper">
     
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){handleResponse();}"></iframe>
-    
-    <form id="applicationForm" action="https://script.google.com/macros/s/AKfycbxfdBflSujerNzavhsumzVghwP49Ctz1fAklfM2dyVeaWAZdW0JcfFCiLgCKpWDuV06/exec" method="POST" target="hidden_iframe" onsubmit="return handleSubmit();">
+    <form id="applicationForm" onsubmit="return handleFormSubmit(event);">
       
       <div class="three-box-grid" id="formGrid">
         
-        <div class="form-box">
+        <div class="form-box box-theme-green">
           <div class="box-header">
             <i class="fa-solid fa-user"></i>
             <span>1. Personal Details</span>
@@ -767,14 +106,14 @@
             <label class="form-label" for="phone">
               Phone Number <span class="req">*</span>
             </label>
-            <input type="tel" id="phone" name="phone" class="form-control" placeholder="e.g. 7010885804" pattern="[0-9]{10}" maxlength="10" required>
+            <input type="tel" id="phone" name="phone" class="form-control" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
           </div>
         </div>
 
-        <div class="form-box">
+        <div class="form-box box-theme-green">
           <div class="box-header">
             <i class="fa-solid fa-graduation-cap"></i>
-            <span>2. Academic Background</span>
+            <span>2. Academic Details</span>
           </div>
 
           <div class="form-group">
@@ -799,7 +138,7 @@
           </div>
         </div>
 
-        <div class="form-box">
+        <div class="form-box box-theme-green">
           <div class="box-header">
             <i class="fa-solid fa-sliders"></i>
             <span>3. Program & Terms</span>
@@ -842,13 +181,13 @@
 
           <div class="form-group">
             <label class="form-label">
-              Commercial Terms <span class="req">*</span>
+              Terms & Conditions <span class="req">*</span>
             </label>
             <div class="options-stack">
               <label class="custom-option">
                 <input type="checkbox" name="terms" value="Accepted" required>
                 <span class="option-text">
-                  I agree that to receive the Certificate, I must submit a fully functional project by the deadline. I grant EarlyCraft EdTech rights to all submitted project assets.
+                  I agree to complete and submit my project deliverables by the deadline. I grant EarlyCraft EdTech a non-exclusive, royalty-free license to feature, archive, and utilize submitted project work for platform development, educational showcase, and internal evaluation purposes.
                 </span>
               </label>
             </div>
@@ -866,14 +205,94 @@
 
     </form>
 
-    <div id="submission-banner">
-      <div class="success-icon-wrapper">
-        <i class="fa-solid fa-check"></i>
+    <div id="successSection" style="display: none; width: 100%; max-width: 900px; margin: 0 auto;">
+      
+      <div style="text-align: center; margin-bottom: 25px;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #10b981; color: #ffffff; border-radius: 50%; font-size: 28px; margin-bottom: 12px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 style="font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Application Submitted Successfully!</h2>
+        <p style="color: #475569; font-size: 15px; font-weight: 500;">
+          Your official Offer Letter has been generated below. You can download a copy using the button below.
+        </p>
       </div>
-      <h2 class="banner-title">Application <span>Received!</span></h2>
-      <p class="banner-text">
-        Your application has been logged successfully. Further instructions will be delivered to your inbox within two days.
-      </p>
+
+      <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+        <button id="downloadPdfBtn" onclick="downloadPDF();" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 16px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35); transition: transform 0.2s ease;">
+          <i class="fa-solid fa-file-arrow-down"></i>
+          <span>Download Offer Letter (PDF)</span>
+        </button>
+      </div>
+
+      <div style="width: 100%; overflow-x: auto; background: #e2e8f0; padding: 25px; border-radius: 16px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); display: flex; justify-content: center;">
+        
+        <div id="offerLetterDocument" style="width: 794px; height: 1120px; background: #ffffff; padding: 45px 50px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', Arial, sans-serif; color: #0f172a; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 4px; flex-shrink: 0; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; page-break-after: avoid; page-break-inside: avoid;">
+          
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 18px; margin-bottom: 25px;">
+              
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <img id="doc-logo-img" src="assets/logo.png" alt="Logo" style="height: 50px; width: auto; object-fit: contain;">
+                <img id="doc-logofont-img" src="assets/logofont.png" alt="EarlyCraft" style="height: 40px; width: auto; object-fit: contain;">
+              </div>
+
+              <div style="text-align: right; color: #334155; font-size: 13px; line-height: 1.4;">
+                <div style="font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 2px;">OFFER LETTER</div>
+                <div style="font-weight: 600;">REF NO.: <span id="pdf-ref-id">EC/2026/00000000</span></div>
+                <div style="font-weight: 600;">DATE: <span id="pdf-issue-date">21-AUG-2026</span></div>
+              </div>
+            </div>
+
+            <div style="font-size: 13.5px; line-height: 1.68; color: #1e293b;">
+              
+              <p style="font-size: 15.5px; font-weight: 700; margin-bottom: 16px; text-align: left;">
+                Dear <span id="pdf-candidate-name">Candidate</span>,
+              </p>
+
+              <p style="margin-bottom: 14px; text-align: justify; text-justify: inter-word;">
+                Congratulations! We are pleased to offer you a <strong>Virtual Internship</strong> at <strong>EarlyCraft EdTech</strong> in the domain of <strong id="pdf-domain">Web Development</strong> for a duration of <strong id="pdf-duration">30 Days</strong>, representing <strong><span id="pdf-institution">Institution</span></strong> (<span id="pdf-department">Department</span>).
+              </p>
+
+              <p style="margin-bottom: 14px; text-align: justify; text-justify: inter-word;">
+                Throughout this program, you will expand your technical capabilities by developing industry-aligned projects tailored to your track. To qualify for successful completion, you will be expected to complete all assigned milestones and submit your technical codebase alongside a structured project summary.
+              </p>
+
+              <p style="margin-bottom: 14px; text-align: justify; text-justify: inter-word;">
+                Following your project submission, you will participate in an interactive technical evaluation hosted via <strong>Google Meet</strong>. This session includes a brief <strong>Viva Voce</strong> designed to discuss your project design choices, code implementation, and problem-solving framework.
+              </p>
+
+              <p style="margin-bottom: 14px; text-align: justify; text-justify: inter-word;">
+                Upon successful evaluation, your official <strong>Certificate of Completion</strong> will be verified and issued within 2 business days.
+              </p>
+
+              <p style="margin-bottom: 14px; text-align: justify; text-justify: inter-word;">
+                By accepting this offer, you agree that your project submissions may be archived, referenced, or showcased as part of EarlyCraft EdTech’s open learning and platform development initiatives. You retain personal portfolio rights to demonstrate your contributions.
+              </p>
+
+              <p style="margin-bottom: 10px; text-align: justify; text-justify: inter-word;">
+                We are thrilled to welcome you to EarlyCraft EdTech and look forward to supporting your professional growth.
+              </p>
+
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 10px;">
+            
+            <div style="display: flex; align-items: center;">
+              <img id="doc-msme-img" src="assets/msmelogo.png" alt="MSME Registered" style="height: 90px; width: auto; object-fit: contain;">
+            </div>
+
+            <div style="text-align: center;">
+              <img id="doc-digsign-img" src="assets/digsign.png" alt="Signature" style="height: 48px; width: auto; object-fit: contain; display: block; margin: 0 auto 4px auto;">
+              <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">Founder & CEO</div>
+              <div style="font-size: 12px; color: #64748b; font-weight: 600;">EarlyCraft EdTech</div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
   </section>
@@ -893,27 +312,41 @@
   </footer>
 
   <script>
-    let submitted = false;
-
-    // FORCE HARD RESET SCROLL TO TOP
     window.onbeforeunload = function () {
       window.scrollTo(0, 0);
     };
 
-    // 1. PAGE ENTER PIPELINE MATCHING INDEX.HTML
-    window.addEventListener("DOMContentLoaded", () => {
-      window.scrollTo(0, 0);
-      requestAnimationFrame(() => {
-        window.scrollTo(0, 0);
-        requestAnimationFrame(() => {
-          document.body.classList.add("page-loaded");
-          document.documentElement.style.scrollBehavior = 'smooth';
-        });
-      });
-    });
+    function convertImgToBase64(imgElement) {
+      return new Promise((resolve) => {
+        if (!imgElement || !imgElement.src || imgElement.src.startsWith('data:image')) {
+          return resolve();
+        }
 
-    // 2. PAGE EXIT & MOBILE MENU ENGINE
+        const tempImg = new Image();
+        tempImg.crossOrigin = 'Anonymous';
+        tempImg.onload = function () {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = tempImg.naturalWidth || tempImg.width;
+            canvas.height = tempImg.naturalHeight || tempImg.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(tempImg, 0, 0);
+            imgElement.src = canvas.toDataURL('image/png');
+          } catch (e) {
+            console.warn('Canvas conversion skipped:', e);
+          }
+          resolve();
+        };
+        tempImg.onerror = function () {
+          resolve();
+        };
+        tempImg.src = imgElement.src;
+      });
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
+      window.scrollTo(0, 0);
+
       const mobileNavToggle = document.getElementById("mobileNavToggle");
       const navLinksMenu = document.getElementById("navLinks");
       const toggleIcon = document.getElementById("toggleIcon");
@@ -926,38 +359,8 @@
           toggleIcon.classList.toggle("fa-bars", !isOpen);
           toggleIcon.classList.toggle("fa-xmark", isOpen);
         });
-
-        document.addEventListener("click", (e) => {
-          if (!mobileNavToggle.contains(e.target) && !navLinksMenu.contains(e.target)) {
-            navLinksMenu.classList.remove("active");
-            toggleIcon.classList.remove("fa-xmark");
-            toggleIcon.classList.add("fa-bars");
-          }
-        });
       }
 
-      const navLinks = document.querySelectorAll(".nav-link");
-      navLinks.forEach(link => {
-        link.addEventListener("click", (e) => {
-          const targetUrl = link.getAttribute("href");
-          if (!targetUrl || targetUrl.startsWith("#") || targetUrl.startsWith("javascript")) return;
-
-          e.preventDefault();
-          if (navLinksMenu) navLinksMenu.classList.remove("active");
-          if (toggleIcon) {
-            toggleIcon.classList.remove("fa-xmark");
-            toggleIcon.classList.add("fa-bars");
-          }
-          document.body.classList.remove("page-loaded");
-          document.body.classList.add("page-exiting");
-
-          setTimeout(() => {
-            window.location.href = targetUrl;
-          }, 420);
-        });
-      });
-
-      // 3. CUSTOM THEMED DROPDOWNS ENGINE
       const setupDropdown = (dropdownId, hiddenInputId) => {
         const dropdown = document.getElementById(dropdownId);
         if (!dropdown) return;
@@ -968,9 +371,11 @@
 
         trigger.addEventListener('click', (e) => {
           e.stopPropagation();
+          
           document.querySelectorAll('.custom-dropdown').forEach(d => {
             if (d !== dropdown) d.classList.remove('open');
           });
+
           dropdown.classList.toggle('open');
         });
 
@@ -978,15 +383,8 @@
           option.addEventListener('click', (e) => {
             e.stopPropagation();
             const val = option.getAttribute('data-value');
-            const label = option.textContent;
-
             hiddenInput.value = val;
-            selectedText.textContent = label;
-            trigger.classList.add('has-value');
-
-            options.forEach(opt => opt.classList.remove('selected'));
-            option.classList.add('selected');
-
+            selectedText.textContent = option.textContent;
             dropdown.classList.remove('open');
           });
         });
@@ -1000,8 +398,9 @@
       });
     });
 
-    // 4. FORM SUBMISSION & SMOOTH TRANSITION ENGINE
-    function handleSubmit() {
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+
       const phoneInput = document.getElementById('phone');
       const phoneValue = phoneInput.value.trim();
       const domainValue = document.getElementById('domain').value;
@@ -1015,42 +414,117 @@
 
       if (!domainValue) {
         alert("Please select a Domain Choice.");
-        document.getElementById('domainDropdown').scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
       }
 
       if (!durationValue) {
         alert("Please select an Internship Period.");
-        document.getElementById('durationDropdown').scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
       }
 
-      submitted = true;
+      // Populate Offer Letter Document Fields
+      document.getElementById('pdf-candidate-name').textContent = document.getElementById('fullName').value;
+      document.getElementById('pdf-domain').textContent = domainValue;
+      document.getElementById('pdf-duration').textContent = durationValue;
+      document.getElementById('pdf-institution').textContent = document.getElementById('institution').value;
+      document.getElementById('pdf-department').textContent = document.getElementById('department').value;
+      
+      const now = new Date();
+      const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      const day = String(now.getDate()).padStart(2, '0');
+      const monthStr = months[now.getMonth()];
+      const year = now.getFullYear();
+      document.getElementById('pdf-issue-date').textContent = `${day}-${monthStr}-${year}`;
+
+      const monthNum = String(now.getMonth() + 1).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const refCode = `EC/${year}/${day}${monthNum}${hours}${minutes}${seconds}`;
+      document.getElementById('pdf-ref-id').textContent = refCode;
+
+      // Submit Button Loading State
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Submitting Application...</span><i class="fa-solid fa-spinner fa-spin"></i>';
-      return true;
-    }
+      submitBtn.innerHTML = '<span>Submitting Application...</span> <i class="fa-solid fa-circle-notch fa-spin"></i>';
 
-    function handleResponse() {
-      const formGrid = document.getElementById('formGrid');
-      const submitContainer = document.getElementById('submitBtnContainer');
-      const banner = document.getElementById('submission-banner');
+      // Post Form Data to Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxfdBflSujerNzavhsumzVghwP49Ctz1fAklfM2dyVeaWAZdW0JcfFCiLgCKpWDuV06/exec';
+      const formData = new FormData(document.getElementById('applicationForm'));
 
-      if (formGrid) formGrid.classList.add('form-collapsing');
-      if (submitContainer) submitContainer.classList.add('form-collapsing');
+      try {
+        await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
+      } catch (error) {
+        console.warn('Form submission network fallback:', error);
+      }
+
+      // Smooth Layout Transition
+      const appForm = document.getElementById('applicationForm');
+      const pageHeader = document.getElementById('pageHeader');
+      
+      appForm.classList.add('fade-out-collapse');
+      pageHeader.classList.add('fade-out-collapse');
 
       setTimeout(() => {
-        if (formGrid) formGrid.style.display = 'none';
-        if (submitContainer) submitContainer.style.display = 'none';
+        appForm.style.display = 'none';
+        pageHeader.style.display = 'none';
         
-        if (banner) {
-          banner.classList.add('show-3d');
-          banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 500);
+        const successSection = document.getElementById('successSection');
+        successSection.style.display = 'block';
+        successSection.classList.add('success-card-entrance');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 350);
     }
 
+    async function downloadPDF() {
+      const element = document.getElementById('offerLetterDocument');
+      const downloadBtn = document.getElementById('downloadPdfBtn');
+      if (!element) return;
+
+      const originalBtnHtml = downloadBtn.innerHTML;
+      downloadBtn.disabled = true;
+      downloadBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Generating PDF...</span>';
+
+      await Promise.all([
+        convertImgToBase64(document.getElementById('doc-logo-img')),
+        convertImgToBase64(document.getElementById('doc-logofont-img')),
+        convertImgToBase64(document.getElementById('doc-msme-img')),
+        convertImgToBase64(document.getElementById('doc-digsign-img'))
+      ]);
+
+      const fullName = document.getElementById('fullName').value || "Applicant";
+      const sanitizedName = fullName.replace(/[^a-zA-Z0-9]/g, "_");
+
+      window.scrollTo(0, 0);
+
+      const opt = {
+        margin:       0,
+        filename:     `EarlyCraft_OfferLetter_${sanitizedName}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+          scale: 2, 
+          allowTaint: true,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          scrollX: 0,
+          windowHeight: 1120
+        },
+        jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all'] }
+      };
+
+      try {
+        await html2pdf().set(opt).from(element).save();
+      } catch (err) {
+        console.error("PDF generation error:", err);
+        alert("Download failed. Please click the button to try again.");
+      } finally {
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML = originalBtnHtml;
+      }
+    }
   </script>
 </body>
 </html>
