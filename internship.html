@@ -16,6 +16,33 @@
   <link rel="stylesheet" href="styles/internship.css" />
 
   <style>
+    /* Custom Brand Themed Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+      border-radius: 8px;
+      border: 2px solid #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #059669 0%, #047857 100%);
+    }
+
+    /* Firefox Scrollbar Support */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #10b981 #f1f5f9;
+    }
+
     /* Inline Lifecycle & Animation Enhancements */
     @keyframes fadeInScale {
       0% {
@@ -58,18 +85,17 @@
       overflow-wrap: break-word !important;
     }
 
-    /* Responsive Document Preview Wrapper for Mobile Views */
+    /* Responsive Document Preview Wrapper (Prevents Blank Scroll Area) */
     .doc-preview-wrapper {
       width: 100%;
       background: #e2e8f0;
-      padding: 20px 10px;
+      padding: 16px 10px;
       border-radius: 16px;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow: hidden; /* Height is calculated dynamically to prevent extra vertical blank space */
     }
 
     .doc-scale-container {
@@ -80,10 +106,33 @@
       flex-shrink: 0;
     }
 
-    /* Dynamic viewport adjustment for mobile devices */
+    /* Field-Specific Custom Error States */
+    .form-control.input-error,
+    .custom-dropdown.input-error .custom-dropdown-trigger,
+    .options-stack.input-error {
+      border-color: #ef4444 !important;
+      background-color: #fff5f5 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+      animation: shakeInput 0.3s ease-in-out;
+    }
+
+    @keyframes shakeInput {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+
+    .error-hint {
+      display: none;
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
     @media (max-width: 840px) {
       .doc-preview-wrapper {
-        padding: 12px 5px;
+        padding: 10px 4px;
       }
     }
   </style>
@@ -121,8 +170,8 @@
   </section>
 
   <section class="form-wrapper">
-    
-    <form id="applicationForm" onsubmit="return handleFormSubmit(event);">
+
+    <form id="applicationForm" onsubmit="return handleFormSubmit(event);" novalidate>
       
       <div class="three-box-grid" id="formGrid">
         
@@ -136,21 +185,24 @@
             <label class="form-label" for="fullName">
               Full Name <span class="req">*</span>
             </label>
-            <input type="text" id="fullName" name="fullName" class="form-control" placeholder="John Doe" required>
+            <input type="text" id="fullName" name="fullName" class="form-control" placeholder="John Doe">
+            <span class="error-hint" id="fullNameError">Please enter your full name.</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="email">
               Official Email <span class="req">*</span>
             </label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+            <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com">
+            <span class="error-hint" id="emailError">Please enter a valid email address.</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="phone">
               Phone Number <span class="req">*</span>
             </label>
-            <input type="tel" id="phone" name="phone" class="form-control" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
+            <input type="tel" id="phone" name="phone" class="form-control" placeholder="10-digit mobile number" maxlength="10">
+            <span class="error-hint" id="phoneError">Please enter a valid 10-digit phone number.</span>
           </div>
         </div>
 
@@ -164,21 +216,24 @@
             <label class="form-label" for="institution">
               Institution Name <span class="req">*</span>
             </label>
-            <input type="text" id="institution" name="institution" class="form-control" placeholder="College or University" required>
+            <input type="text" id="institution" name="institution" class="form-control" placeholder="College or University">
+            <span class="error-hint" id="institutionError">Please enter your institution name.</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="department">
               Department <span class="req">*</span>
             </label>
-            <input type="text" id="department" name="department" class="form-control" placeholder="e.g. Computer Science" required>
+            <input type="text" id="department" name="department" class="form-control" placeholder="e.g. Computer Science">
+            <span class="error-hint" id="departmentError">Please enter your department.</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="gradYear">
               Graduation Year <span class="req">*</span>
             </label>
-            <input type="text" id="gradYear" name="gradYear" class="form-control" placeholder="e.g. 2026" pattern="[0-9]{4}" required>
+            <input type="text" id="gradYear" name="gradYear" class="form-control" placeholder="e.g. 2026" maxlength="4">
+            <span class="error-hint" id="gradYearError">Please enter a valid 4-digit graduation year.</span>
           </div>
         </div>
 
@@ -192,7 +247,7 @@
             <label class="form-label">
               Domain Choice <span class="req">*</span>
             </label>
-            <input type="hidden" id="domain" name="domain" required>
+            <input type="hidden" id="domain" name="domain">
             <div class="custom-dropdown" id="domainDropdown">
               <div class="custom-dropdown-trigger">
                 <span class="selected-text">Select Domain...</span>
@@ -204,13 +259,14 @@
                 <li class="custom-dropdown-option" data-value="Machine Learning / Deep Learning">Machine Learning / Deep Learning</li>
               </ul>
             </div>
+            <span class="error-hint" id="domainError">Please select a domain choice.</span>
           </div>
 
           <div class="form-group">
             <label class="form-label">
               Internship Period <span class="req">*</span>
             </label>
-            <input type="hidden" id="duration" name="duration" required>
+            <input type="hidden" id="duration" name="duration">
             <div class="custom-dropdown" id="durationDropdown">
               <div class="custom-dropdown-trigger">
                 <span class="selected-text">Select Duration...</span>
@@ -221,20 +277,22 @@
                 <li class="custom-dropdown-option" data-value="30 Days">30 Days</li>
               </ul>
             </div>
+            <span class="error-hint" id="durationError">Please select an internship period.</span>
           </div>
 
           <div class="form-group">
             <label class="form-label">
               Terms & Conditions <span class="req">*</span>
             </label>
-            <div class="options-stack">
+            <div class="options-stack" id="termsContainer">
               <label class="custom-option">
-                <input type="checkbox" name="terms" value="Accepted" required>
+                <input type="checkbox" id="terms" name="terms" value="Accepted">
                 <span class="option-text">
                   I agree to complete and submit my project deliverables by the deadline. I grant EarlyCraft EdTech a non-exclusive, royalty-free license to feature, archive, and utilize submitted project work for platform development, educational showcase, and internal evaluation purposes.
                 </span>
               </label>
             </div>
+            <span class="error-hint" id="termsError">You must accept the terms and conditions to proceed.</span>
           </div>
         </div>
 
@@ -284,7 +342,7 @@
                 <div style="text-align: right; color: #334155; font-size: 13px; line-height: 1.4;">
                   <div style="font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 2px;">OFFER LETTER</div>
                   <div style="font-weight: 600;">REF NO.: <span id="pdf-ref-id">EC/2026/00000000</span></div>
-                  <div style="font-weight: 600;">DATE: <span id="pdf-issue-date">DD-MMM-YYYY</span></div>
+                  <div style="font-weight: 600;">DATE: <span id="pdf-issue-date">21-AUG-2026</span></div>
                 </div>
               </div>
 
@@ -295,7 +353,7 @@
                 </p>
 
                 <p>
-                  Congratulations! We are pleased to offer you a <strong>Virtual Internship</strong> at <strong>EarlyCraft EdTech</strong> in the domain of <strong id="pdf-domain">Domain</strong> for a duration of <strong id="pdf-duration">Duration</strong>.
+                  Congratulations! We are pleased to offer you a <strong>Virtual Internship</strong> at <strong>EarlyCraft EdTech</strong> in the domain of <strong id="pdf-domain">Web Development</strong> for a duration of <strong id="pdf-duration">15 Days</strong>.
                 </p>
 
                 <p>
@@ -303,7 +361,7 @@
                 </p>
 
                 <p>
-                  Following your project submission, you will participate in an interactive technical evaluation hosted via an Online Meet. This session includes a brief Viva Voce designed to discuss your project design choices, code implementation, and problem-solving framework.
+                  Following your project submission, you will participate in an interactive technical evaluation hosted via an <strong>Online Meet</strong>. This session includes a brief <strong>Viva Voce</strong> designed to discuss your project design choices, code implementation, and problem-solving framework.
                 </p>
 
                 <p>
@@ -368,17 +426,35 @@
       const scaleContainer = document.getElementById('docScaleContainer');
       if (!wrapper || !scaleContainer) return;
 
-      const availableWidth = wrapper.clientWidth - 20; // 10px padding each side
-      const docWidth = 794; // Target A4 Width
+      const paddingX = window.innerWidth <= 840 ? 8 : 20;
+      const availableWidth = wrapper.clientWidth - paddingX; 
+      const docWidth = 794; 
+      const docHeight = 1120;
 
       if (availableWidth < docWidth) {
         const scale = availableWidth / docWidth;
         scaleContainer.style.transform = `scale(${scale})`;
-        wrapper.style.height = `${1120 * scale + 30}px`;
+        
+        // Exact height calculation matching scaled height to eliminate blank scroll space
+        const scaledHeight = docHeight * scale;
+        const paddingY = window.innerWidth <= 840 ? 20 : 32;
+        wrapper.style.height = `${scaledHeight + paddingY}px`;
       } else {
         scaleContainer.style.transform = 'scale(1)';
         wrapper.style.height = 'auto';
       }
+    }
+
+    function clearCustomErrors() {
+      document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+      document.querySelectorAll('.error-hint').forEach(el => el.style.display = 'none');
+    }
+
+    function showFieldError(fieldId, hintId, targetElement = null) {
+      const element = targetElement || document.getElementById(fieldId);
+      const hint = document.getElementById(hintId);
+      if (element) element.classList.add('input-error');
+      if (hint) hint.style.display = 'block';
     }
 
     function convertImgToBase64(imgElement) {
@@ -427,7 +503,7 @@
         });
       }
 
-      const setupDropdown = (dropdownId, hiddenInputId) => {
+      const setupDropdown = (dropdownId, hiddenInputId, errorHintId) => {
         const dropdown = document.getElementById(dropdownId);
         if (!dropdown) return;
         const trigger = dropdown.querySelector('.custom-dropdown-trigger');
@@ -437,6 +513,8 @@
 
         trigger.addEventListener('click', (e) => {
           e.stopPropagation();
+          dropdown.classList.remove('input-error');
+          document.getElementById(errorHintId).style.display = 'none';
           
           document.querySelectorAll('.custom-dropdown').forEach(d => {
             if (d !== dropdown) d.classList.remove('open');
@@ -456,8 +534,24 @@
         });
       };
 
-      setupDropdown('domainDropdown', 'domain');
-      setupDropdown('durationDropdown', 'duration');
+      setupDropdown('domainDropdown', 'domain', 'domainError');
+      setupDropdown('durationDropdown', 'duration', 'durationError');
+
+      // Clear inline error on typing/changing
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('input', () => {
+          input.classList.remove('input-error');
+          const hint = input.nextElementSibling;
+          if (hint && hint.classList.contains('error-hint')) {
+            hint.style.display = 'none';
+          }
+        });
+      });
+
+      document.getElementById('terms').addEventListener('change', () => {
+        document.getElementById('termsContainer').classList.remove('input-error');
+        document.getElementById('termsError').style.display = 'none';
+      });
 
       document.addEventListener('click', () => {
         document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('open'));
@@ -466,25 +560,88 @@
 
     async function handleFormSubmit(event) {
       event.preventDefault();
+      clearCustomErrors();
 
-      const phoneInput = document.getElementById('phone');
-      const phoneValue = phoneInput.value.trim();
-      const domainValue = document.getElementById('domain').value;
-      const durationValue = document.getElementById('duration').value;
-      
-      if (!/^\d{10}$/.test(phoneValue)) {
-        alert("Please enter a valid 10-digit phone number.");
-        phoneInput.focus();
-        return false;
+      let isValid = true;
+      let firstErrorField = null;
+
+      // Full Name Validation
+      const fullName = document.getElementById('fullName');
+      if (!fullName.value.trim()) {
+        showFieldError('fullName', 'fullNameError');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = fullName;
       }
 
-      if (!domainValue) {
-        alert("Please select a Domain Choice.");
-        return false;
+      // Email Validation
+      const email = document.getElementById('email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.value.trim() || !emailRegex.test(email.value.trim())) {
+        showFieldError('email', 'emailError');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = email;
       }
 
-      if (!durationValue) {
-        alert("Please select an Internship Period.");
+      // Phone Number Validation
+      const phone = document.getElementById('phone');
+      if (!/^\d{10}$/.test(phone.value.trim())) {
+        showFieldError('phone', 'phoneError');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = phone;
+      }
+
+      // Institution Validation
+      const institution = document.getElementById('institution');
+      if (!institution.value.trim()) {
+        showFieldError('institution', 'institutionError');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = institution;
+      }
+
+      // Department Validation
+      const department = document.getElementById('department');
+      if (!department.value.trim()) {
+        showFieldError('department', 'departmentError');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = department;
+      }
+
+      // Graduation Year Validation
+      const gradYear = document.getElementById('gradYear');
+      if (!/^\d{4}$/.test(gradYear.value.trim())) {
+        showFieldError('gradYear', 'gradYearError');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = gradYear;
+      }
+
+      // Domain Dropdown Validation
+      const domainVal = document.getElementById('domain').value;
+      if (!domainVal) {
+        showFieldError(null, 'domainError', document.getElementById('domainDropdown'));
+        isValid = false;
+        if (!firstErrorField) firstErrorField = document.getElementById('domainDropdown');
+      }
+
+      // Duration Dropdown Validation
+      const durationVal = document.getElementById('duration').value;
+      if (!durationVal) {
+        showFieldError(null, 'durationError', document.getElementById('durationDropdown'));
+        isValid = false;
+        if (!firstErrorField) firstErrorField = document.getElementById('durationDropdown');
+      }
+
+      // Terms Checkbox Validation
+      const terms = document.getElementById('terms');
+      if (!terms.checked) {
+        showFieldError(null, 'termsError', document.getElementById('termsContainer'));
+        isValid = false;
+        if (!firstErrorField) firstErrorField = document.getElementById('termsContainer');
+      }
+
+      if (!isValid) {
+        if (firstErrorField) {
+          firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
         return false;
       }
 
@@ -504,8 +661,8 @@
 
       // Populate Offer Letter Document Fields
       document.getElementById('pdf-candidate-name').textContent = document.getElementById('fullName').value;
-      document.getElementById('pdf-domain').textContent = domainValue;
-      document.getElementById('pdf-duration').textContent = durationValue;
+      document.getElementById('pdf-domain').textContent = domainVal;
+      document.getElementById('pdf-duration').textContent = durationVal;
       document.getElementById('pdf-issue-date').textContent = issueDateStr;
       document.getElementById('pdf-ref-id').textContent = refCode;
 
@@ -543,9 +700,7 @@
         successSection.style.display = 'block';
         successSection.classList.add('success-card-entrance');
 
-        // Dynamically recalculate scale for preview on mobile render
         adaptMobilePreviewScale();
-        
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 350);
     }
@@ -592,7 +747,6 @@
         await html2pdf().set(opt).from(element).save();
       } catch (err) {
         console.error("PDF generation error:", err);
-        alert("Download failed. Please click the button to try again.");
       } finally {
         downloadBtn.disabled = false;
         downloadBtn.innerHTML = originalBtnHtml;
