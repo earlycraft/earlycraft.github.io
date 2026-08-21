@@ -57,13 +57,23 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ==========================================================================
+   PAGE TRANSITIONS (ENTER & EXIT)
+   ========================================================================== */
 body {
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--ink);
   background: radial-gradient(circle at 50% 0%, #1e293b 0%, var(--night-bg-start) 70%, var(--night-bg-end) 100%);
   font-family: var(--font-main);
-  animation: pageEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: pageEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+/* Class triggered via JS before navigation to enable smooth exit transition */
+body.page-exit {
+  animation: pageExit 0.5s cubic-bezier(0.7, 0, 0.84, 0) forwards !important;
+  pointer-events: none;
 }
 
 @keyframes pageEnter {
@@ -76,6 +86,19 @@ body {
     opacity: 1;
     transform: scale(1) translateY(0);
     filter: blur(0);
+  }
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(-16px);
+    filter: blur(10px);
   }
 }
 
@@ -780,13 +803,17 @@ footer {
 
   .footer-contact {
     flex-direction: column;
+    align-items: center;
     width: 100%;
     gap: 0.65rem;
   }
 
+  /* Contact button boxes take only necessary width */
   .footer-btn {
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
     justify-content: center;
+    padding: 0.55rem 1.25rem;
   }
 }
 
