@@ -526,6 +526,14 @@ img {
   transition: all 0.25s ease;
 }
 
+/* Green icon styling applied permanently to inline icons (i, svg, img) inside footer pills */
+.footer-pill i,
+.footer-pill svg,
+.footer-pill img {
+  color: var(--brand-primary);
+  fill: var(--brand-primary);
+}
+
 .footer-pill:hover {
   background: #ffffff;
   border-color: var(--brand-primary);
