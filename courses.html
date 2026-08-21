@@ -24,21 +24,17 @@
 
   <header class="navbar-wrapper">
     <nav class="navbar-container">
-      <div class="nav-brand-text">Courses</div>
+      <a href="javascript:void(0)" class="nav-brand-text" id="brandCoursesLink" style="text-decoration: none; cursor: pointer;">Courses</a>
 
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle Navigation" aria-expanded="false">
         <i class="fa-solid fa-bars" id="toggleIcon"></i>
       </button>
 
-      <ul class="nav-links" id="navLinks">
+      <ul class="nav-links" id="navLinks" style="margin-left: auto;">
         <li><a href="index.html" class="nav-item-link">Home</a></li>
         <li><a href="about.html" class="nav-item-link">About</a></li>
         <li><a href="internship.html" class="nav-item-link">Internship</a></li>
       </ul>
-
-      <button class="course-nav-button" id="courseNavButton" type="button">
-        <i class="fa-solid fa-layer-group"></i> Courses
-      </button>
     </nav>
   </header>
 
@@ -126,7 +122,7 @@
     const courseGrid = document.getElementById('courseGrid');
     const mobileNavToggle = document.getElementById('mobileNavToggle');
     const navLinks = document.getElementById('navLinks');
-    const courseNavButton = document.getElementById('courseNavButton');
+    const brandCoursesLink = document.getElementById('brandCoursesLink');
 
     // Dynamic Card Rendering
     courseGrid.innerHTML = courses.map(course => `
@@ -165,10 +161,11 @@
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
       });
 
-      card.addEventListener('click', () => openCourse(card.dataset.id));
+      card.addEventListener('click', () => openCourse(card.dataset.id, true));
     });
 
-    function openCourse(id) {
+    // OPEN COURSE (WITH HISTORY PUSH OPTION)
+    function openCourse(id, pushHistory = true) {
       const course = courses.find(c => c.id === id);
       if (!course) return;
 
@@ -209,17 +206,28 @@
       window.scrollTo(0, 0);
       setupScrollObserver();
       setupAccordion();
+
+      if (pushHistory) {
+        const newUrl = `${window.location.pathname}?course=${encodeURIComponent(id)}`;
+        history.pushState({ view: 'pathway', courseId: id }, '', newUrl);
+      }
     }
 
-    function closeCourse() {
+    // CLOSE COURSE (WITH HISTORY PUSH OPTION)
+    function closeCourse(pushHistory = true) {
       document.body.classList.remove('course-open');
       pathway.classList.remove('is-active');
       hub.classList.remove('is-hidden');
       window.scrollTo(0, 0);
+
+      if (pushHistory) {
+        history.pushState({ view: 'hub' }, '', window.location.pathname);
+      }
     }
 
-    courseNavButton.addEventListener('click', closeCourse);
+    brandCoursesLink.addEventListener('click', () => closeCourse(true));
 
+    // ACCORDION TOGGLE
     function setupAccordion() {
       document.querySelectorAll('.step-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -228,6 +236,7 @@
       });
     }
 
+    // INTERSECTION & SCROLL PROGRESS OBSERVER
     function setupScrollObserver() {
       const steps = document.querySelectorAll('.step');
       const progressLine = document.getElementById('timelineProgress');
@@ -258,6 +267,7 @@
       });
     }
 
+    // MOBILE NAVIGATION TOGGLE
     mobileNavToggle.addEventListener('click', () => {
       const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
       mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
@@ -267,6 +277,52 @@
       icon.classList.toggle('fa-bars');
       icon.classList.toggle('fa-xmark');
     });
+
+    // INTERNAL LINK TRANSITION HANDLER
+    document.querySelectorAll('a[href]').forEach(link => {
+      link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('javascript') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+          e.preventDefault();
+          document.body.classList.add('page-exit');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 450);
+        }
+      });
+    });
+
+    // SINK ROUTER: INITIAL REFRESH & UNDO/REDO (BACK/FORWARD) LISTENER
+    function initRouter() {
+      // 1. Listen for browser Back/Forward (Undo/Redo) actions
+      window.addEventListener('popstate', (e) => {
+        const state = e.state;
+        if (state && state.view === 'pathway' && state.courseId) {
+          openCourse(state.courseId, false);
+        } else {
+          const params = new URLSearchParams(window.location.search);
+          const courseId = params.get('course');
+          if (courseId) {
+            openCourse(courseId, false);
+          } else {
+            closeCourse(false);
+          }
+        }
+      });
+
+      // 2. Read URL Parameters on Page Load / Refresh
+      const urlParams = new URLSearchParams(window.location.search);
+      const activeCourse = urlParams.get('course');
+
+      if (activeCourse) {
+        openCourse(activeCourse, false);
+      } else {
+        closeCourse(false);
+      }
+    }
+
+    // Run router on DOM load
+    document.addEventListener('DOMContentLoaded', initRouter);
   </script>
 </body>
 </html>
