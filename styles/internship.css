@@ -14,7 +14,7 @@
   --brand-secondary: #059669;
   --brand-dark: #047857;
   --brand-light: #d1fae5;
-  --brand-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --brand-gradient: linear-gradient(135deg, #40ca9c 0%, #059669 100%);
   --brand-gradient-hover: linear-gradient(135deg, #059669 0%, #047857 100%);
   
   /* Borders & Focus States */
