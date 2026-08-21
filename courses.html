@@ -4,667 +4,269 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Courses | EarlyCraft</title>
-  
+
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles/courses.css" />
+
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
   </script>
-  <style>
-    :root { --ink:#0f172a; --muted:#64748b; --night:#f8fafc; --panel:rgba(255,255,255,.78); --line:rgba(15,23,42,.1); --accent:#0284c7; --blue:#2563eb; }
-    * { box-sizing:border-box; margin:0; user-select:none; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
-    html { background:var(--night); scroll-behavior:auto; }
-    body { min-height:100vh; overflow-x:hidden; color:var(--ink); background:var(--night); font-family:'Plus Jakarta Sans',sans-serif; transform-origin:center top; animation:pageEnter .75s cubic-bezier(.16,1,.3,1) both; }
-    @keyframes pageEnter { from { opacity:1; transform:scale(.96) translateY(24px) rotateX(4deg); filter:blur(12px) brightness(1.1); } to { opacity:1; transform:scale(1) translateY(0) rotateX(0); filter:blur(0) brightness(1); } }
-    body.page-loaded { opacity:1; transform:scale(1) translateY(0) rotateX(0); filter:blur(0) brightness(1); }
-    body.page-exiting { opacity:0; transform:scale(1.04) translateY(-28px) rotateX(-3deg); filter:blur(14px) brightness(.92); pointer-events:none; transition:opacity .45s cubic-bezier(.7,0,.84,0),transform .45s cubic-bezier(.7,0,.84,0),filter .45s cubic-bezier(.7,0,.84,0); }
-    button { font:inherit; }
-    .noise { position:fixed; inset:0; pointer-events:none; opacity:.04; z-index:10; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
-    .navbar-wrapper { position:fixed; top:0; left:0; width:100%; height:80px; z-index:20; display:flex; justify-content:center; align-items:center; padding:0 5%; }
-    .navbar-container { width:100%; max-width:1300px; height:60px; padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; position:relative; border:1px solid rgba(15,23,42,.08); border-radius:50px; background:rgba(255,255,255,.85); backdrop-filter:blur(20px) saturate(180%); box-shadow:0 10px 30px -10px rgba(15,23,42,.05),0 0 0 1px rgba(255,255,255,.6) inset; }
-    .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .nav-brand-logo { height:36px; width:auto; object-fit:contain; border-radius:8px; }
-    .nav-brand-font { height:28px; width:auto; object-fit:contain; display:block; }
-    .nav-links { display:flex; align-items:center; gap:.5rem; list-style:none; }
-    .nav-item-link { padding:.55rem 1.25rem; color:#475569; text-decoration:none; font-weight:600; font-size:.92rem; border-radius:30px; transition:all .3s cubic-bezier(.16,1,.3,1); }
-    .nav-item-link:hover { color:#0284c7; background:rgba(2,132,199,.06); }
-    .nav-item-link.active { color:#fff; background:linear-gradient(135deg,#0284c7 0%,#2563eb 100%); box-shadow:0 4px 14px rgba(37,99,235,.35); }
-    .mobile-nav-toggle { display:none; padding:8px; color:var(--ink); background:transparent; border:0; border-radius:50%; cursor:pointer; font-size:1.35rem; }
-    .mobile-nav-toggle:hover { color:#0284c7; background:rgba(2,132,199,.08); }
-    .course-open .nav-links, .course-open .mobile-nav-toggle { display:none!important; }
-    .course-nav-button { position:relative; z-index:1001; display:none; align-items:center; gap:8px; padding:.55rem 1.15rem; color:#fff; border:0; border-radius:30px; background:linear-gradient(135deg,#0284c7 0%,#2563eb 100%); box-shadow:0 4px 14px rgba(37,99,235,.25); cursor:pointer; font-size:.86rem; font-weight:700; transition:transform .3s ease,box-shadow .3s ease,filter .3s ease; }
-    .course-nav-button:hover { transform:translateY(-2px) scale(1.03); filter:saturate(1.15); box-shadow:0 8px 20px rgba(37,99,235,.35); }
-    .course-nav-button:active { transform:translateY(0) scale(.98); }
-    .course-open .course-nav-button { display:inline-flex; }
-    .eyebrow { color:var(--accent); font:500 .7rem 'DM Mono',monospace; letter-spacing:.18em; text-transform:uppercase; }
-    .hub, .pathway { transition:opacity .55s ease, transform .75s cubic-bezier(.16,1,.3,1); }
-    .hub { padding:148px 6vw 100px; max-width:1500px; margin:auto; }
-    .hub.is-hidden { opacity:0; transform:translateY(-22px) rotateX(-7deg); pointer-events:none; position:absolute; width:100%; }
-    .hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,.72fr); align-items:center; gap:30px; margin-bottom:72px; }
-    h1 { max-width:800px; margin-top:14px; color:var(--ink); font-size:clamp(2.8rem,6vw,5.8rem); font-weight:800; line-height:1; letter-spacing:.018em; }
-    h1 span { background:linear-gradient(135deg,#0284c7 0%,#2563eb 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .icon-field { position:relative; min-height:280px; overflow:visible; padding:10px 14px; perspective:800px; }
-    .floating-icon { --float-color:#0284c7; position:absolute; width:clamp(46px,4vw,58px); height:clamp(46px,4vw,58px); display:grid; place-items:center; color:var(--float-color); font-size:clamp(1.05rem,1.7vw,1.4rem); border:1px solid color-mix(in srgb,var(--float-color),transparent 55%); border-radius:17px; background:rgba(255,255,255,.82); box-shadow:0 14px 30px rgba(15,23,42,.1); animation:iconFloat 6s ease-in-out infinite; transition:transform .35s,box-shadow .35s,background .35s; }
-    .floating-icon:hover { z-index:2; color:#fff; background:var(--float-color); transform:translateY(-8px) rotate(8deg) scale(1.12); box-shadow:0 18px 28px color-mix(in srgb,var(--float-color),transparent 65%); }
-    .floating-icon:nth-child(3n) { animation-delay:-2s; }
-    .floating-icon:nth-child(4n) { animation-delay:-4.5s; }
-    @keyframes iconFloat { 0%,100% { transform:translate3d(0,0,0) rotate(-3deg); } 50% { transform:translate3d(8px,-14px,20px) rotate(4deg); } }
-    .course-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; perspective:1400px; }
-    .course-card { --card-color:#0284c7; --mx:50%; --my:50%; position:relative; min-height:285px; padding:25px 22px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; color:var(--ink); text-align:left; cursor:pointer; border:1px solid rgba(15,23,42,.1); border-radius:14px; background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(241,245,249,.74)); box-shadow:0 22px 45px rgba(15,23,42,.09),0 1px 0 rgba(255,255,255,.9) inset; transform:rotateX(0) rotateY(0) translateZ(0); transform-style:preserve-3d; transition:transform .18s ease-out,box-shadow .35s ease,border-color .35s ease; will-change:transform; }
-    .course-card::before { content:''; position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(circle at var(--mx) var(--my),color-mix(in srgb,var(--card-color),transparent 74%),transparent 38%); opacity:0; transition:opacity .3s; }
-    .course-card::after { content:''; position:absolute; width:150px; height:150px; right:-60px; bottom:-70px; border-radius:50%; background:var(--card-color); filter:blur(42px); opacity:.22; transition:opacity .4s,transform .4s; }
-    .course-card:hover { border-color:var(--card-color); box-shadow:0 25px 45px rgba(15,23,42,.16),0 0 30px color-mix(in srgb,var(--card-color),transparent 78%); }
-    .course-card.is-tilting::before { opacity:1; }
-    .course-card:hover::after { opacity:.48; transform:scale(1.3); }
-    .card-icon { width:48px; height:48px; display:grid; place-items:center; color:var(--card-color); font-size:1.3rem; border:1px solid color-mix(in srgb,var(--card-color),transparent 55%); border-radius:50%; }
-    .course-card h2 { position:relative; z-index:1; font-size:clamp(1rem,1.4vw,1.3rem); letter-spacing:-.04em; line-height:1.1; }
-    .card-foot { position:relative; z-index:1; display:flex; justify-content:flex-end; }
-    .action-badge { min-width:clamp(124px,10vw,148px); height:clamp(42px,3.5vw,48px); padding:0 clamp(11px,1.2vw,17px); display:flex; flex-direction:row; align-items:center; justify-content:center; gap:clamp(7px,1vw,10px); color:#fff; font-size:clamp(.62rem,.75vw,.75rem); font-weight:800; letter-spacing:.03em; line-height:1.1; text-align:center; text-transform:uppercase; border-radius:12px; background:var(--card-color); box-shadow:0 9px 20px color-mix(in srgb,var(--card-color),transparent 55%); transition:transform .35s,box-shadow .35s; }
-    .action-badge i { font-size:.95rem; transition:transform .35s; }
-    .course-card:hover .action-badge { transform:translateY(-6px) rotate(7deg) scale(1.06); box-shadow:0 15px 25px color-mix(in srgb,var(--card-color),transparent 40%); }
-    .course-card:hover .action-badge i { transform:translate(3px,-3px); }
-    .pathway { display:none; padding:130px 6vw 150px; max-width:1200px; margin:auto; }
-    .pathway.is-active { display:block; animation:openBook .9s cubic-bezier(.16,1,.3,1) both; }
-    .pathway.is-closing { display:none !important; }
-    @keyframes openBook { from { opacity:0; transform:perspective(1200px) rotateX(-12deg) translateY(50px); } to { opacity:1; transform:perspective(1200px) rotateX(0) translateY(0); } }
-    .path-head { position:relative; padding-bottom:62px; text-align:center; }
-    .path-head h2 { margin:0 auto 12px; max-width:780px; font-size:clamp(2rem,5.5vw,5.2rem); line-height:1.05; letter-spacing:-.055em; }
-    .back-button { position:fixed; top:18px; right:calc(5% + 1.5rem); z-index:25; display:none; width:48px; height:48px; place-items:center; color:#fff; cursor:pointer; border:0; border-radius:50%; background:linear-gradient(135deg,#0284c7,#2563eb); box-shadow:0 8px 20px rgba(37,99,235,.28); transition:transform .3s,box-shadow .3s; }
-    .back-button:hover { transform:translateX(-4px) scale(1.1); box-shadow:0 12px 25px rgba(37,99,235,.38); }
-    .pathway.is-active ~ .back-button { display:grid; }
-    .timeline { position:relative; padding:25px 0; }
-    .timeline::before, .timeline-progress { content:''; position:absolute; top:0; bottom:0; left:50%; width:2px; transform:translateX(-50%); pointer-events:none; }
-    .timeline::before { background:rgba(15,23,42,.14); }
-    .timeline-progress { height:0; bottom:auto; background:var(--accent); box-shadow:0 0 16px var(--accent),0 0 32px var(--accent); transition:height .25s linear; }
-    .step { position:relative; width:50%; padding:30px 0; opacity:.25; transform:translateY(34px); transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1); }
-    .step:nth-child(odd) { padding-right:1.5%; text-align:right; }
-    .step:nth-child(even) { margin-left:50%; padding-left:1.5%; }
-    .step.revealed { opacity:1; transform:translateY(0); }
-    .step-dot { position:absolute; top:39px; width:14px; height:14px; border:3px solid var(--night); border-radius:50%; background:#cbd5e1; box-shadow:0 0 0 1px #94a3b8; transition:background .4s,box-shadow .4s; }
-    .step:nth-child(odd) .step-dot { right:-7px; }
-    .step:nth-child(even) .step-dot { left:-7px; }
-    .step.revealed .step-dot { background:var(--accent); box-shadow:0 0 0 5px color-mix(in srgb,var(--accent),transparent 78%),0 0 20px var(--accent); }
-    .step-card { min-height:0; height:auto; padding:clamp(24px,3vw,38px); text-align:left; border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:14px; background:rgba(255,255,255,.82); box-shadow:0 18px 30px rgba(15,23,42,.09); }
-    .step:nth-child(odd) .step-card { text-align:left; }
-    .chapter-label { display:block; color:var(--accent); font:600 clamp(.68rem,.85vw,.82rem) 'DM Mono',monospace; letter-spacing:.14em; line-height:1.35; text-transform:uppercase; }
-    .step-number { color:var(--accent); font:500 clamp(.62rem,.78vw,.76rem) 'DM Mono',monospace; letter-spacing:.14em; }
-    .step-card h3 { margin:16px 0 16px; font-size:clamp(1.2rem,1.9vw,1.7rem); letter-spacing:.005em; line-height:1.2; }
-    .concept-list { display:flex; flex-wrap:wrap; gap:7px; list-style:none; }
-    .concept-list li { padding:clamp(8px,.9vw,12px) clamp(10px,1.1vw,15px); color:var(--muted); font-size:clamp(.82rem,1.05vw,1rem); line-height:1.3; border:1px solid rgba(15,23,42,.08); border-radius:8px; background:rgba(248,250,252,.9); }
-    .finish { padding-top:90px; text-align:center; }
-    .finish i { color:var(--accent); font-size:2rem; }
-    .finish p { margin-top:18px; color:var(--muted); }
-    .footer-bar { width:84%; max-width:1400px; margin:1.5rem auto 2.5rem; padding:.85rem 2rem; display:flex; align-items:center; justify-content:space-between; color:#64748b; font-size:.85rem; border:1px solid rgba(15,23,42,.08); border-radius:50px; background:rgba(255,255,255,.85); backdrop-filter:blur(16px); box-shadow:0 4px 20px rgba(15,23,42,.04); }
-    .footer-rights { display:flex; align-items:center; gap:6px; }
-    .footer-brand { color:var(--ink); font-weight:700; }
-    .footer-contacts { display:flex; gap:1rem; }
-    .footer-pill { display:inline-flex; align-items:center; gap:8px; padding:.4rem 1rem; color:var(--ink); text-decoration:none; font-weight:600; border:1px solid rgba(15,23,42,.08); border-radius:30px; background:rgba(255,255,255,.8); transition:all .3s ease; }
-    .footer-pill:hover { color:#0284c7; border-color:#0284c7; background:#fff; transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,.12); }
-    .footer-pill i { color:#0284c7; }
-    @media (max-width:1050px) { .course-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
-    @media (max-width:768px) {
-      .navbar-wrapper { height:70px; padding:0 4%; }
-      .navbar-container { padding:0 1.2rem; }
-      .mobile-nav-toggle { display:block; }
-      .nav-brand-font { height:22px; }
-      .nav-links { position:absolute; top:70px; right:0; width:240px; background:rgba(255,255,255,.95); backdrop-filter:blur(25px) saturate(180%); -webkit-backdrop-filter:blur(25px) saturate(180%); border:1px solid rgba(15,23,42,.08); border-radius:20px !important; box-shadow:0 15px 35px rgba(15,23,42,.12); flex-direction:column; padding:1rem; gap:.5rem; opacity:0; visibility:hidden; transform:translateY(-12px) scale(.95); transition:all .3s cubic-bezier(.16,1,.3,1); z-index:1000; }
-      .nav-links.active { opacity:1; visibility:visible; transform:translateY(0) scale(1); }
-      .nav-links li { width:100%; }
-      .nav-item-link { display:block; width:100%; text-align:center; padding:.75rem 1rem; }
-      .course-open .course-nav-button { display:inline-flex; margin-left:auto; }
-      .hub { padding:112px 6vw 70px; }
-      .hero { display:block; margin-bottom:42px; }
-      h1 { font-size:clamp(2.5rem,11vw,4.4rem); letter-spacing:.01em; }
-      .icon-field { min-height:250px; margin-top:28px; }
-      .course-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; max-width:100%; margin:0 auto; }
-      .course-card { min-height:clamp(215px,58vw,270px); padding:16px 12px; }
-      .course-card h2 { font-size:clamp(.88rem,3.8vw,1.12rem); }
-      .action-badge { min-width:0; width:100%; height:clamp(38px,10vw,46px); padding:0 8px; gap:6px; font-size:clamp(.52rem,2.2vw,.68rem); }
-      .pathway { padding:110px 7vw 90px; }
-      .pathway.is-active { animation:mobilePathOpen .42s ease-out both; }
-      @keyframes mobilePathOpen { from { opacity:0; } to { opacity:1; } }
-      .path-head { text-align:left; padding-bottom:38px; }
-      .timeline::before, .timeline-progress { left:9px; transform:none; }
-      .step, .step:nth-child(even) { width:100%; margin-left:0; padding:22px 0 22px 42px; text-align:left; }
-      .step:nth-child(odd) { padding:22px 0 22px 42px; text-align:left; }
-      .step-dot, .step:nth-child(odd) .step-dot, .step:nth-child(even) .step-dot { left:2px; right:auto; }
-      .step-card, .step:nth-child(odd) .step-card { text-align:left; }
-      .step-card { min-height:0; height:auto; padding:clamp(22px,6vw,30px); }
-      .back-button { right:6vw; top:14px; }
-      .footer-bar { width:92%; flex-direction:column; gap:.8rem; padding:.8rem 1.2rem; border-radius:20px; text-align:center; }
-      .footer-contacts { gap:.6rem; flex-wrap:wrap; justify-content:center; }
-      .footer-pill { padding:.3rem .8rem; font-size:.78rem; }
-    }
-    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
-  </style>
 </head>
 <body>
+
   <div class="noise" aria-hidden="true"></div>
+
   <header class="navbar-wrapper">
     <nav class="navbar-container">
-      <a href="index.html" class="nav-brand" aria-label="EarlyCraft Home">
-        <img src="assets/logo.png" alt="EarlyCraft Logo" class="nav-brand-logo" onerror="this.style.display='none'">
-        <img src="assets/logofont.png" alt="EarlyCraft" class="nav-brand-font" onerror="this.style.display='none'">
-      </a>
-      <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle Navigation" aria-expanded="false"><i class="fa-solid fa-bars" id="toggleIcon"></i></button>
+      <div class="nav-brand-text">Courses</div>
+
+      <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle Navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+      </button>
+
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html" class="nav-item-link">Home</a></li>
         <li><a href="about.html" class="nav-item-link">About</a></li>
         <li><a href="internship.html" class="nav-item-link">Internship</a></li>
       </ul>
-      <button class="course-nav-button" id="courseNavButton" type="button"><i class="fa-solid fa-layer-group"></i> Courses</button>
+
+      <button class="course-nav-button" id="courseNavButton" type="button">
+        <i class="fa-solid fa-layer-group"></i> Courses
+      </button>
     </nav>
   </header>
+
   <main>
     <section class="hub" id="hub">
       <div class="hero">
-        <div><h1>Turn the Page.<br><span>Build Skill.</span></h1></div>
+        <div>
+          <h1>Turn the Page.<br><span>Build Skill.</span></h1>
+        </div>
         <div class="icon-field" aria-label="Interactive technology icons">
           <span class="floating-icon" style="--float-color:#e34f26;top:8%;left:8%" title="HTML"><i class="fa-brands fa-html5"></i></span>
           <span class="floating-icon" style="--float-color:#1572b6;bottom:4%;left:21%" title="CSS"><i class="fa-brands fa-css3-alt"></i></span>
           <span class="floating-icon" style="--float-color:#f7df1e;top:35%;left:35%" title="JavaScript"><i class="fa-brands fa-js"></i></span>
-          <span class="floating-icon" style="--float-color:#3776ab;top:2%;left:54%" title="Python"><i class="fa-brands fa-python"></i></span>
+          <span class="floating-icon" style="--float-color:#38bdf8;top:2%;left:54%" title="Python"><i class="fa-brands fa-python"></i></span>
           <span class="floating-icon" style="--float-color:#f89820;bottom:1%;left:49%" title="Java"><i class="fa-brands fa-java"></i></span>
           <span class="floating-icon" style="--float-color:#f05032;top:57%;right:25%" title="Git"><i class="fa-brands fa-git-alt"></i></span>
-          <span class="floating-icon" style="--float-color:#181717;top:18%;right:12%" title="GitHub"><i class="fa-brands fa-github"></i></span>
-          <span class="floating-icon" style="--float-color:#475569;bottom:6%;right:5%" title="SQL and databases"><i class="fa-solid fa-database"></i></span>
+          <span class="floating-icon" style="--float-color:#cbd5e1;top:18%;right:12%" title="GitHub"><i class="fa-brands fa-github"></i></span>
+          <span class="floating-icon" style="--float-color:#64748b;bottom:6%;right:5%" title="SQL and databases"><i class="fa-solid fa-database"></i></span>
         </div>
       </div>
+
       <div class="course-grid" id="courseGrid" aria-label="Available courses"></div>
     </section>
+
     <section class="pathway" id="pathway" aria-live="polite"></section>
   </main>
-  <footer class="footer-bar">
-    <div class="footer-rights"><span class="footer-brand">EarlyCraft EdTech</span> &copy; All Rights Reserved</div>
-    <div class="footer-contacts">
-      <a href="tel:7010885804" class="footer-pill"><i class="fa-solid fa-phone"></i> +91 7010885804</a>
-      <a href="mailto:earlycraftedtech@gmail.com" class="footer-pill"><i class="fa-solid fa-envelope"></i> earlycraftedtech@gmail.com</a>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        EarlyCraft EdTech <span>© All Rights Reserved</span>
+      </div>
+      <div class="footer-contact">
+        <a href="tel:+917010885804" class="footer-btn">
+          <i class="fa-solid fa-phone"></i> +91 7010885804
+        </a>
+        <a href="mailto:earlycraftedtech@gmail.com" class="footer-btn">
+          <i class="fa-solid fa-envelope"></i> earlycraftedtech@gmail.com
+        </a>
+      </div>
     </div>
   </footer>
+
   <script>
     const courses = [
-  { id:'python-101', title:'Python Masterclass', color:'#3776ab', icon:'fa-brands fa-python', agenda:[
-    { title:'CHAPTER 01: Python Runtime & Execution Architecture', topics:['Execution Model & Bytecode Compilation','Core Syntax, Indentation & Lexical Structure','Variable Mechanics, Identifiers & Memory Model','Type System Architecture & Dynamic Typing'] },
-    { title:'CHAPTER 02: Primitive Data Types & Logical Operations', topics:['Integers (int) & Arbitrary Precision','Floating-Point (float) & IEEE 754 Mechanics','Complex Numbers (complex) & Mathematical Operations','Booleans (bool) & Truthy/Falsy Evaluation'] },
-    { title:'CHAPTER 03: Comprehensive Operator Framework', topics:['Arithmetic & Bitwise Operators','Comparison & Relational Operators','Logical & Boolean Operators','Assignment, Identity & Membership Operators'] },
-    { title:'CHAPTER 04: Control Flow & Conditional Branching', topics:['If, Elif, Else Conditional Trees','Ternary Conditional Expressions','Structural Pattern Matching (match-case)','Nested Decision-Making Architecture'] },
-    { title:'CHAPTER 05: Iteration Mechanisms & Loop Protocols', topics:['While Loops & Condition-Based Iteration','For Loops & Sequence Traversal','Loop Control: Break, Continue & Else Clauses','Enumerate & Zip Iteration Helpers'] },
-    { title:'CHAPTER 06: Native Sequence Types – Strings (str)', topics:['String Immutability & Memory Layout','Indexing, Slicing & Extended Step Mechanics','String Formatting (f-strings, format, %)', 'Advanced String Methods & Parsing'] },
-    { title:'CHAPTER 07: Native Sequence Types – Lists (list)', topics:['Dynamic Array Architecture','List Operations, Slicing & Mutability','Comprehensive List Methods','List Comprehension Patterns'] },
-    { title:'CHAPTER 08: Native Sequence Types – Tuples (tuple)', topics:['Immutable Sequence Properties','Tuple Packing & Unpacking Dynamics','Namedtuples & Structured Records','Tuple Performance vs Lists'] },
-    { title:'CHAPTER 09: Native Set Types (set & frozenset)', topics:['Hash Table Underlying Structure','Set Operations: Union, Intersection & Difference','Set Comprehensions & Uniqueness Guarantees','Frozenset Immutable Properties'] },
-    { title:'CHAPTER 10: Native Mapping Types – Dictionaries (dict)', topics:['Hash Map Architecture & Key Constraints','Dictionary Access, Insertion & Deletion Methods','Dictionary Merging, Updating & Comprehensions','Defaultdict, Counter & Ordered Maps'] },
-    { title:'CHAPTER 11: Functions & First-Class Objects', topics:['Function Signatures & Return Values','First-Class Function Mechanics','Higher-Order Functions & Callables','Lambda Expressions & Anonymous Functions'] },
-    { title:'CHAPTER 12: Advanced Parameter Mechanics & Scoping', topics:['Positional, Keyword & Variadic Arguments (*args, **kwargs)','Keyword-Only & Positional-Only Parameters','Scope Resolution: LEGB Rule','Global, Nonlocal & Lexical Scoping'] },
-    { title:'CHAPTER 13: Functional Programming Paradigms', topics:['Pure Functions & Side-Effect Reduction','Map, Filter & Reduce Utilities','Currying & Function Composition','Partial Functions (functools.partial)'] },
-    { title:'CHAPTER 14: Object-Oriented Fundamentals', topics:['Classes, Instances & Attribute Architecture','Instance Methods & self Parameter','Constructors (__init__) & Initializers','Encapsulation & Access Modifiers (_ and __)'] },
-    { title:'CHAPTER 15: Advanced OOP & Design Architecture', topics:['Inheritance Chains & Method Overriding','Multiple Inheritance & Method Resolution Order (MRO)','Polymorphism & Duck Typing','Abstract Base Classes (ABCs)'] },
-    { title:'CHAPTER 16: Class Variants, Class Methods & Attributes', topics:['Class Methods (@classmethod) & Factory Methods','Static Methods (@staticmethod) & Pure Utilities','Class Attributes vs Instance Attributes','Slots (__slots__) for Memory Efficiency'] },
-    { title:'CHAPTER 17: Special Methods & Operator Overloading', topics:['String Representation (__repr__, __str__)','Arithmetic & Comparison Dunder Methods','Container Dunder Methods (__len__, __getitem__)','Callable Objects (__call__)'] },
-    { title:'CHAPTER 18: Exception Management Architecture', topics:['Built-in Exception Hierarchy','Try, Except, Else & Finally Blocks','Raising & Propagating Exceptions','Exception Chaining & Tracebacks'] },
-    { title:'CHAPTER 19: Custom Exceptions & Defensiveness', topics:['Designing Custom Exception Hierarchies','Assertion Statements & Defensive Programming','Contextual Error Handling','Warnings System (warnings)'] },
-    { title:'CHAPTER 20: File Handling & Stream I/O Operations', topics:['File Access Modes & Buffer Mechanics','Text vs Binary Streams','Structured File Parsing (CSV, JSON, YAML)','In-Memory Streams (io.StringIO, io.BytesIO)'] },
-    { title:'CHAPTER 21: Context Managers & Resource Control', topics:['Context Manager Protocol (__enter__, __exit__)','The with Statement Execution Flow','Creating Context Managers via contextlib','Managing Multiple Resources'] },
-    { title:'CHAPTER 22: Iterators, Generators & Lazy Evaluation', topics:['Iterator Protocol (__iter__, __next__)','Generator Functions & yield Expression','Generator Expressions & Memory Footprint','Send, Throw & Close Generator Methods'] },
-    { title:'CHAPTER 23: Decorators & Function Wrapping', topics:['Decorator Pattern Mechanics','Writing Custom Function Decorators','Class Decorators & Decorators with Arguments','Preserving Metadata (functools.wraps)'] },
-    { title:'CHAPTER 24: Descriptors & Managed Attributes', topics:['Property Decorators (@property, setter, deleter)','Descriptor Protocol (__get__, __set__, __delete__)','Data vs Non-Data Descriptors','Attribute Interception (__getattr__, __getattribute__)'] },
-    { title:'CHAPTER 25: Metaprogramming & Runtime Internals', topics:['Dynamic Code Execution (eval, exec)','Type System Construction & Metaclasses','Class Instantiation Control (__new__)','AST Inspection & Code Generation'] },
-    { title:'CHAPTER 26: Native Concurrency & Threading', topics:['GIL (Global Interpreter Lock) Mechanics','Thread Management & Synchronization (Locks, Semaphores)','Thread-Safe Queues & Worker Patterns','Concurrent Execution via ThreadPoolExecutor'] },
-    { title:'CHAPTER 27: Process-Parallelism & Asynchronous I/O', topics:['Multiprocessing Architecture & IPC','Shared Memory & Process Pools','Event Loop Infrastructure (asyncio)','Coroutines, Tasks & Async/Await Syntax'] },
-    { title:'CHAPTER 28: Standard Library, Modules & Distribution', topics:['OS, Sys & Pathlib System Services','Dataclasses, Collections & Math Modules','Package Structure, Modules & Imports','Virtual Environments, Packaging & PyPI'] }
-  ] },
-  { id:'java-101', title:'Java Engineering', color:'#f89820', icon:'fa-brands fa-java', agenda:[
-    { title:'CHAPTER 01: JVM Architecture & Program Structure', topics:['JVM, JRE & JDK Mechanics','Bytecode Execution & JIT Compiler','Class Structure, Package Declarations & Main Method','Source File Layout & Compilation Workflow'] },
-    { title:'CHAPTER 02: Lexical Structure, Variables & Primitives', topics:['Primitive Data Types & Numeric Ranges','Memory Stack Allocation for Primitives','Literals, Constants (final) & Identifiers','Variable Scope & Lifecycle'] },
-    { title:'CHAPTER 03: Operators, Expressions & Evaluation Order', topics:['Arithmetic & Bitwise Operators','Relational & Logical Operators','Ternary & Assignment Operators','Operator Precedence & Evaluation Rules'] },
-    { title:'CHAPTER 04: Type Conversion, Casting & Promotions', topics:['Implicit Type Promotion Rules','Explicit Casting Mechanics & Precision Loss','Primitive Boxing & Unboxing (Wrapper Classes)','Numeric Conversions & Overflows'] },
-    { title:'CHAPTER 05: Control Flow & Conditional Logic', topics:['If, Else-If, Else Decision Trees','Switch Statements & Modern Switch Expressions','Ternary Logic & Branching Optimization','Short-Circuit Evaluation Mechanics'] },
-    { title:'CHAPTER 06: Iteration Mechanisms & Loop Constructs', topics:['While & Do-While Loops','Traditional For Loops & Iteration Controls','Enhanced For-Each Loop Syntax','Loop Branching: Break, Continue & Labeled Statements'] },
-    { title:'CHAPTER 07: Reference Types & Memory Allocation Mechanics', topics:['Heap Allocation vs Stack Memory','Reference Variables & Null References','Garbage Collection Basics & Object Reachability','Memory Management Best Practices'] },
-    { title:'CHAPTER 08: Array Fundamentals & Multidimensional Arrays', topics:['Array Creation, Initialization & Length','1D Array Operations & Memory Layout','Multidimensional & Jagged Arrays','Array Manipulations & System.arraycopy'] },
-    { title:'CHAPTER 09: String Handling, StringBuilder & Text Formatting', topics:['String Immutability & String Constant Pool','StringBuilder vs StringBuffer for Mutability','Text Blocks & String Formatting API','Regular Expressions & Pattern Matching'] },
-    { title:'CHAPTER 10: Object-Oriented Core – Class Blueprint & Instantiation', topics:['Class Declarations & Instantiation (new)','Instance Variables & Field Initialization','Constructors, Chaining & this Keyword','Method Signatures & Return Types'] },
-    { title:'CHAPTER 11: Encapsulation & Access Control', topics:['Encapsulation Architecture & Data Hiding','Access Modifiers: private, default, protected, public','Getter and Setter Design Patterns','Immutable Class Design Principles'] },
-    { title:'CHAPTER 12: Inheritance, Composition & Method Overriding', topics:['Class Hierarchy & extends Keyword','Super Keyword & Constructor Delegation','Method Overriding Rules & @Override','Composition vs Inheritance Relationships'] },
-    { title:'CHAPTER 13: Polymorphism, Dynamic Binding & Type Casting', topics:['Upcasting & Downcasting Mechanics','Dynamic Method Dispatch & Late Binding','Instanceof Operator & Pattern Matching','Covariant Return Types'] },
-    { title:'CHAPTER 14: Abstraction, Abstract Classes & Interfaces', topics:['Abstract Classes & Method Contracts','Interface Declarations & Implementation','Default, Static & Private Interface Methods','Multiple Interface Implementation Patterns'] },
-    { title:'CHAPTER 15: Special Java Types – Enums, Records & Nested Classes', topics:['Enum Types, Fields & Custom Methods','Java Records & Data Carrier Abstractions','Static Nested, Inner & Local Classes','Anonymous Inner Classes'] },
-    { title:'CHAPTER 16: Exception Handling Architecture', topics:['Checked vs Unchecked Exception Hierarchy','Try-Catch-Finally Exception Handling','Throw & Throws Method Signature Declarations','Custom Exception Development'] },
-    { title:'CHAPTER 17: Modern Exception Management & Resources', topics:['Try-With-Resources Protocol (AutoCloseable)','Multi-Catch Exception Syntax','Exception Chaining & Suppressed Exceptions','Defensive Programming Practices'] },
-    { title:'CHAPTER 18: Java Collections Framework – Lists & Sets', topics:['Collection Interface Hierarchy','ArrayList vs LinkedList Architecture','HashSet, LinkedHashSet & TreeSet Mechanics','Set Uniqueness & Comparator/Comparable'] },
-    { title:'CHAPTER 19: Java Collections Framework – Queues & Maps', topics:['Queue, Deque & PriorityQueue Implementations','HashMap Internal Storage & Hash Buckets','LinkedHashMap, TreeMap & ConcurrentHashMap','Map Operations, Iteration & Null Rules'] },
-    { title:'CHAPTER 20: Generics & Type Safety Architecture', topics:['Generic Classes, Interfaces & Methods','Type Erasure Mechanics & Bytecode Impact','Bounded Type Parameters (extends/super)','Wildcards (?, ? extends, ? super)'] },
-    { title:'CHAPTER 21: Functional Programming & Lambda Expressions', topics:['Functional Interfaces & @FunctionalInterface','Lambda Expression Syntax & Scope Rules','Method References (Class::method)','Standard Functional Interfaces (Supplier, Consumer, Function, Predicate)'] },
-    { title:'CHAPTER 22: Stream API & Reactive Pipeline Processing', topics:['Stream Creation, Source & Lifecycle','Intermediate Operations (map, filter, flatMap)','Terminal Operations (collect, reduce, forEach)','Parallel Streams & Execution Dynamics'] },
-    { title:'CHAPTER 23: Optional Type & Null Safety Framework', topics:['Optional Class Creation & Inspection','Functional Chaining (map, flatMap, filter)','Fallback Strategies (orElse, orElseGet, orElseThrow)','Null Handling Architectural Patterns'] },
-    { title:'CHAPTER 24: Concurrency & Multithreading Fundamentals', topics:['Thread Class & Runnable Interface','Thread Lifecycle States & Management','Volatile Keyword & Memory Visibility','Synchronized Blocks & Thread Locks'] },
-    { title:'CHAPTER 25: High-Level Concurrency & Executor Framework', topics:['ExecutorService, ThreadPools & Task Dispatch','Callable, Future & CompletableFuture','ReentrantLock, ReadWriteLock & Semaphores','Atomic Variables & Lock-Free Data Structures'] },
-    { title:'CHAPTER 26: Modern Java Concurrency (Virtual Threads)', topics:['Project Loom Architecture','Platform Threads vs Virtual Threads','Structured Concurrency API','Scoped Values & Lightweight Concurrency'] },
-    { title:'CHAPTER 27: Java I/O, Modern NIO.2 & Serialization', topics:['Byte & Character Streams (java.io)','NIO.2 Buffers, Channels & Path/Files API','Object Serialization & transient Keyword','File System Interoperability'] },
-    { title:'CHAPTER 28: Reflection, Modules & Enterprise Ecosystem', topics:['Java Reflection API & Dynamic Instantiation','Java Platform Module System (JPMS)','Database Connectivity (JDBC) & Transactions','Build Tools, Testing Frameworks & Enterprise Standards'] }
-  ] },
-  { id:'html-101', title:'HTML Foundations', color:'#e34f26', icon:'fa-brands fa-html5', agenda:[
-    { title:'CHAPTER 01: Core Web Concepts & HTML Infrastructure', topics:['HTTP/HTTPS Protocol & Request Cycle','Browser Parsing Engine & Rendering Pipeline','Document Object Model (DOM) Tree Construction','Doctype Declarations & Quirks vs Standards Mode'] },
-    { title:'CHAPTER 02: Document Skeleton & Head Architecture', topics:['HTML Root Structure & Language Attributes','Head Tag Component Hierarchy','Character Encodings (UTF-8) & Security Meta Tags','Page Title, Favicon & Resource Linking Rules'] },
-    { title:'CHAPTER 03: Metadata, SEO & Social Graph Integration', topics:['Meta Keywords, Descriptions & Robot Directives','Open Graph Protocol for Social Sharing','Twitter Card Metadata Configuration','Canonical URLs & Language Alternate Tags'] },
-    { title:'CHAPTER 04: HTML Syntax, Parsing & Text Primitives', topics:['Tag Anatomy, Attributes & Value Rules','Void Elements vs Container Elements','HTML Entity Encoding & Character Escaping','Whitespace Collapsing & Formatting Rules'] },
-    { title:'CHAPTER 05: Structural Text Elements & Typography', topics:['Heading Hierarchy (h1-h6) & Document Outline','Paragraphs (p) & Line Breaks (br, wbr)','Preformatted Text (pre) & Code Representation (code, kbd, samp)','Thematic Breaks (hr) & Blockquotes (blockquote, q)'] },
-    { title:'CHAPTER 06: Inline Text Semantics & Formatting Marks', topics:['Emphasis (em) vs Importance (strong)','Stylistic Offsets (i, b) & Small Print (small)','Subscripts (sub) & Superscripts (sup)','Revisions & Edits (del, ins, s)'] },
-    { title:'CHAPTER 07: Advanced Text Annotations & Highlights', topics:['Text Highlights (mark) & Definitions (dfn)','Abbreviations (abbr) & Title Attributes','Bi-Directional Text Controls (bdo, bdi)','Time Elements (time) & Machine-Readable Dates'] },
-    { title:'CHAPTER 08: HTML5 Semantic Structural Layout', topics:['Semantic Elements: header, footer, main','Navigation Structures (nav) & Related Links','Articles (article) vs Sections (section)','Tangential Content (aside) & Figures (figure, figcaption)'] },
-    { title:'CHAPTER 09: Hyperlinks & Navigation Systems', topics:['Anchor Tag Anatomy (a) & Href Targets','Relative vs Absolute URL Paths','Fragment Identifiers & In-Page Anchors','Link Attributes: download, rel (noopener, noreferrer)'] },
-    { title:'CHAPTER 10: Lists & Content Grouping Structures', topics:['Ordered Lists (ol) & Type/Reversed Attributes','Unordered Lists (ul) & Nested Tree Structures','List Items (li) & Custom Counters','Description Lists (dl, dt, dd) & Dictionary Patterns'] },
-    { title:'CHAPTER 11: Form Containers & Processing Architecture', topics:['Form Element Anatomy & Submit Workflows','Form Action, Method (GET/POST) & Enctype','Form Targeting & Name-Value Data Packaging','Autocomplete & Novalidate Directives'] },
-    { title:'CHAPTER 12: Form Controls – Textual Input Types', topics:['Standard Inputs (text, password, hidden)','Specialized Text Inputs (email, url, tel, search)','Multiline Text Structures (textarea)','Input Masks, Patterns & Placeholders'] },
-    { title:'CHAPTER 13: Form Controls – Selection & Range Elements', topics:['Checkboxes & Radio Button Groups','Dropdown Selection (select, option, optgroup)','Interactive Datalist Auto-completion','Range Sliders & Numeric Inputs (number)'] },
-    { title:'CHAPTER 14: Form Controls – Date, Time & Color Pickers', topics:['Temporal Inputs (date, time, datetime-local)','Month & Week Picker Elements','Color Picker Interface (color)','File Upload Interfaces & Multiple Selection'] },
-    { title:'CHAPTER 15: Native Form Validation Framework', topics:['Constraint Validation Attributes (required, min, max, pattern)','Custom Validation Messages & Constraints API','Pseudo-classes Connection (:valid, :invalid)','Form Field Grouping (fieldset, legend)'] },
-    { title:'CHAPTER 16: Interactive & Action Form Elements', topics:['Standard Buttons (button) & Type Variants','Image Input Submitters','Progress Indicators (progress)','Gauge & Scalar Measurements (meter)'] },
-    { title:'CHAPTER 17: Tabular Data Structures – Core Architecture', topics:['Table Grid Model (table) & Captions','Table Rows (tr) & Header Cells (th)','Table Data Cells (td) & Scope Attributes','Colspan & Rowspan Cell Merging Logic'] },
-    { title:'CHAPTER 18: Tabular Data Structures – Layout & Semantic Groups', topics:['Semantic Sections: thead, tbody, tfoot','Column Grouping Controls (colgroup, col)','Table Accessibility Attributes','CSS Table Layout Integration Rules'] },
-    { title:'CHAPTER 19: Media Elements – Images & Responsive Graphics', topics:['Image Source (img), Alt Text & Display Standards','Lazy Loading & Decoding Attributes','Responsive Images: srcset & sizes Attributes','Art Direction with Picture Element (picture, source)'] },
-    { title:'CHAPTER 20: Media Elements – Audio & Video Integration', topics:['Video Element Anatomy (video) & Media Sources','Audio Element Architecture (audio)','Playback Controls, Autoplay & Loop Rules','Subtitles & Captions via Track Element (track, VTT)'] },
-    { title:'CHAPTER 21: Embedded Media & External Contexts', topics:['Inline Frame Embedding (iframe) & Sandbox Controls','Vector Graphics Embedding (svg)','Dynamic Drawing Canvas (canvas)','Legacy Embed & Object Elements'] },
-    { title:'CHAPTER 22: Native Interactive UI Components', topics:['Accordion Widgets (details, summary)','Modal & Dialog Windows (dialog)','Popovers & Top Layer Mechanics','ContextMenu & Native Tooltip Integrations'] },
-    { title:'CHAPTER 23: Global Attributes & Document API Hooks', topics:['Core Identifiers (id, class) & Styles','Language (lang) & Directionality (dir) Attributes','Content Editing (contenteditable) & Spellcheck','Custom Data Attributes (data-*) & Dataset Access'] },
-    { title:'CHAPTER 24: Accessibility (a11y) & ARIA Foundations', topics:['Accessible Rich Internet Applications (ARIA) Roles','ARIA States & Properties (aria-expanded, aria-hidden)','Keyboard Navigation & Focus Control (tabindex)','Screen Reader Semantics & Accessible Names'] },
-    { title:'CHAPTER 25: Web Components & Shadow DOM Foundations', topics:['HTML Templates (template) & Unrendered DOM','Slot Elements (slot) & Composition','Custom HTML Element Registration','Shadow DOM Scoping Concepts'] },
-    { title:'CHAPTER 26: Microdata, Structured Data & SEO Schema', topics:['Semantic Schema.org Integration','Itemscope, Itemtype & Itemprop Attributes','JSON-LD vs Microdata Markup Formats','Rich Search Snippets & Knowledge Graph Hooks'] },
-    { title:'CHAPTER 27: Performance Optimization & Resource Loading', topics:['Script Execution Controls (async, defer, type=module)','Resource Hints (preload, preconnect, prefetch)','CSS Loading & Render-Blocking Optimization','DOM Depth & Node Count Performance Impact'] },
-    { title:'CHAPTER 28: HTML Security Protocol & Best Practices', topics:['Cross-Site Scripting (XSS) Prevention','Content Security Policy (CSP) Directives','Iframe Sandboxing & Security Headers','HTML Cleanliness & Validator Compliance'] }
-  ] },
-  { id:'css-101', title:'CSS Foundations', color:'#1572b6', icon:'fa-brands fa-css3-alt', agenda:[
-    { title:'CHAPTER 01: CSS Foundations & Execution Engine', topics:['CSS Parsing Engine & Style Computation','The Cascade Mechanism & Origin Authority','Specificity Calculations & Weight Ratios','Inheritance Properties & Initial/Unset Values'] },
-    { title:'CHAPTER 02: Basic Selectors & Combinators', topics:['Universal, Type, Class & ID Selectors','Descendant & Child Combinators','General & Adjacent Sibling Combinators','Grouping Selectors & Selector Lists'] },
-    { title:'CHAPTER 03: Advanced Selectors & Pseudo-Classes', topics:['Attribute Selectors & Substring Matching','User Action Pseudo-Classes (:hover, :focus, :active)','Structural Pseudo-Classes (:nth-child, :first-of-type)','Target, Enabled, Disabled & Checked Pseudo-Classes'] },
-    { title:'CHAPTER 04: Pseudo-Elements & Generated Content', topics:['Pseudo-Elements Anatomy (::before, ::after)','Content Property Dynamics & Generated Symbols','First-Letter & First-Line Formatting','Selection Styling (::selection, ::placeholder)'] },
-    { title:'CHAPTER 05: CSS Box Model Mechanics', topics:['Box Model Anatomy: Content, Padding, Border, Margin','Box-Sizing Computation (content-box vs border-box)','Width & Height Constraints (min/max bounds)','Visual Overflow Behaviors (overflow, clip)'] },
-    { title:'CHAPTER 06: Margin Mechanics & Collapsing', topics:['Margin Collapsing Rules & Parent-Child Interaction','Adjacent Sibling Margin Collapse','Auto Margins & Horizontal Centering','Negative Margins & Overlapping Patterns'] },
-    { title:'CHAPTER 07: Visual Formatting & Display Modes', topics:['Display Types: block, inline, inline-block','Display Control: none vs visibility: hidden','Flow Layout Mechanics & Formatting Contexts','Margin & Padding Behaviors on Inline Elements'] },
-    { title:'CHAPTER 08: Color Systems & Modern Color Spaces', topics:['Named Colors, Hexadecimal & RGB Syntax','HSL & HSLA Color Functions','Modern Color Functions (lab, lch, oklch)','Alpha Channel Transparency & Opacity Rules'] },
-    { title:'CHAPTER 09: Backgrounds & Multi-Border Styling', topics:['Background Color, Image & Repeat Properties','Background Sizing (cover, contain) & Position','Multiple Background Layering Mechanics','Borders, Outlines, Box-Shadows & Radius'] },
-    { title:'CHAPTER 10: Gradients & Graphical Patterns', topics:['Linear Gradients & Angle Configurations','Radial Gradients & Shape Metrics','Conic Gradients & Color Stop Rules','Repeating Gradient Patterns'] },
-    { title:'CHAPTER 11: Typography, Fonts & @font-face', topics:['Font Families, Web Safe Fonts & Fallbacks','Font Loading via @font-face Protocol','Font Weight, Style & Variant Metrics','Variable Fonts & OpenType Features'] },
-    { title:'CHAPTER 12: Text Layout, Wrapping & Alignment', topics:['Line Height, Letter Spacing & Word Spacing','Text Alignment, Indentation & Transformation','Text Wrapping, Word Breaks & Hyphenation','Text Overflow, Ellipsis & Multiline Truncation'] },
-    { title:'CHAPTER 13: Flexbox Layout – Container Architecture', topics:['Flex Box Formatting Context (display: flex)','Main Axis vs Cross Axis Alignment','Flex Direction & Wrap Control','Justify-Content, Align-Items & Align-Content'] },
-    { title:'CHAPTER 14: Flexbox Layout – Item Dynamics', topics:['Flex Items Sizing: flex-grow, flex-shrink, flex-basis','Shorthand Flex Syntax Mechanics','Self Alignment (align-self) & Item Ordering','Flexbox Layout Design Patterns'] },
-    { title:'CHAPTER 15: CSS Grid – Container Setup & Tracks', topics:['Grid Formatting Context (display: grid)','Explicit Grid Tracks (grid-template-rows/columns)','The Fractional Unit (fr) & Track Sizing Functions','Implicit Grid & Auto Track Generations'] },
-    { title:'CHAPTER 16: CSS Grid – Placement & Template Areas', topics:['Line-Based Item Placement Mechanics','Grid Span & Explicit Boundaries','Grid Template Areas & Named Sections','Gap Properties (row-gap, column-gap)'] },
-    { title:'CHAPTER 17: Advanced Grid Patterns & Auto-Fit/Fill', topics:['Auto-Fit vs Auto-Fill Repeated Gradients','Minmax Sizing Functions for Responsiveness','Subgrid Architecture & Child Alignment','Grid Alignment & Distribution Attributes'] },
-    { title:'CHAPTER 18: Positioning Mechanics & Coordinates', topics:['Static vs Relative Positioning Mechanics','Absolute Positioning & Containing Blocks','Fixed Positioning & Viewport Pinning','Sticky Positioning & Scroll Boundaries'] },
-    { title:'CHAPTER 19: Stacking Contexts & Layering Controls', topics:['Z-Index Mechanics & Integer Rules','Stacking Context Creation Triggers','Nested Stacking & Root Context Override','Top Layer Mechanics & Native Dialog Placement'] },
-    { title:'CHAPTER 20: Transitions & Interactive Motion', topics:['Transition Properties & Shorthand Syntax','Timing Functions (ease, linear, cubic-bezier)','Transition Delays & Multiple Property Chains','Hardware-Accelerated Animatable Properties'] },
-    { title:'CHAPTER 21: Keyframe Animations & Complex Motion', topics:['@keyframes Rules & Percentage Keyframes','Animation Duration, Iteration & Direction','Animation Fill Modes (forwards, backwards, both)','Animation Play-State & Composition'] },
-    { title:'CHAPTER 22: Transforms, 3D & Perspective', topics:['2D Transformations (translate, rotate, scale, skew)','3D Transformations & Z-Axis Operations','Perspective, Perspective-Origin & Transform-Style','Backface-Visibility & Modern Transform Functions'] },
-    { title:'CHAPTER 23: Graphical Filters & Backdrop Blending', topics:['CSS Filters (blur, brightness, contrast, drop-shadow)','Backdrop-Filter for Glassmorphism','Mix-Blend-Mode & Background-Blend-Mode','CSS Masking & Clipping Paths (clip-path)'] },
-    { title:'CHAPTER 24: Responsive Design & Media Queries', topics:['Viewport Meta Tag Configuration','Media Query Level 4 Syntax & Features','Device Characteristic Queries (hover, pointer)','User Preference Queries (prefers-color-scheme, reduced-motion)'] },
-    { title:'CHAPTER 25: Container Queries & Modern Responsiveness', topics:['Container Query Mechanics (@container)','Container Size & Style Context Setup','Container Query Length Units (cqw, cqh)','Component-Driven Responsive Layouts'] },
-    { title:'CHAPTER 26: CSS Custom Properties (Variables)', topics:['Declaring Custom Properties (--var) & Scope','Var Function Usage & Fallback Values','Dynamic Variable Override via DOM/CSS','Typed Custom Properties with @property API'] },
-    { title:'CHAPTER 27: Modern CSS Features & Cascade Layers', topics:['Native CSS Nesting Syntax & Parent Selector (&)','Cascade Layers (@layer) & Precedence Management','Scoped CSS Styles (@scope)','Anchor Positioning System (anchor-name, position-anchor)'] },
-    { title:'CHAPTER 28: Performance, Architecture & Tooling', topics:['Repaints, Reflows & Composite Layers','Will-Change Attribute & Performance Hints','BEM, OOCSS & Atomic CSS Methodologies','PostCSS, Preprocessors & CSS Modules'] }
-  ] },
-  { id:'javascript-101', title:'JavaScript Engineering', color:'#f7df1e', icon:'fa-brands fa-js', agenda:[
-    { title:'CHAPTER 01: Engine Architecture & Execution Runtime', topics:['V8 Engine Parsing, JIT Compilation & Ignition/Turbofan','Call Stack Architecture & Heap Memory','Execution Contexts: Global, Function & Eval','Creation Phase vs Execution Phase Dynamics'] },
-    { title:'CHAPTER 02: Variable Declarations & Scope Mechanics', topics:['Var, Let, and Const Declaration Scoping','Hoisting Behaviors for Variables and Functions','Temporal Dead Zone (TDZ) Mechanics','Lexical Scoping & Block Scope Isolation'] },
-    { title:'CHAPTER 03: JavaScript Data Types & Type System', topics:['Primitive Data Types (Number, String, Boolean, BigInt, Symbol, Null, Undefined)','Reference Types & Object Memory Layout','Dynamic Typing & Typeof Inspection Anomalies','Implicit Coercion vs Explicit Type Conversion'] },
-    { title:'CHAPTER 04: Primitive Mechanics & Number Systems', topics:['IEEE 754 Floating-Point Precision Metrics','Special Numeric Values (NaN, Infinity, -0)','BigInt Operations & Arbitrary Precision','Symbol Creation, Uniqueness & Global Registry'] },
-    { title:'CHAPTER 05: Operators, Expressions & Control Logic', topics:['Arithmetic, Bitwise & Logical Operators','Strict (===) vs Loose (==) Equality Mechanics','Logical Assignment Operators (&&=, ||=, ??=)','Optional Chaining (?.) & Nullish Coalescing (??)'] },
-    { title:'CHAPTER 06: Conditional Branching & Iteration Rules', topics:['If-Else Branching & Ternary Expressions','Switch Statement Evaluation Rules','For, While & Do-While Iteration Loops','For-In vs For-Of Iteration Protocols'] },
-    { title:'CHAPTER 07: Functions, Signatures & Execution Mechanics', topics:['Function Declarations vs Function Expressions','Arrow Function Architecture & Lexical Boundings','Rest Parameters & Spread Syntax Dynamics','Default Parameter Values & Evaluation Order'] },
-    { title:'CHAPTER 08: Closures & Lexical Scope Retention', topics:['Closure Mechanics & Environment Records','Lexical Environment Lifetime & Scope Retention','Practical Closure Applications (Module Pattern, Currying)','Memory Considerations & Closure Leaks'] },
-    { title:'CHAPTER 09: The "this" Binding Paradigm', topics:['Default & Implicit "this" Binding Rules','Explicit Binding: Call, Apply & Bind Methods','New Keyword Binding & Constructor Execution','Arrow Function Lexical "this" Retention'] },
-    { title:'CHAPTER 10: Objects & Property Descriptors', topics:['Object Literal Enhancements & Dynamic Keys','Property Descriptors (writable, enumerable, configurable)','Object Immutability (freeze, seal, preventExtensions)','Property Enumeration & Reflection APIs'] },
-    { title:'CHAPTER 11: Prototype Chain & Inherited Behaviors', topics:['Prototype Architecture (__proto__ vs prototype)','Prototypal Inheritance Mechanics','Object.create & Dynamic Prototype Linkage','Prototype Chain Traversal & Performance'] },
-    { title:'CHAPTER 12: Modern Object-Oriented JS (ES6+ Classes)', topics:['Class Syntax Blueprint & Constructor Protocol','Private Fields (#) & Public Static Members','Class Inheritance via Extends & Super','Getters, Setters & Method Declarations'] },
-    { title:'CHAPTER 13: Array Manipulation & Higher-Order Methods', topics:['Mutating vs Non-Mutating Array Operations','Higher-Order Traversal (map, filter, reduce)','Searching & Indexing (find, includes, flatMap)','Sparse Arrays & Array Mechanics'] },
-    { title:'CHAPTER 14: Keyed Collections & Typed Data', topics:['Map Collection & Key Type Versatility','Set Collection & Unique Value Guarantees','WeakMap and WeakSet Memory Reclamation','Typed Arrays & ArrayBuffer Binary Operations'] },
-    { title:'CHAPTER 15: Asynchronous Foundations & Callbacks', topics:['Synchronous Execution vs Asynchronous Tasks','Callback Pattern Architecture','Callback Hell & Pyramid of Doom','Error-First Callback Conventions'] },
-    { title:'CHAPTER 16: Promises & Task Microqueue Execution', topics:['Promise States: Pending, Fulfilled, Rejected','Promise Chaining & Return Value Resolution','Promise Aggregation (all, allSettled, race, any)','Microtask Queue vs Macrotask Queue Mechanics'] },
-    { title:'CHAPTER 17: Async / Await Engine Architecture', topics:['Async/Await Syntactic Sugar over Promises','Sequential vs Parallel Async Execution','Async Error Handling via Try-Catch','Top-Level Await Execution Architecture'] },
-    { title:'CHAPTER 18: Event Loop & Concurrency Architecture', topics:['Event Loop Operations & Turn Phase','Call Stack, Web APIs & Task Queues','Microtask Execution Priority','Rendering Frame Synchronization Pipeline'] },
-    { title:'CHAPTER 19: Metaprogramming – Proxy & Reflect', topics:['Proxy Interception Traps (get, set, apply)','Reflect API Mirror Operations','Data Validation & Virtual Properties via Proxy','Reactive State Systems with Proxies'] },
-    { title:'CHAPTER 20: Advanced Metaprogramming & Generators', topics:['Well-Known Symbols (Symbol.iterator, Symbol.species)','Generator Functions & yield Execution Interruption','Bi-Directional Communication with Generators','Async Generators & For-Await-Of Iteration'] },
-    { title:'CHAPTER 21: JavaScript Module System (ESM vs CJS)', topics:['CommonJS Syntax (require/module.exports)','ES Modules (import/export) Specification','Dynamic Imports & Code Splitting','Module Resolution & Scope Isolation'] },
-    { title:'CHAPTER 22: Browser Environment & DOM Architecture', topics:['DOM Tree Hierarchy & Element Nodes','DOM Traversals & Parent/Child Navigation','Element Querying & Manipulation Methods','Dynamic Element Creation & Insertion'] },
-    { title:'CHAPTER 23: Event Architecture & User Interaction', topics:['Event Capturing, Target & Bubbling Phases','Event Listeners & Event Object Inspection','Event Delegation Architectural Patterns','Custom Event Dispatching (CustomEvent)'] },
-    { title:'CHAPTER 24: Browser Storage & Data Persistence', topics:['LocalStorage & SessionStorage APIs','IndexedDB Transactional Database System','Cookie Storage Rules & Security Flags','Cache Storage API & Service Worker Caching'] },
-    { title:'CHAPTER 25: Network APIs & Remote Communication', topics:['Fetch API Requests & Headers Protocol','AbortController & Request Cancellation','WebSockets for Real-Time Communication','Server-Sent Events (SSE) Protocol'] },
-    { title:'CHAPTER 26: Memory Management & Garbage Collection', topics:['Memory Allocation Lifecycle','Garbage Collection Algorithms (Mark-and-Sweep)','Memory Leak Identifiers (Retained DOM, Timers)','Weak References & FinalizationRegistry'] },
-    { title:'CHAPTER 27: Client-Side Security & Data Safety', topics:['Cross-Site Scripting (XSS) Prevention','Cross-Site Request Forgery (CSRF) Defenses','Same-Origin Policy (SOP) & CORS Configuration','Content Security Policy (CSP) Directives'] },
-    { title:'CHAPTER 28: Performance Optimization & Testing Architecture', topics:['Debouncing & Throttling Execution Patterns','Web Workers & Multi-Threaded Execution','DOM Reflow and Repaint Optimization','Unit Testing, Mocks & End-to-End Testing'] }
-  ] },
-  { id:'numpy-101', title:'NumPy Computing', color:'#4d77cf', icon:'fa-solid fa-cubes', agenda:[
-    { title:'CHAPTER 01: Architecture & C-API Foundations', topics:['NumPy Architecture vs Python Lists','ndarray Memory Layout: Contiguous Memory & Strides','NPY Data Engine & C-Extension Infrastructure','Environment Setup & Scientific Toolchains'] },
-    { title:'CHAPTER 02: Data Types (dtypes) & Precision Management', topics:['Numerical Precision (int8-64, float16-64, complex)','Structured & Flexible Dtypes','Type Casting Rules & safe/unsafe Casting','Datetime64 & Timedelta64 Data Types'] },
-    { title:'CHAPTER 03: Explicit Array Creation Mechanics', topics:['Arrays from Python Structures (np.array)','Uninitialized & Constant Arrays (zeros, ones, empty, full)','Identity & Diagonal Matrix Constructors','Like-Constructors (zeros_like, ones_like)'] },
-    { title:'CHAPTER 04: Numerical Ranges & Mesh Generation', topics:['Uniform Step Ranges (np.arange)','Linear & Logarithmic Spacing (linspace, logspace)','Grid Construction (meshgrid, mgrid, ogrid)','Geomspace & Hyper-Geometric Grids'] },
-    { title:'CHAPTER 05: Array Inspection & Structural Metadata', topics:['Dimension, Shape & Size Inspection','Data Type & Itemsize Metadata','Memory Buffer & Stride Diagnostics (flags)','Byte Order & Endianness Management'] },
-    { title:'CHAPTER 06: Basic Indexing, Slicing & Views vs Copies', topics:['1D, 2D & N-Dimensional Slice Syntax','Memory Views vs Explicit Copying Mechanics','Base Reference Tracking (.base)','Slice Assignments & In-Place Mutations'] },
-    { title:'CHAPTER 07: Advanced Indexing & Fancy Selection', topics:['Integer Array Indexing Patterns','Boolean Indexing & Masking Arrays','Combined Advanced & Basic Indexing','np.take, np.put, and np.choose Mechanics'] },
-    { title:'CHAPTER 08: Dimensionality & Shape Manipulation', topics:['Reshaping Constraints & Flat Slicing (reshape, ravel)','Flattening Arrays (flatten vs ravel)','Axis Transposition & Permutation (transpose, swapaxes)','Expanding & Squeezing Dimensions (expand_dims, squeeze)'] },
-    { title:'CHAPTER 09: Joining & Combining Array Structures', topics:['Concatenation along Axes (np.concatenate)','Stacking Operations (hstack, vstack, dstack, stack)','Block Array Assembly (np.block)','Column & Row Binding Operations'] },
-    { title:'CHAPTER 10: Splitting & Partitioning Arrays', topics:['Equal & Unequal Splitting (np.split, array_split)','Horizontal & Vertical Splitting (hsplit, vsplit)','Depth-Wise Splitting (dsplit)','Sub-Array Partitioning Mechanics'] },
-    { title:'CHAPTER 11: Array Tiling, Repeating & Padding', topics:['Tile Array Replication (np.tile)','Element-Wise Repetition (np.repeat)','Boundary & Constant Padding (np.pad)','Constructing Block Matrices'] },
-    { title:'CHAPTER 12: Universal Functions (Ufuncs) Engine', topics:['Ufunc Architecture & Vectorized Execution','Element-Wise Mathematical Ufuncs','Trigonometric & Exponential Ufuncs','Accumulating, Reducing & Outer Ufunc Methods'] },
-    { title:'CHAPTER 13: Mathematical Operations & Arithmetic', topics:['Element-Wise Arithmetic Operations','Rounding, Truncation & Absolute Functions','Floating-Point Mathematics & Modulo Logic','Handling Division by Zero & Infinities'] },
-    { title:'CHAPTER 14: Bitwise & Logical Ufuncs', topics:['Bitwise Operators (AND, OR, XOR, NOT, Shifts)','Logical Operations (logical_and, logical_or, logical_not)','Comparison Ufuncs & Truth Value Testing','Bit Manipulation on Integer Arrays'] },
-    { title:'CHAPTER 15: Broadcasting Mechanics & Rules', topics:['The 4 Rules of NumPy Broadcasting','Dimension Alignment & Compatibility','Broadcasting Vectors across Matrices','Implicit Memory Expansion Patterns'] },
-    { title:'CHAPTER 16: Aggregations & Descriptive Statistics', topics:['Summation & Product Reductions (sum, prod)','Mean, Median, Variance & Standard Deviation','Axis-Wise Aggregations & Keepdims Mechanics','Cumulative Calculations (cumsum, cumprod)'] },
-    { title:'CHAPTER 17: Extrema & Positional Search Primitives', topics:['Global Extrema (min, max)','Positional Extrema Searching (argmin, argmax)','Element-Wise Maximums/Minimums (fmax, fmin)','Searchsorted & Insertion Indexes'] },
-    { title:'CHAPTER 18: Quantiles, Percentiles & Counting', topics:['Percentiles & Quantiles Computation','Histogram Data Binning (np.histogram, bincount)','Counting Non-Zero Elements (count_nonzero)','Value Frequency Computations'] },
-    { title:'CHAPTER 19: NaN-Aware Reductions & Masked Calculations', topics:['NaN-Safe Aggregations (nansum, nanmean, nanstd)','NaN Search Operations (nanargmin, nanargmax)','NumPy Masked Arrays (numpy.ma)','Handling Missing Data Points'] },
-    { title:'CHAPTER 20: Sorting Operations & Partitioning', topics:['Axis-Wise Sorting (np.sort)','Indirect Sorting (np.argsort, lexsort)','Partial Sorting via Partitioning (partition, argpartition)','In-Place Sorting Methods'] },
-    { title:'CHAPTER 21: Searching & Selection Primitives', topics:['Conditional Selection (np.where)','Extracting Elements via Conditions (np.extract)','Non-Zero Element Extraction (np.nonzero)','Matching Array Conditions'] },
-    { title:'CHAPTER 22: Set Operations for Arrays', topics:['Unique Element Extraction (np.unique)','Set Intersection, Union & Difference','In1d & Isin Element Verification','Find Exclusive OR Set Features'] },
-    { title:'CHAPTER 23: Linear Algebra – Matrix & Vector Products', topics:['Vector Dot & Inner/Outer Products','Matrix Multiplication (np.matmul, @ Operator)','Kronecker Product & Tensordot Operations','Matrix Trace & Diagonal Manipulation'] },
-    { title:'CHAPTER 24: Linear Algebra – Inversion & Decompositions', topics:['Matrix Inverses & Pseudo-Inverses (inv, pinv)','Eigenvalues & Eigenvectors (eig, eigh)','Singular Value Decomposition (SVD)','LU, QR & Cholesky Matrix Factorizations'] },
-    { title:'CHAPTER 25: Random Number Generation Engine', topics:['BitGenerators & Seed Management (np.random.Generator)','Uniform & Normal Distribution Sampling','Discrete Distribution Sampling (Poisson, Binomial)','Permutations, Random Shuffling & Choice'] },
-    { title:'CHAPTER 26: Polynomial APIs & Mathematical Utilities', topics:['Modern Polynomial API (numpy.polynomial)','Polynomial Fitting & Roots Calculation','Discrete Fourier Transforms (numpy.fft)','Window Functions & Signal Processing'] },
-    { title:'CHAPTER 27: I/O Operations, Persistence & Memory Maps', topics:['Binary Array Storage (.npy, .npz Formats)','Text Data Parsing (loadtxt, genfromtxt)','Memory-Mapped Files for Large Arrays (memmap)','Exporting Array Structures'] },
-    { title:'CHAPTER 28: Performance Optimization & Interoperability', topics:['Vectorization Strategies & Eliminating Loops','Cython & Numba Integration Hooks','C-API Interoperability & Memory Buffers','Ecosystem Integration (Pandas, PyTorch, SciPy)'] }
-  ] },
-  { id:'pandas-101', title:'Pandas Analytics', color:'#150458', icon:'fa-solid fa-table', agenda:[
-    { title:'CHAPTER 01: Pandas Architecture & System Foundations', topics:['Pandas Internal Architecture & PyArrow Integration','Data Alignment Principles & Indexing Engine','Series & DataFrame Data Structures Overview','Environment Configuration & Option Settings'] },
-    { title:'CHAPTER 02: Core Data Structures – Series Deep Dive', topics:['Series Creation from Lists, Arrays & Dicts','Index Alignment & Vectorized Series Operations','Series Name, Dtype & Value Inspection','Accessors (.str, .dt, .cat) Overview'] },
-    { title:'CHAPTER 03: Core Data Structures – DataFrame Architecture', topics:['DataFrame Instantiation & Column Constructors','Row and Column Axis Concepts','DataFrame Attributes (.shape, .dtypes, .axes)','DataFrame Memory Model & Block Manager'] },
-    { title:'CHAPTER 04: Indexing Structures & Management', topics:['Index Objects (Index, RangeIndex, DatetimeIndex)','Setting, Resetting & Reindexing Axes','Index Immutability & Set Operations','Renaming Labels & Axis Level Modifications'] },
-    { title:'CHAPTER 05: Data Ingestion – Text & Delimited Files', topics:['Reading CSV/TSV Files (read_csv) Parameters','Custom Delimiters, Headers & Skipping Rows','Chunking Large Files for Memory Efficiency','Exporting Data to Delimited Files (to_csv)'] },
-    { title:'CHAPTER 06: Data Ingestion – Binary & Columnar Formats', topics:['Parquet File I/O & Apache Arrow Integration','Feather & ORC High-Performance Storage','HDF5 Storage Engine (HDFStore) Operations','Excel Workbook Reading & Writing (read_excel)'] },
-    { title:'CHAPTER 07: Data Ingestion – Databases, APIs & JSON', topics:['SQL Query Reading & Database Engine Connections','JSON File Parsing & Normalization (json_normalize)','HTML Table Scraping (read_html)','Clipboard Data Exchange Capabilities'] },
-    { title:'CHAPTER 08: Data Inspection & Structural Profiling', topics:['Head, Tail & Sample Inspection Methods','Info, Describe & Structural Diagnostics','Value Counts & Frequency Distributions','Data Type Auditing & Missing Value Summaries'] },
-    { title:'CHAPTER 09: Label-Based Selection (loc)', topics:['Explicit Label Selection Syntax','Slicing Rules with Label Boundaries','Boolean Mask Selection via .loc','Multi-Axis Label Assignments'] },
-    { title:'CHAPTER 10: Positional Selection (iloc) & Querying', topics:['Integer-Based Indexing Mechanics','Positional Slicing & Coordinate Selection','Dynamic Querying Engine (df.query)','Fast Scalar Selection (.at and .iat)'] },
-    { title:'CHAPTER 11: Boolean Indexing & Advanced Filtering', topics:['Boolean Mask Creation & Logical Operators','Bitwise Filtering (AND, OR, NOT Matrices)','Filter by Membership (.isin) & Pattern Matching','Filtering via Index Conditions'] },
-    { title:'CHAPTER 12: Data Cleaning – Missing Values Management', topics:['Missing Data Representation (NaN, None, pd.NA)','Detecting Missing Values (isna, notna)','Dropping Missing Data Strategies (dropna)','Imputation Techniques (fillna, bfill, ffill, interpolate)'] },
-    { title:'CHAPTER 13: Data Cleaning – Deduplication & Anomaly Treatment', topics:['Identifying Duplicate Records (duplicated)','Removing Duplicates (drop_duplicates)','Replacing Values & Outlier Mapping (.replace)','Binning & Discretization (cut, qcut)'] },
-    { title:'CHAPTER 14: Data Type Casting & Extension Arrays', topics:['Casting Dtypes (astype) & Type Safety','Pandas Extension Arrays (Nullable Types)','Categorical Data Type Management','String Extension Dtype vs Object Type'] },
-    { title:'CHAPTER 15: Vectorized Operations & Element-Wise Transformations', topics:['Element-Wise Mathematical Operations','Series/DataFrame Arithmetic Alignment Rules','Applying Custom Functions (apply, applymap, map)','Vectorized Conditional Logic (np.where, np.select)'] },
-    { title:'CHAPTER 16: String Processing & Text Analytics', topics:['Vectorized String Methods (.str Accessor)','Regex Pattern Matching & Extraction','String Splitting, Replacement & Joining','Whitespace & Case Transformations'] },
-    { title:'CHAPTER 17: Split-Apply-Combine Engine (GroupBy)', topics:['GroupBy Object Mechanics & Lazy Evaluation','Grouping by Columns, Indexes & Series','Custom Aggregation Functions (.agg)','Group Filtering & Transformation (.filter, .transform)'] },
-    { title:'CHAPTER 18: Data Reshaping – Pivot Tables & Cross-Tabulations', topics:['Building Dynamic Pivot Tables (pivot_table)','Cross-Tabulations (crosstab) for Frequency','Unpivoting Data via Melt (melt)','Stacking & Unstacking Data Levels'] },
-    { title:'CHAPTER 19: Merging & Database-Style Joins', topics:['Merging DataFrames (merge) Parameters','Inner, Outer, Left & Right Join Mechanics','Merging on Indexes vs Columns','Handling Overlapping Columns & Suffixes'] },
-    { title:'CHAPTER 20: Concatenation, Appending & Combining Datasets', topics:['Concatenating Axes (concat) Framework','Handling Index Overlaps & Ignore Index','Combining Data with Overwrites (combine_first)','Ordered & As-Of Merges (merge_ordered, merge_asof)'] },
-    { title:'CHAPTER 21: Time Series – Datetime & Period Foundations', topics:['Timestamp & Datetime Index Construction','Parsing Dates & Timezone Management','Period & PeriodIndex Calculations','Date Ranges & Custom Business Frequencies'] },
-    { title:'CHAPTER 22: Time Series – Resampling, Shifting & Windows', topics:['Downsampling & Upsampling Data (resample)','Shifting & Lagging Data Points (shift, tshift)','Rolling Window Calculations (rolling)','Expanding & Exponentially Weighted Windows (expanding, ewm)'] },
-    { title:'CHAPTER 23: Hierarchical Indexing (MultiIndex)', topics:['MultiIndex Creation Methods & Structure','Indexing & Slicing MultiIndex DataFrames','Cross-Sectional Selection (.xs Method)','Sorting & Swapping Level Indexes'] },
-    { title:'CHAPTER 24: Windowing & Complex Analytical Calculations', topics:['Rolling Aggregations & Custom Windows','Rank & Percent Change Calculations','Cumulative Computations (cumsum, cummax)','Grouped Time-Series Windowing Operations'] },
-    { title:'CHAPTER 25: Performance Optimization & Memory Reduction', topics:['Auditing DataFrame Memory Usage','Downcasting Numeric Data Types','Categorical Encoding for Low-Cardinality Strings','PyArrow Engine Acceleration for I/O'] },
-    { title:'CHAPTER 26: Data Visualization Integration', topics:['Native Plotting Engine (df.plot)','Plot Types: Line, Bar, Hist, Box, Scatter','Customizing Axes, Legends & Figure Configurations','Seaborn & Matplotlib Integration Architecture'] },
-    { title:'CHAPTER 27: DataFrame Formatting & Styling API', topics:['Styling DataFrames with df.style','Conditional Formatting & Heatmaps','Custom CSS Styling Rules for Tables','Exporting Formatted Tables to HTML/Excel'] },
-    { title:'CHAPTER 28: Scalable Analytics & Ecosystem Interoperability', topics:['Out-of-Core Processing with Dask & Polars','Interoperability with NumPy & SciPy','Exporting to Cloud Storage & Ecosystem Pipelines','Best Practices for Analytical Code Production'] }
-  ] },
-  { id:'matplotlib-101', title:'Matplotlib Visualization', color:'#11557c', icon:'fa-solid fa-chart-line', agenda:[
-    { title:'CHAPTER 01: Matplotlib Architecture & Rendering Engine', topics:['Three-Layer Architecture: Scripting, Artist, Backend','User Interface Backends vs Hardcopy Backends','Interactive Execution Modes (ion/ioff)','Pyplot State Machine vs Object-Oriented API'] },
-    { title:'CHAPTER 02: Figure & Axes Anatomy', topics:['Figure Container & Anatomy Elements','Axes vs Axis Objects Architecture','Canvas & Renderer Mechanics','Coordinates Systems (Data, Axes, Figure, Display)'] },
-    { title:'CHAPTER 03: Figure Creation & Subplot Layouts', topics:['Creating Figures and Subplots (plt.subplots)','GridSpec Layout Architecture (GridSpec)','Nested Subplots & Subfigures','Constrained & Tight Layout Optimization Engines'] },
-    { title:'CHAPTER 04: Aspect Ratios, Dimensions & High-DPI Rendering', topics:['Figure Size, Aspect Ratio & DPI Configuration','Responsive Axes Sizing & Inset Axes','Axis Scale Equalization & Margin Controls','Export Resolution Optimization'] },
-    { title:'CHAPTER 05: Relational & Continuous Plot Types', topics:['Line Plots, Markers & Line Styles','Scatter Plots & Marker Color/Size Mapping','Step Plots & Staggered Data Lines','Area Plots & Stacked Fill Operations'] },
-    { title:'CHAPTER 06: Categorical & Comparison Visualizations', topics:['Vertical & Horizontal Bar Charts','Grouped & Stacked Bar Chart Architecture','Error Bars & Confidence Range Displays','Stem Plots & Discrete Signals'] },
-    { title:'CHAPTER 07: Statistical Distributions & Density Plots', topics:['Histograms & Probability Density Approximations','Box & Whisker Plots for Outlier Detection','Violin Plots & Density Estimations','2D Histograms & Hexbin Visualizations'] },
-    { title:'CHAPTER 08: Matrix, Field & Vector Visualizations', topics:['Heatmaps & Image Displays (imshow)','Contour Plots & Filled Contours (contour, contourf)','Quiver Plots & Vector Field Direction','Streamplots for Fluid & Vector Dynamics'] },
-    { title:'CHAPTER 09: Axis Customization & Ticks Management', topics:['Tick Locators & Formatter Classes','Customizing Major & Minor Ticks','Axis Range Limits & Inversion','Spine Positioning & Custom Coordinate Axes'] },
-    { title:'CHAPTER 10: Non-Linear Scales & Multi-Axis Layouts', topics:['Logarithmic, Symmetric Log & Logit Scales','Custom Non-Linear Axis Transforms','Secondary & Twin Axes Systems (twinx, twiny)','Broken & Discontinuous Axes Layouts'] },
-    { title:'CHAPTER 11: Color Systems, Palettes & Normalization', topics:['Color Specifications (Hex, RGB, Alpha, Named)','Qualitative, Sequential & Diverging Colormaps','Color Normalization (Normalize, LogNorm, TwoSlopeNorm)','Custom Colormap & Boundary Mapping Creation'] },
-    { title:'CHAPTER 12: Colorbars & Legend Engineering', topics:['Colorbar Creation, Placement & Custom Scaling','Legend Customization & Multi-Column Layouts','Custom Legend Handles & Marker Styling','Legend Positioning Outside Plot Bounds'] },
-    { title:'CHAPTER 13: Typography, Text & Mathematical Equations', topics:['Font Families, Weights & Global Styles','LaTeX Mathematical Expressions Rendering','Text Placement, Alignment & Rotation','Bbox Text Styling & Custom Font Files Integration'] },
-    { title:'CHAPTER 14: Annotations & Shape Drawing', topics:['Advanced Text Annotations with Arrows','Connecting Text to Points (annotate)','Drawing Shapes (Patches: Circles, Polygons, Rectangles)','Lines, Spans & Region Highlighting (axvline, axhspan)'] },
-    { title:'CHAPTER 15: Styling, Themes & RcParams System', topics:['Global Configuration Management via rcParams','Built-In Style Sheets (plt.style.use)','Creating Custom Visual Theme Profiles','Seaborn Style Overrides'] },
-    { title:'CHAPTER 16: Specialized Visualizations – Polar Plots', topics:['Polar Coordinates System Setup','Polar Line, Scatter & Bar Visualizations','Theta & Radius Axis Customizations','Wind Rose & Radial Diagrams'] },
-    { title:'CHAPTER 17: Specialized Visualizations – Geographical & Spatial', topics:['Geographic Projections Integration','Basemap & Cartopy Compatibility','Plotting Coordinate Data & Boundaries','Raster Spatial Overlay Rendering'] },
-    { title:'CHAPTER 18: 3D Visualization Framework (mplot3d)', topics:['3D Axes Initialization (projection=\'3d\')','3D Surface, Wireframe & Contour Plots','3D Scatter & Line Visualization','Viewing Angle Controls (elev, azim) & Camera Views'] },
-    { title:'CHAPTER 19: Interactive Controls & Event Handling', topics:['Event Connection API (mpl_connect)','Mouse Click, Hover & Motion Handling','Keyboard Event Bindings','Data Cursor & Point Selection Interactivity'] },
-    { title:'CHAPTER 20: Native GUI Widgets Framework', topics:['Slider Widgets for Parameter Tuning','Button Widgets for Action Triggers','CheckButtons & RadioButtons UI Controls','TextBox Inputs for Dynamic Text Interaction'] },
-    { title:'CHAPTER 21: Animation Engine – Framework Setup', topics:['Animation Architecture (matplotlib.animation)','FuncAnimation Mechanics & Frame Updating','ArtistAnimation for Pre-Rendered Frames','Animation Timing, Repeat & Blitting Operations'] },
-    { title:'CHAPTER 22: Animation Engine – Rendering & Export', topics:['Exporting Animations to GIF (Pillow, ImageMagick)','Exporting Video Formats (FFmpeg, MP4)','Interactive HTML5 JavaScript Animation Controls','Optimizing Animation Performance'] },
-    { title:'CHAPTER 23: Image Processing Operations', topics:['Loading & Manipulating Image Data','Resampling, Interpolation & Color Channel Ops','Clipping Images with Shapes','Exporting Rendered Visualizations as Arrays'] },
-    { title:'CHAPTER 24: Vector vs Raster Export Mechanics', topics:['Raster Export Formats (PNG, JPG, TIFF)','Vector Export Formats (SVG, PDF, EPS)','Transparent Backgrounds & Bounding Box Clipping','High-DPI Production Ready Configurations'] },
-    { title:'CHAPTER 25: Performance Tuning & Acceleration', topics:['Optimizing Draw Calls & Line Collections','Fast Rendering via Blitting Mechanics','Handling Large Datasets without UI Freezing','Data Aggregation before Visual Rendering'] },
-    { title:'CHAPTER 26: Pandas & Seaborn Visual Architecture', topics:['Pandas Plotting Backend Wrappers','Seaborn Integration & Customization Overrides','Extracting Underlying Matplotlib Axes','Multi-Plot Grid Systems (FacetGrid, PairGrid)'] },
-    { title:'CHAPTER 27: Publication-Quality Graphics Standards', topics:['Design Guidelines for Academic Journals','Accessibility & Color-Blind Safe Palettes','Composition Balance & Element Hierarchy','Standardizing Typography Across Publications'] },
-    { title:'CHAPTER 28: Production Integration & Automation', topics:['Headless Server Rendering Configurations','Automated Report Graphic Generation Pipelines','Web Application Plot Rendering (Flask/Django Integration)','Packaging Custom Visualization Libraries'] }
-  ] },
-  { id:'sql-101', title:'SQL Foundations', color:'#0891b2', icon:'fa-solid fa-database', agenda:[
-    { title:'CHAPTER 01: Relational Database Model Theory', topics:['Relational Architecture & Edgar F. Codd’s Rules','Tables, Rows, Columns & Attribute Domains','Entity-Relationship (ER) Modeling Basics','Relational Algebra Operations'] },
-    { title:'CHAPTER 02: Database Architecture & Engine Internals', topics:['Client-Server RDBMS Architecture','Storage Engines, Pages & Buffer Pools','Transaction Log Files (WAL / Redo / Undo)','Execution Engine & Query Lifecycle'] },
-    { title:'CHAPTER 03: SQL Language Taxonomy & Standards', topics:['ANSI/ISO SQL Standards Evolution','SQL Sub-languages: DDL, DML, DQL, DCL, TCL','SQL Identifiers, Literals & Reserved Keywords','Case Sensitivity & Naming Conventions'] },
-    { title:'CHAPTER 04: Data Definition Language (DDL) – Schemas & Tables', topics:['Creating & Managing Schemas','Creating Tables (CREATE TABLE) Syntax','Data Types: Numeric, Character, Temporal, Binary','Dropping & Truncating Tables (DROP vs TRUNCATE)'] },
-    { title:'CHAPTER 05: Data Definition Language (DDL) – Alterations', topics:['Modifying Table Structures (ALTER TABLE)','Adding, Dropping & Renaming Columns','Modifying Column Data Types & Nullability','Renaming Tables & Database Objects'] },
-    { title:'CHAPTER 06: Data Integrity & Constraint Systems', topics:['Primary Key Constraints & Uniqueness','Foreign Key Constraints & Referential Integrity','Check Constraints & Value Validation','Default Values & NOT NULL Constraints'] },
-    { title:'CHAPTER 07: Data Retrieval – Basic DQL Queries', topics:['The SELECT Clause & Column Aliasing','Retrieving All vs Specific Attributes','Duplicate Suppression via SELECT DISTINCT','Calculated Columns & Expressions'] },
-    { title:'CHAPTER 08: Filtering & Predicate Logic', topics:['Filtering Rows via the WHERE Clause','Comparison Operators (=, <>, <, >, <=, >=)','Logical Operators (AND, OR, NOT) & Operator Precedence','Range Filtering (BETWEEN) & List Matching (IN)'] },
-    { title:'CHAPTER 09: Pattern Matching & Null Evaluation', topics:['Wildcard Matching via LIKE & ILIKE','Regular Expression Matching Patterns','Understanding Three-Valued Logic (TRUE, FALSE, UNKNOWN)','Evaluating NULL Values (IS NULL / IS NOT NULL)'] },
-    { title:'CHAPTER 10: Sorting Results & Result Pagination', topics:['Sorting Result Sets via ORDER BY','Ascending vs Descending Sort Orders','Sorting by Multiple Columns & Expressions','Result Pagination via LIMIT / OFFSET & FETCH FIRST'] },
-    { title:'CHAPTER 11: Data Manipulation Language (DML) – Insertion', topics:['Single Row Insertion (INSERT INTO)','Bulk & Multi-Row Insertion Patterns','Inserting Data from Query Results (INSERT INTO...SELECT)','Handling Insertion Conflicts (UPSERT / MERGE)'] },
-    { title:'CHAPTER 12: Data Manipulation Language (DML) – Update & Delete', topics:['Updating Existing Records (UPDATE...SET)','Conditional Updates with WHERE Clause','Deleting Records (DELETE FROM)','Targeted Deletions & Cascade Triggers'] },
-    { title:'CHAPTER 13: Scalar & Conversion Functions', topics:['String Manipulation Functions (CONCAT, SUBSTRING, LENGTH)','Numeric & Mathematical Functions (ROUND, ABS, CEIL)','Date & Time Functions (NOW, EXTRACT, DATEADD)','Data Type Casting Functions (CAST, CONVERT)'] },
-    { title:'CHAPTER 14: Conditional Expressions & Expression Logic', topics:['Searched CASE Statements','Simple CASE Expressions','Handling Nulls via COALESCE and NULLIF','Conditional Aggregation Patterns'] },
-    { title:'CHAPTER 15: Aggregations & Grouping Mechanics', topics:['Aggregate Functions (SUM, AVG, COUNT, MIN, MAX)','Grouping Data via the GROUP BY Clause','Group Filtering via the HAVING Clause','Grouping Sets, Rollup & Cube Mechanics'] },
-    { title:'CHAPTER 16: Relational Joins – Inner & Outer Joins', topics:['Cartesian Product Mechanics (CROSS JOIN)','Inner Joins (INNER JOIN) & On Predicates','Left & Right Outer Joins (LEFT/RIGHT JOIN)','Full Outer Joins (FULL OUTER JOIN)'] },
-    { title:'CHAPTER 17: Relational Joins – Advanced Joining Patterns', topics:['Self Joins & Hierarchical Traversal','Non-Equi Joins & Range Matching','Multi-Table Joining Architecture','Join Performance Considerations'] },
-    { title:'CHAPTER 18: Set Operations', topics:['Union & Union All Operators','Intersect Operations','Except / Minus Operations','Rules for Set Operation Compatibility'] },
-    { title:'CHAPTER 19: Subqueries – Scalar, Column & Row Subqueries', topics:['Subqueries in SELECT, FROM, and WHERE Clauses','Scalar Subqueries & Value Substitution','Single-Column / Multi-Row Subqueries (IN, ANY, ALL)','Subqueries in Table Expressions'] },
-    { title:'CHAPTER 20: Correlated Subqueries & Existence Verification', topics:['Correlated Subquery Mechanics & Execution Order','Existence Verification via EXISTS & NOT EXISTS','Subqueries vs Joins Optimization Rules','Correlated Subqueries in DML Statements'] },
-    { title:'CHAPTER 21: Common Table Expressions (CTEs)', topics:['Non-Recursive CTEs (WITH Clause) Syntax','Improving Query Readability via CTEs','Multiple CTEs in a Single Query','Recursive CTEs for Hierarchical & Graph Data'] },
-    { title:'CHAPTER 22: Window Functions – Architecture & Over Clause', topics:['Window Function Architecture vs Group By','The OVER Clause: PARTITION BY & ORDER BY','Defining Window Frames (ROWS / RANGE UNBOUNDED PRECEDING)','Window Frame Sliders & Boundary Rules'] },
-    { title:'CHAPTER 23: Window Functions – Ranking & Value Functions', topics:['Ranking Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE)','Value Navigation Functions (LAG, LEAD, FIRST_VALUE, LAST_VALUE)','Aggregate Window Functions (Running Totals, Moving Averages)','Cumulative Distributions & Percentiles'] },
-    { title:'CHAPTER 24: Transactions, Concurrency & Locking (TCL)', topics:['ACID Properties of Database Transactions','Transaction Controls (BEGIN, COMMIT, ROLLBACK)','Savepoints & Partial Rollbacks','Concurrency Anomalies & Isolation Levels'] },
-    { title:'CHAPTER 25: Views, Materialized Views & Indexing Strategies', topics:['Creating & Updating Views','Materialized Views & Refresh Strategies','B-Tree, Hash, GIST & GIN Index Types','Clustered vs Non-Clustered Indexes'] },
-    { title:'CHAPTER 26: Query Optimization & Execution Plans', topics:['Analyzing Query Execution Plans (EXPLAIN / EXPLAIN ANALYZE)','Table Scans vs Index Scans / Index Seek Operations','Join Algorithms (Nested Loop, Hash Join, Merge Join)','Query Refactoring for Performance'] },
-    { title:'CHAPTER 27: Database Security (DCL) & Administration', topics:['Data Control Language (GRANT, REVOKE)','Role-Based Access Control (RBAC)','Database Auditing, Logging & Security Rules','Backup & Disaster Recovery Principles'] },
-    { title:'CHAPTER 28: Programmable SQL – Procedures, Functions & Triggers', topics:['User-Defined Functions (UDFs) Development','Stored Procedures Implementation','Cursors & Exception Management Blocks','Database Triggers (BEFORE / AFTER / INSTEAD OF)'] }
-  ] },
-  { id:'ai-101', title:'Artificial Intelligence & Machine Learning', color:'#8b5cf6', icon:'fa-solid fa-brain', agenda:[
-    { title:'CHAPTER 01: Foundations of Artificial Intelligence & Search Paradigm', topics:['AI Taxonomy & Intelligent Agents Architecture','Uninformed Search Algorithms (BFS, DFS, Uniform Cost)','Informed (Heuristic) Search (A* Search, Greedy Best-First)','Adversarial Search & Game Theory (Minimax, Alpha-Beta Pruning)'] },
-    { title:'CHAPTER 02: Knowledge Representation, Reasoning & Logic', topics:['Propositional & First-Order Logic Systems','Ontologies & Knowledge Graphs Construction','Probabilistic Reasoning & Bayesian Networks','Constraint Satisfaction Problems (CSPs)'] },
-    { title:'CHAPTER 03: Mathematical Foundations for AI & ML', topics:['Linear Algebra: Vector Spaces, Matrices, SVD','Multivariable Calculus: Gradients, Jacobians, Hessians','Probability Distributions, Bayes Theorem & Expectation','Statistical Inference, Maximum Likelihood (MLE) & MAP'] },
-    { title:'CHAPTER 04: Machine Learning Paradigm & Problem Taxonomy', topics:['Supervised vs Unsupervised vs Reinforcement Learning','Bias-Variance Tradeoff & Model Generalization Boundaries','Feature Engineering & Data Preprocessing Pipelines','Model Evaluation Metrics (Precision, Recall, ROC-AUC, F1-Score)'] },
-    { title:'CHAPTER 05: Linear Models for Regression & Classification', topics:['Ordinary Least Squares & Regularization (Ridge, Lasso, ElasticNet)','Logistic Regression & Sigmoidal Log-Odds Decision Boundaries','Gradient Descent Variants (Batch, SGD, Mini-Batch)','Generalized Linear Models (GLMs)'] },
-    { title:'CHAPTER 06: Tree-Based Models & Ensemble Learning', topics:['Decision Trees, Information Gain & Gini Impurity','Bagging Mechanisms & Random Forests Architecture','Gradient Boosting Machines (XGBoost, LightGBM, CatBoost)','Model Stacking, Blending & Voting Classifiers'] },
-    { title:'CHAPTER 07: Support Vector Machines & Kernel Methods', topics:['Max-Margin Classifiers & Dual Formulation Mechanics','Soft Margin Optimization & Slack Variables','Kernel Trick (RBF, Polynomial, Sigmoid) & Non-Linear Boundaries','Support Vector Regression (SVR)'] },
-    { title:'CHAPTER 08: Unsupervised Learning & Dimensionality Reduction', topics:['Clustering Algorithms (K-Means, DBSCAN, Agglomerative)','Principal Component Analysis (PCA) & Singular Value Decomposition','Manifold Learning (t-SNE, UMAP)','Gaussian Mixture Models (GMM) & Expectation-Maximization'] },
-    { title:'CHAPTER 09: Foundations of Neural Networks & Deep Learning', topics:['Perceptrons & Multilayer Perceptrons (MLPs) Architecture','Activation Functions (ReLU, Sigmoid, Tanh, GELU) & Gradient Dynamics','Backpropagation Mechanics & Computational Graphs','Loss Functions & Optimization Algorithms (SGD, Adam, AdamW)'] },
-    { title:'CHAPTER 10: Deep Learning Regularization & Training Mechanics', topics:['Weight Initialization Strategies (Xavier/Glorot, He Initialization)','Normalization Techniques (Batch, Layer, Group, Instance Normalization)','Overfitting Mitigation (Dropout, Early Stopping, Weight Decay)','Hyperparameter Optimization Frameworks (Optuna, Grid Search)'] },
-    { title:'CHAPTER 11: Convolutional Neural Networks (CNNs) & Computer Vision', topics:['Convolutional, Pooling & Transposed Layers Mechanics','Classic & Modern Architectures (ResNet, EfficientNet, ConvNeXt)','Object Detection Frameworks (YOLO Variants, Faster R-CNN)','Semantic & Instance Segmentation (U-Net, Mask R-CNN)'] },
-    { title:'CHAPTER 12: Facial Recognition & Visual Embedding Systems', topics:['Siamese Networks & Triplet Loss Mechanics','Face Detection & Alignment Pipelines (MTCNN, RetinaFace)','High-Accuracy Face Embeddings Architecture (InsightFace, ArcFace)','Real-Time Pose Estimation & Tracking Mechanics (MediaPipe)'] },
-    { title:'CHAPTER 13: Recurrent Networks & Sequential Modeling', topics:['Recurrent Neural Networks (RNNs) & Vanishing Gradients','Long Short-Term Memory (LSTM) & GRU Architectures','Bidirectional & Sequence-to-Sequence (Seq2Seq) Models','Attention Mechanism Foundations in Sequential Tasks'] },
-    { title:'CHAPTER 14: Transformers & Attention Architectures', topics:['Self-Attention & Multi-Head Attention Formulations','Transformer Encoder-Decoder Framework Architecture','Positional Encodings & Layer Normalization Strategies','Vision Transformers (ViT) & Multimodal Cross-Attention'] },
-    { title:'CHAPTER 15: Natural Language Processing (NLP) Foundations', topics:['Text Preprocessing & Subword Tokenization (BPE, WordPiece)','Word Embeddings (Word2Vec, GloVe, FastText)','Topic Modeling (LDA) & Document Representations','Named Entity Recognition (NER) & Dependency Parsing'] },
-    { title:'CHAPTER 16: Modern Large Language Models (LLMs)', topics:['Auto-regressive & Masked Language Modeling Paradigms','Decoder-Only Architectures (GPT, Llama, Mistral)','Fine-Tuning Paradigms (LoRA, QLoRA, PEFT)','Context Windows, Tokenization & KV Caching Mechanics'] },
-    { title:'CHAPTER 17: Alignment, Prompt Engineering & LLM Orchestration', topics:['Reinforcement Learning from Human Feedback (RLHF & DPO)','Prompt Design Patterns, Chain-of-Thought & In-Context Learning','Agentic Frameworks, Tool Use & Function Calling Architecture','Evaluation Frameworks, Guardrails & LLM Benchmarking'] },
-    { title:'CHAPTER 18: Vector Databases & Retrieval-Augmented Generation (RAG)', topics:['Vector Embeddings & Distance Metrics (Cosine, Dot Product, L2)','Vector Database Engines (Pinecone, Qdrant, Chroma, Milvus)','RAG Pipeline Architecture & Chunking Strategies','Hybrid Search, Re-ranking & Contextual Compression'] },
-    { title:'CHAPTER 19: Generative AI & Deep Generative Models', topics:['Autoencoders & Variational Autoencoders (VAEs)','Generative Adversarial Networks (GANs) Architecture','Score-Based & Diffusion Models (Latent Diffusion, Stable Diffusion)','Latent Spaces & Text-to-Image Generation Mechanics'] },
-    { title:'CHAPTER 20: Reinforcement Learning (RL) Foundations', topics:['Markov Decision Processes (MDP) & Bellman Equations','Value Iteration & Policy Iteration Algorithms','Model-Free Prediction & Control (Q-Learning, SARSA)','Deep Q-Networks (DQN) & Experience Replay'] },
-    { title:'CHAPTER 21: Advanced Deep Reinforcement Learning', topics:['Policy Gradient Methods & REINFORCE Algorithm','Actor-Critic Architectures (A2C, A3C)','Proximal Policy Optimization (PPO) & TRPO Mechanics','Multi-Agent Reinforcement Learning (MARL)'] },
-    { title:'CHAPTER 22: Graph Neural Networks (GNNs) & Structural Learning', topics:['Graph Representation & Adjacency Matrices','Graph Convolutional Networks (GCN) Architecture','Graph Attention Networks (GAT)','Link Prediction & Node Classification Pipelines'] },
-    { title:'CHAPTER 23: Time Series Analysis & Forecasting with AI', topics:['Statistical Forecasting Models (ARIMA, SARIMAX)','Deep Learning for Time Series (N-BEATS, Temporal Fusion Transformers)','Anomaly Detection in Sequential & Telemetry Data','Feature Engineering for Time Series Datasets'] },
-    { title:'CHAPTER 24: Model Interpretability, Explainability & AI Ethics', topics:['Explainable AI (XAI) Concepts & Model Agnostic Methods','Feature Importance Explanations (SHAP, LIME)','Bias Detection, Algorithmic Fairness & Mitigation Strategies','AI Governance, Safety & Alignment Guardrails'] },
-    { title:'CHAPTER 25: Deep Learning Frameworks & Systems Engineering', topics:['PyTorch Dynamic Computation Graphs & Custom Modules','TensorFlow/Keras Ecosystem Architecture','Distributed Training Strategies (DDP, FSDP, DeepSpeed)','Mixed Precision Training & Hardware Acceleration (CUDA/TensorRT)'] },
-    { title:'CHAPTER 26: MLOps, Model Lifecycle & Infrastructure', topics:['Model Registry & Experiment Tracking (MLflow, Weights & Biases)','Feature Stores & Data Lineage Management','Model Packaging & Serialization Formats (ONNX, TensorRT)','Continuous Integration & Deployment for ML (CI/CD/CT)'] },
-    { title:'CHAPTER 27: Production Model Serving & Monitoring', topics:['Real-Time Serving Engines (Triton, vLLM, TorchServe)','Edge AI & Model Compression (Quantization, Pruning, Distillation)','Data & Concept Drift Monitoring Strategies','Production Observability & Telemetry Infrastructure'] },
-    { title:'CHAPTER 28: Autonomous Systems, Agents & Edge Intelligence', topics:['Autonomous Agent Workflows (ReAct, Planning Engines)','Edge AI Deployment (TensorRT-Edge, TFLite, CoreML)','Robotics Integration & Spatial Intelligence','Future Horizons in Artificial General Intelligence (AGI)'] }
-  ] },
-  { id:'ds-101', title:'Data Science Mastery', color:'#10b981', icon:'fa-solid fa-chart-pie', agenda:[
-    { title:'CHAPTER 01: Foundations of Data Science & Data Ecosystem', topics:['Data Science Lifecycle & Cross-Industry Standard Process (CRISP-DM)','Data Domain Architecture & Data Types (Structured vs Unstructured)','Scientific Computing Toolchains Environment Setup','Data Privacy, Compliance (GDPR/CCPA) & Ethical Governance'] },
-    { title:'CHAPTER 02: Advanced Linear Algebra for Data Science', topics:['Vector Spaces, Subspaces, Basis & Linear Transformations','Matrix Factorizations (LU, QR, Cholesky)','Eigenvalues, Eigenvectors & Diagonalization Mechanics','Singular Value Decomposition (SVD) & Low-Rank Approximations'] },
-    { title:'CHAPTER 03: Multivariable Calculus & Computational Optimization', topics:['Gradient Vector, Directional Derivatives & Jacobian Matrix','Hessian Matrix & Second-Order Optimality Conditions','Convex Optimization & Constrained Minimization (Lagrange Multipliers)','Stochastic & First-Order Optimization Algorithms'] },
-    { title:'CHAPTER 04: Probability Theory & Random Variables', topics:['Probability Spaces, Axioms & Conditional Probability','Discrete & Continuous Probability Distributions','Joint, Marginal & Conditional Probability Distributions','Central Limit Theorem & Law of Large Numbers Proofs'] },
-    { title:'CHAPTER 05: Descriptive Statistics & Exploratory Data Analysis (EDA)', topics:['Measures of Central Tendency & Dispersion Mechanics','Skewness, Kurtosis & Moment Generation Functions','Bivariate & Multivariate Association Metrics (Covariance, Pearson, Spearman)','Data Profiling & Automated EDA Workflows'] },
-    { title:'CHAPTER 06: Inferential Statistics & Hypothesis Testing', topics:['Sampling Distributions & Standard Error Calculations','Parametric Tests (Z-test, Student t-test, ANOVA)','Non-Parametric Tests (Chi-Square, Mann-Whitney, Kruskal-Wallis)','Effect Size Metrics & Statistical Power Analysis'] },
-    { title:'CHAPTER 07: Experimental Design & A/B Testing', topics:['Randomized Controlled Trials & Control Group Mechanics','A/B & Multivariate Testing Architecture','Sample Size Determination & Power Calculations','Sequential Testing & Multi-Armed Bandit Algorithms'] },
-    { title:'CHAPTER 08: Data Ingestion & Harvesting Protocols', topics:['Web Scraping & DOM Traversal Protocols','RESTful APIs Integration & JSON/XML Parsing','Database Querying & Relational/NoSQL Connectors','Streaming Data Ingestion Fundamentals'] },
-    { title:'CHAPTER 09: Advanced Data Cleaning & Preprocessing', topics:['Systematic Missing Value Imputation Techniques','Outlier Identification Methods & Robust Scaling','Structural Standardization & Text Normalization','Data Reconciliation & Entity Deduplication'] },
-    { title:'CHAPTER 10: Feature Engineering & Selection Techniques', topics:['Numerical Transformations & Discretization Systems','Categorical Encoding Architectures (Target, One-Hot, Ordinal)','Interaction Features & Polynomial Mathematical Generation','Filter, Wrapper & Embedded Feature Selection'] },
-    { title:'CHAPTER 11: Dimensionality Reduction & Feature Extraction', topics:['Principal Component Analysis (PCA) Mechanics','Factor Analysis & Canonical Correlation Analysis','Non-Linear Manifold Reduction (t-SNE, UMAP)','Autoencoder-Based Embedding Compression'] },
-    { title:'CHAPTER 12: Predictive Modeling – Regression Systems', topics:['Ordinary Least Squares Regression & Classical Assumptions','Regularized Regression (Lasso, Ridge, ElasticNet)','Non-Linear & Polynomial Regression Modeling','Generalized Linear Models (GLMs)'] },
-    { title:'CHAPTER 13: Predictive Modeling – Classification Systems', topics:['Binary & Multi-Class Logistic Regression','Linear & Quadratic Discriminant Analysis (LDA, QDA)','Naive Bayes Classifiers & Probabilistic Modeling','K-Nearest Neighbors (KNN) & Distance Metrics'] },
-    { title:'CHAPTER 14: Non-Parametric & Ensemble Machine Learning', topics:['Decision Trees & Rule-Based Machine Learning','Random Forests & Extra Trees Classifiers','Gradient Boosting Frameworks (XGBoost, LightGBM, CatBoost)','Hyperparameter Tuning & Cross-Validation Strategies'] },
-    { title:'CHAPTER 15: Time Series Analytics & Forecasting Models', topics:['Time Series Decomposition (Trend, Seasonality, Noise)','Autoregressive Models (ARIMA, SARIMAX)','Vector Autoregression (VAR) for Multivariate Signals','Deep Learning & Prophet for Forecasting'] },
-    { title:'CHAPTER 16: Unsupervised Learning & Clustering Analysis', topics:['Centroid-Based & Hierarchical Clustering (K-Means, Agglomerative)','Density-Based Spatial Clustering (DBSCAN, HDBSCAN)','Gaussian Mixture Models (GMM) & Soft Clustering','Clustering Validation Metrics (Silhouette Score, Davies-Bouldin)'] },
-    { title:'CHAPTER 17: Natural Language Processing & Text Mining', topics:['Vector Space Models & TF-IDF Representations','Topic Modeling & Latent Dirichlet Allocation (LDA)','Sentiment Analysis & Text Classification Pipelines','Text Embeddings & Semantic Similarity'] },
-    { title:'CHAPTER 18: Recommender Systems Architecture', topics:['Collaborative Filtering Methods (User-Based, Item-Based)','Content-Based Recommendation Engines','Matrix Factorization Techniques (SVD, ALS)','Hybrid Recommender Systems'] },
-    { title:'CHAPTER 19: Anomaly & Fraud Detection Systems', topics:['Statistical Anomaly Detection Approaches','Isolation Forests & One-Class Support Vector Machines','Autoencoders for Unsupervised Novelty Detection','Handling Extreme Class Imbalance (SMOTE, Focal Loss)'] },
-    { title:'CHAPTER 20: Spatial Analytics & Geospatial Data Processing', topics:['Geospatial Data Formats (GeoJSON, Shapefiles)','Spatial Indexing & Geometric Operations','Mapping & Spatial Visualization Frameworks','Geospatial Machine Learning & Kriging'] },
-    { title:'CHAPTER 21: Model Diagnostics, Validation & Reliability', topics:['Cross-Validation Schemes (Stratified, Group, Time-Series)','Performance Metrics Deep Dive (Precision-Recall Curves, Log-Loss)','Model Calibration & Reliability Diagrams','Residual Analysis & Diagnostic Diagnostics'] },
-    { title:'CHAPTER 22: Causal Inference & Quasi-Experimental Design', topics:['Causal Diagrams & Directed Acyclic Graphs (DAGs)','Propensity Score Matching & Weighting','Difference-in-Differences (DiD) Estimation','Instrumental Variables & Synthetic Control'] },
-    { title:'CHAPTER 23: Graph & Network Analytics', topics:['Network Topology & Graph Theory Metrics','Centrality Measures (PageRank, Betweenness, Eigenvector)','Community Detection Algorithms','Graph Mining Pipelines'] },
-    { title:'CHAPTER 24: Big Data Frameworks & Distributed Computing', topics:['Distributed Computing Concepts & MapReduce Paradigm','Apache Spark Engine & PySpark DataFrames','Distributed Machine Learning (Spark MLlib)','Out-of-Core Processing Architectures'] },
-    { title:'CHAPTER 25: Data Pipelines & Workflow Orchestration', topics:['ETL / ELT Pipeline Architecture Design','Workflow Orchestration Engines (Apache Airflow, Prefect)','Data Quality Assertion & Validation (Great Expectations)','Data Lineage & Metadata Tracking'] },
-    { title:'CHAPTER 26: Model Deployment & Productionization', topics:['Microservice REST APIs for Models (FastAPI, Flask)','Model Serialization Standards (ONNX, Joblib, PMML)','Containerization for Data Science (Docker, Kubernetes)','Real-Time Inference vs Batch Processing Systems'] },
-    { title:'CHAPTER 27: Production Monitoring & Data Drift Analytics', topics:['Monitoring Model Performance in Production','Detecting Data Drift & Concept Drift','Automated Model Retraining Workflows','Telemetry & Alerting Infrastructure for ML Systems'] },
-    { title:'CHAPTER 28: Data Storytelling & Executive Communication', topics:['Designing Analytical Dashboards (Streamlit, Dash, Tableau)','Data Visualization Principles for Business Impact','Translating Metrics into Actionable Strategy','Data Product Documentation & Stakeholder Engagement'] }
-  ] },
-  { id:'prompt-eng-101', title:'Prompt Engineering', color:'#06b6d4', icon:'fa-solid fa-terminal', agenda:[
-    { title:'CHAPTER 01: Fundamentals of Prompt Engineering & LLM Architecture', topics:['Large Language Models Underlying Mechanics','Tokens, Vocabulary & Context Windows Mechanics','Autoregressive Token Prediction Paradigm','Temperature, Top-P, Top-K & Penalty Controls'] },
-    { title:'CHAPTER 02: Core Anatomy & Structuring of Prompts', topics:['Anatomy of an Effective Prompt Structure','Role Definition, Task Assignment & Output Constraints','Delimiters, System Instructions & XML/Markdown Tags','System Prompts vs User Prompts vs Assistant Prompts'] },
-    { title:'CHAPTER 03: Zero-Shot & Few-Shot In-Context Learning', topics:['Zero-Shot Prompting Execution & Limitations','Few-Shot In-Context Learning Techniques','Selecting & Formatting High-Quality Demonstrations','Mitigating Bias & Order Effects in Exemplars'] },
-    { title:'CHAPTER 04: Advanced Reasoning Patterns – Chain-of-Thought (CoT)', topics:['Chain-of-Thought (CoT) Prompting Mechanics','Zero-Shot CoT ("Let\'s think step by step")','Manual & Auto-Generated Few-Shot CoT','Benchmark Evaluation via Step-by-Step Reasoning'] },
-    { title:'CHAPTER 05: Complex Reasoning – Tree & Graph of Thoughts', topics:['Tree-of-Thoughts (ToT) Search Algorithms','Self-Evaluation & Branching Thought Exploration','Graph-of-Thoughts (GoT) Networked Reasoning','Solving Complex Combinatorial & Logic Problems'] },
-    { title:'CHAPTER 06: Self-Consistency, Directional & Generated Knowledge', topics:['Self-Consistency Sampling & Voting Mechanics','Directional Stimulus Prompting Protocols','Generated Knowledge Prompting Strategies','Re-reading & Self-Refinement Prompt Loops'] },
-    { title:'CHAPTER 07: Iterative Prompt Tuning & Optimization Patterns', topics:['Iterative Refinement Lifecycle for Prompts','Meta-Prompting & Auto-Prompt Generation','Gradient-Free Prompt Optimization (AAPE, DSPy)','Systematic Prompt Evaluation Frameworks'] },
-    { title:'CHAPTER 08: Output Formatting, Control & Schema Enforcement', topics:['Enforcing Structured Outputs (JSON, XML, YAML)','Pydantic & JSON Schema Validation Enforcement','Handling System Output Parsing Errors','Markdown Formatting & Code Generation Optimization'] },
-    { title:'CHAPTER 09: System Prompt Architecture & Personas', topics:['Designing Robust System Instructions','Role-Playing, Persona Calibration & Tone Tuning','Setting Operating Boundaries & Constraints','Multi-Persona Systems & Panel Discussions'] },
-    { title:'CHAPTER 10: Context Window Management & Optimization', topics:['Optimizing Large Context Windows Usage','Mitigating the "Lost in the Middle" Phenomena','Context Compression & Summarization Strategies','Needle In A Haystack (NIAH) Testing Protocols'] },
-    { title:'CHAPTER 11: Retrieval-Augmented Generation (RAG) Prompting', topics:['Prompting for RAG Context Integration','Contextual Chunking & In-Prompt Formatting','Handling Out-of-Context & Unanswerable Queries','Citation, Source Attribution & Grounding Mechanics'] },
-    { title:'CHAPTER 12: Tool Use & Function Calling Architectures', topics:['JSON Schema Specification for Tool Usage','System Prompts for Tool Discovery & Invocation','Parsing Tool Calls & Formatted Responses','Handling Multi-Tool Executions & Error Recovery'] },
-    { title:'CHAPTER 13: Agentic Workflows & ReAct Paradigm', topics:['ReAct Architecture (Reasoning + Acting)','Planning Engines, Sub-Goal Decomposition & Memory','Reflection & Self-Correction Loops (Reflexion)','Human-in-the-Loop Interaction Patterns'] },
-    { title:'CHAPTER 14: Multi-Agent Collaboration Frameworks', topics:['Designing Multi-Agent Communication Frameworks','Hierarchical vs Peer-to-Peer Agent Networks','Task Delegation & Conflict Resolution Strategies','Orchestrating Complex Auto-Gen Workflows'] },
-    { title:'CHAPTER 15: Adversarial Prompting & Vulnerabilities', topics:['Prompt Injection Attacks (Direct & Indirect)','Jailbreaking Techniques & Bypass Strategies','Data Extraction, Leakage & System Prompt Theft','Adversarial Evaluation & Safety Testing'] },
-    { title:'CHAPTER 16: Defensive Prompting & Safety Guardrails', topics:['Input Sanitization & Boundary Delimiters','Defensive System Prompt Architectural Patterns','Output Filtering, Guardrail Libraries & Moderation APIs','Refusal Handling & Safe Failure Modes'] },
-    { title:'CHAPTER 17: Multimodal Prompt Engineering', topics:['Prompting Vision-Language Models (GPT-4V, Gemini)','Combining Image Inputs with Structured Text Queries','Audio, Video & Document Visual Prompting','Spatial & Visual Reasoning Prompt Tactics'] },
-    { title:'CHAPTER 18: Code Generation & Programmatic Prompting', topics:['Prompting for Code Generation, Refactoring & Debugging','Test-Driven Development (TDD) via Prompts','Code Execution & Automated Self-Debugging Loops','Generating Documentation, ASTs & Schema Encodings'] },
-    { title:'CHAPTER 19: Enterprise Prompt Management & Operations', topics:['Prompt Versioning, Logging & Registry Systems','Cost, Latency & Token Usage Optimization','Prompt Caching Strategies & Latency Reduction','A/B Testing Prompts in Production Environments'] },
-    { title:'CHAPTER 20: Domain-Specific Prompt Engineering (Healthcare, Finance, Law)', topics:['High-Precision Prompt Design for Medical Domains','Financial Data Extraction & Audit Prompting','Legal Document Analysis & Statutory Reasoning','Handling Regulatory & Compliance Requirements'] },
-    { title:'CHAPTER 21: Synthetic Data Generation & Fine-Tuning Prep', topics:['Generating Synthetic Datasets via LLM Prompts','Dataset Distillation & Self-Instruct Paradigms','Formatting Prompts for Fine-Tuning (SFT / DPO)','Labeling & Classification Data Pipelines'] },
-    { title:'CHAPTER 22: Evaluation Metrics & Automated Testing', topics:['Automated Evaluation via LLM-as-a-Judge','Metric Systems: ROUGE, BLEU, G-Eval, Ragas','Unit Testing Prompts with Benchmark Datasets','Detecting Hallucinations & Output Drift'] },
-    { title:'CHAPTER 23: Human-AI Collaboration & Co-Creation', topics:['Prompting for Creative Writing, Brainstorming & Ideation','Interactive Feedback & Sequential Refinement','Co-Designing Systems with Generative AI','Augmenting Human Cognitive Workflows'] },
-    { title:'CHAPTER 24: Model-Specific Prompt Optimization', topics:['Optimizing Prompts for OpenAI Models (GPT-4o/o1)','Optimizing Prompts for Anthropic Claude (System Prompts, Artifacts)','Optimizing Prompts for Google Gemini & Open-Source LLMs (Llama, Mistral)','Adapting Prompts Across Provider Heterogeneity'] },
-    { title:'CHAPTER 25: Programmatic Prompt Frameworks (DSPy, LangChain, LlamaIndex)', topics:['DSPy Paradigm: Compiling vs Writing Prompts','LangChain Prompt Templates & Pipeline Integration','LlamaIndex Query Prompt Configurations','Dynamic Prompt Construction Frameworks'] },
-    { title:'CHAPTER 26: Ethics, Bias Mitigation & Responsible Prompting', topics:['Auditing Prompts for Stereotypes & Algorithmic Bias','Inclusivity & Neutrality in System Prompts','Transparency, Factuality & Truthfulness Verification','Responsible AI Deployment Frameworks'] },
-    { title:'CHAPTER 27: Cognitive Architectures & Future AI Paradigms', topics:['Integrating Long-Term Memory (Vector/Episodic) into Prompts','Reasoning-First Models (OpenAI o1) & Test-Time Compute','Metacognition & Self-Awareness in AI Systems','Preparing Prompts for Next-Gen Neural Architectures'] },
-    { title:'CHAPTER 28: Production Deployment & API Orchestration', topics:['Deploying Prompt Services via REST / gRPC APIs','Fallback & Circuit Breaker Logic for Prompts','Token Rate Limit Handling & Asynchronous Batch Processing','End-to-End Enterprise System Deployment'] }
-  ] }
-];
-    const grid = document.querySelector('#courseGrid');
-    const hub = document.querySelector('#hub');
-    const pathway = document.querySelector('#pathway');
-    const courseNavButton = document.querySelector('#courseNavButton');
-    let activeCourse = null;
-    let observer;
-    let progressFrame = 0;
-    function chapterMarkup(chapter) {
-      const separator = chapter.title.indexOf(':');
-      const label = separator > -1 ? chapter.title.slice(0, separator) : '';
-      const title = separator > -1 ? chapter.title.slice(separator + 1).trim() : chapter.title;
-      return `<span class="chapter-label">${label}</span><h3>${title}</h3>`;
-    }
-    grid.innerHTML = courses.map(course => `<button class="course-card" type="button" data-course="${course.id}" style="--card-color:${course.color}"><span class="card-icon"><i class="${course.icon}"></i></span><h2>${course.title}</h2><span class="card-foot"><span class="action-badge">Open chapter <i class="fa-solid fa-arrow-up-right"></i></span></span></button>`).join('');
+      {
+        id: 'python-101',
+        title: 'Python Masterclass',
+        description: 'Master core execution models, memory mechanics, dynamic typing, complex data structures, and advanced functional patterns.',
+        color: '#38bdf8',
+        icon: 'fa-brands fa-python',
+        agenda: [
+          { title: 'CHAPTER 01: Python Runtime & Execution Architecture', topics: ['Execution Model & Bytecode Compilation', 'Core Syntax, Indentation & Lexical Structure', 'Variable Mechanics, Identifiers & Memory Model', 'Type System Architecture & Dynamic Typing'] },
+          { title: 'CHAPTER 02: Primitive Data Types & Logical Operations', topics: ['Integers (int) & Arbitrary Precision', 'Floating-Point (float) & IEEE 754 Mechanics', 'Complex Numbers (complex) & Mathematical Operations', 'Booleans (bool) & Truthy/Falsy Evaluation'] },
+          { title: 'CHAPTER 03: Comprehensive Operator Framework', topics: ['Arithmetic & Bitwise Operators', 'Comparison & Relational Operators', 'Logical & Boolean Operators', 'Assignment, Identity & Membership Operators'] },
+          { title: 'CHAPTER 04: Control Flow & Conditional Branching', topics: ['If, Elif, Else Conditional Trees', 'Ternary Conditional Expressions', 'Structural Pattern Matching (match-case)', 'Nested Decision-Making Architecture'] },
+          { title: 'CHAPTER 05: Iteration Mechanisms & Loop Protocols', topics: ['While Loops & Condition-Based Iteration', 'For Loops & Sequence Traversal', 'Loop Control: Break, Continue & Else Clauses', 'Enumerate & Zip Iteration Helpers'] },
+          { title: 'CHAPTER 06: Native Sequence Types – Strings (str)', topics: ['String Immutability & Memory Layout', 'Indexing, Slicing & Extended Step Mechanics', 'String Formatting (f-strings, format, %)', 'Advanced String Methods & Parsing'] },
+          { title: 'CHAPTER 07: Native Sequence Types – Lists (list)', topics: ['Dynamic Array Architecture', 'List Operations, Slicing & Mutability', 'Comprehensive List Methods', 'List Comprehension Patterns'] },
+          { title: 'CHAPTER 08: Native Sequence Types – Tuples (tuple)', topics: ['Immutable Sequence Properties', 'Tuple Packing & Unpacking Dynamics', 'Namedtuples & Structured Records', 'Tuple Performance vs Lists'] },
+          { title: 'CHAPTER 09: Native Set Types (set & frozenset)', topics: ['Hash Table Underlying Structure', 'Set Operations: Union, Intersection & Difference', 'Set Comprehensions & Uniqueness Guarantees', 'Frozenset Immutable Properties'] },
+          { title: 'CHAPTER 10: Native Mapping Types – Dictionaries (dict)', topics: ['Hash Map Architecture & Key Constraints', 'Dictionary Access, Insertion & Deletion Methods', 'Dictionary Merging, Updating & Comprehensions', 'Defaultdict, Counter & Ordered Maps'] }
+        ]
+      },
+      {
+        id: 'java-101',
+        title: 'Java Engineering',
+        description: 'Explore JVM compilation pipelines, heap/stack memory management, explicit casting, and enterprise object references.',
+        color: '#f89820',
+        icon: 'fa-brands fa-java',
+        agenda: [
+          { title: 'CHAPTER 01: JVM Architecture & Program Structure', topics: ['JVM, JRE & JDK Mechanics', 'Bytecode Execution & JIT Compiler', 'Class Structure, Package Declarations & Main Method', 'Source File Layout & Compilation Workflow'] },
+          { title: 'CHAPTER 02: Lexical Structure, Variables & Primitives', topics: ['Primitive Data Types & Numeric Ranges', 'Memory Stack Allocation for Primitives', 'Literals, Constants (final) & Identifiers', 'Variable Scope & Lifecycle'] },
+          { title: 'CHAPTER 03: Operators, Expressions & Evaluation Order', topics: ['Arithmetic & Bitwise Operators', 'Relational & Logical Operators', 'Ternary & Assignment Operators', 'Operator Precedence & Evaluation Rules'] },
+          { title: 'CHAPTER 04: Type Conversion, Casting & Promotions', topics: ['Implicit Type Promotion Rules', 'Explicit Casting Mechanics & Precision Loss', 'Primitive Boxing & Unboxing (Wrapper Classes)', 'Numeric Conversions & Overflows'] },
+          { title: 'CHAPTER 05: Control Flow & Conditional Logic', topics: ['If, Else-If, Else Decision Trees', 'Switch Statements & Modern Switch Expressions', 'Ternary Logic & Branching Optimization', 'Short-Circuit Evaluation Mechanics'] },
+          { title: 'CHAPTER 06: Iteration Mechanisms & Loop Constructs', topics: ['While & Do-While Loops', 'Traditional For Loops & Iteration Controls', 'Enhanced For-Each Loop Syntax', 'Loop Branching: Break, Continue & Labeled Statements'] },
+          { title: 'CHAPTER 07: Reference Types & Memory Allocation Mechanics', topics: ['Heap Allocation vs Stack Memory', 'Reference Variables & Null References', 'Garbage Collection Basics & Object Reachability', 'Memory Management Best Practices'] }
+        ]
+      }
+    ];
 
-    function openCourse(course) {
-      activeCourse = course;
-      pathway.classList.remove('is-closing');
-      document.body.classList.add('course-open');
-      document.documentElement.style.setProperty('--accent', course.color);
-      document.documentElement.style.scrollBehavior = 'auto';
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      pathway.innerHTML = `<div class="path-head"><h2>${course.title}</h2></div><div class="timeline"><div class="timeline-progress"></div>${course.agenda.map(chapter => `<article class="step"><span class="step-dot"></span><div class="step-card">${chapterMarkup(chapter)}<ul class="concept-list">${chapter.topics.map(topic => `<li>${topic}</li>`).join('')}</ul></div></article>`).join('')}</div><div class="finish"><i class="fa-solid fa-star"></i></div>`;
-      hub.classList.add('is-hidden');
-      pathway.classList.add('is-active');
-      pathway.querySelector('.step').classList.add('revealed');
-      observer = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('revealed')), { threshold:.28 });
-      pathway.querySelectorAll('.step').forEach(step => observer.observe(step));
-      window.addEventListener('scroll', scheduleProgress, { passive:true });
-      updateProgress();
-      requestAnimationFrame(() => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        updateProgress();
-      });
-    }
-    function scheduleProgress() {
-      if (progressFrame) return;
-      progressFrame = requestAnimationFrame(() => {
-        progressFrame = 0;
-        updateProgress();
-      });
-    }
-    function updateProgress() {
-      if (!activeCourse) return;
-      const timeline = pathway.querySelector('.timeline');
-      const progress = pathway.querySelector('.timeline-progress');
-      const bounds = timeline.getBoundingClientRect();
-      const firstStep = pathway.querySelector('.step');
-      const firstStepEnd = firstStep.offsetTop + firstStep.offsetHeight;
-      const firstChapterProgress = Math.min(1, Math.max(0, firstStepEnd / timeline.offsetHeight));
-      const scrollProgress = Math.min(1, Math.max(0, (window.innerHeight * .58 - bounds.top) / bounds.height));
-      const amount = Math.max(firstChapterProgress, scrollProgress);
-      progress.style.height = `${amount * 100}%`;
-      pathway.querySelectorAll('.step').forEach(step => {
-        if (step.getBoundingClientRect().top < window.innerHeight * .82) step.classList.add('revealed');
-      });
-    }
-    function closeCourse() {
-      if (!activeCourse) return;
-      if (observer) observer.disconnect();
-      window.removeEventListener('scroll', scheduleProgress);
-      if (progressFrame) cancelAnimationFrame(progressFrame);
-      progressFrame = 0;
-      document.documentElement.style.scrollBehavior = 'auto';
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      document.body.classList.remove('course-open');
-      hub.classList.remove('is-hidden');
-      pathway.classList.remove('is-active', 'is-closing');
-      activeCourse = null;
-      document.documentElement.style.scrollBehavior = 'smooth';
-    }
-    grid.addEventListener('click', event => { const card = event.target.closest('[data-course]'); if (card) openCourse(courses.find(course => course.id === card.dataset.course)); });
-    grid.querySelectorAll('.course-card').forEach(card => {
-      card.addEventListener('pointermove', event => {
-        if (event.pointerType === 'touch') return;
-        const bounds = card.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / bounds.width;
-        const y = (event.clientY - bounds.top) / bounds.height;
-        card.style.setProperty('--mx', `${x * 100}%`);
-        card.style.setProperty('--my', `${y * 100}%`);
-        card.style.transform = `perspective(900px) rotateX(${(0.5 - y) * 9}deg) rotateY(${(x - 0.5) * 11}deg) translateY(-8px) translateZ(8px)`;
+    const hub = document.getElementById('hub');
+    const pathway = document.getElementById('pathway');
+    const courseGrid = document.getElementById('courseGrid');
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const navLinks = document.getElementById('navLinks');
+    const courseNavButton = document.getElementById('courseNavButton');
+
+    // Dynamic Card Rendering
+    courseGrid.innerHTML = courses.map(course => `
+      <article class="course-card" style="--card-color:${course.color}" data-id="${course.id}">
+        <div class="card-head">
+          <div class="card-icon"><i class="${course.icon}"></i></div>
+          <h2>${course.title}</h2>
+          <p class="card-desc">${course.description}</p>
+        </div>
+        <div class="card-foot">
+          <div class="action-btn">Explore Path <i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+      </article>
+    `).join('');
+
+    // Card Tilt Effect & Click Trigger
+    document.querySelectorAll('.course-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mx', `${x}px`);
+        card.style.setProperty('--my', `${y}px`);
+        
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rx = ((y - cy) / cy) * -8;
+        const ry = ((x - cx) / cx) * 8;
+        
         card.classList.add('is-tilting');
+        card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(10px)`;
       });
-      card.addEventListener('pointerleave', () => {
-        card.style.transform = '';
+
+      card.addEventListener('mouseleave', () => {
         card.classList.remove('is-tilting');
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
       });
+
+      card.addEventListener('click', () => openCourse(card.dataset.id));
     });
-    const mobileNavToggle = document.querySelector('#mobileNavToggle');
-    const navLinks = document.querySelector('#navLinks');
-    mobileNavToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('active');
-      mobileNavToggle.setAttribute('aria-expanded', String(isOpen));
-      document.querySelector('#toggleIcon').className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
-    });
-    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      mobileNavToggle.setAttribute('aria-expanded', 'false');
-      document.querySelector('#toggleIcon').className = 'fa-solid fa-bars';
-    }));
-    courseNavButton.addEventListener('click', closeCourse);
-    document.addEventListener('keydown', event => { if (event.key === 'Escape' && activeCourse) closeCourse(); });
-    document.querySelectorAll('a.nav-brand, a.nav-item-link').forEach(link => link.addEventListener('click', () => document.body.classList.add('page-exiting')));
-    function revealPage() {
-      window.scrollTo({ top:0, left:0, behavior:'instant' });
-      requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('page-loaded')));
-      setTimeout(() => document.body.classList.add('page-loaded'), 80);
-      setTimeout(() => { document.documentElement.style.scrollBehavior = 'smooth'; }, 100);
+
+    function openCourse(id) {
+      const course = courses.find(c => c.id === id);
+      if (!course) return;
+
+      document.body.classList.add('course-open');
+      hub.classList.add('is-hidden');
+      
+      pathway.style.setProperty('--accent', course.color);
+      pathway.innerHTML = `
+        <div class="path-head">
+          <span class="chapter-label">Interactive Syllabus</span>
+          <h2>${course.title}</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-progress" id="timelineProgress"></div>
+          ${course.agenda.map((ch, idx) => `
+            <div class="step" data-index="${idx}">
+              <div class="step-dot"></div>
+              <div class="step-card">
+                <div class="chapter-header">
+                  <div>
+                    <span class="chapter-label">${ch.title.split(':')[0]}</span>
+                    <h3>${ch.title.split(':')[1] || ch.title}</h3>
+                  </div>
+                  <div class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+                </div>
+                <div class="concept-wrapper">
+                  <ul class="concept-list">
+                    ${ch.topics.map(t => `<li>${t}</li>`).join('')}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      pathway.classList.add('is-active');
+      window.scrollTo(0, 0);
+      setupScrollObserver();
+      setupAccordion();
     }
-    revealPage();
-    window.addEventListener('load', revealPage, { once:true });
+
+    function closeCourse() {
+      document.body.classList.remove('course-open');
+      pathway.classList.remove('is-active');
+      hub.classList.remove('is-hidden');
+      window.scrollTo(0, 0);
+    }
+
+    courseNavButton.addEventListener('click', closeCourse);
+
+    function setupAccordion() {
+      document.querySelectorAll('.step-card').forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('active');
+        });
+      });
+    }
+
+    function setupScrollObserver() {
+      const steps = document.querySelectorAll('.step');
+      const progressLine = document.getElementById('timelineProgress');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      steps.forEach(step => observer.observe(step));
+
+      window.addEventListener('scroll', () => {
+        if (!pathway.classList.contains('is-active')) return;
+        const timeline = document.querySelector('.timeline');
+        if (!timeline) return;
+
+        const rect = timeline.getBoundingClientRect();
+        const totalHeight = rect.height;
+        const visibleHeight = window.innerHeight / 2 - rect.top;
+        const progress = Math.min(Math.max(visibleHeight / totalHeight, 0), 1);
+
+        if (progressLine) {
+          progressLine.style.height = `${progress * 100}%`;
+        }
+      });
+    }
+
+    mobileNavToggle.addEventListener('click', () => {
+      const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+      mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
+      navLinks.classList.toggle('active');
+      
+      const icon = mobileNavToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-xmark');
+    });
   </script>
 </body>
 </html>
