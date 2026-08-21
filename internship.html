@@ -422,25 +422,27 @@
         return false;
       }
 
-      // Populate Offer Letter Document Fields
-      document.getElementById('pdf-candidate-name').textContent = document.getElementById('fullName').value;
-      document.getElementById('pdf-domain').textContent = domainValue;
-      document.getElementById('pdf-duration').textContent = durationValue;
-      document.getElementById('pdf-institution').textContent = document.getElementById('institution').value;
-      document.getElementById('pdf-department').textContent = document.getElementById('department').value;
-      
+      // Generate exact timestamp and reference number ONCE
       const now = new Date();
       const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
       const day = String(now.getDate()).padStart(2, '0');
       const monthStr = months[now.getMonth()];
       const year = now.getFullYear();
-      document.getElementById('pdf-issue-date').textContent = `${day}-${monthStr}-${year}`;
+      const issueDateStr = `${day}-${monthStr}-${year}`;
 
       const monthNum = String(now.getMonth() + 1).padStart(2, '0');
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
       const refCode = `EC/${year}/${day}${monthNum}${hours}${minutes}${seconds}`;
+
+      // Populate Offer Letter Document Fields
+      document.getElementById('pdf-candidate-name').textContent = document.getElementById('fullName').value;
+      document.getElementById('pdf-domain').textContent = domainValue;
+      document.getElementById('pdf-duration').textContent = durationValue;
+      document.getElementById('pdf-institution').textContent = document.getElementById('institution').value;
+      document.getElementById('pdf-department').textContent = document.getElementById('department').value;
+      document.getElementById('pdf-issue-date').textContent = issueDateStr;
       document.getElementById('pdf-ref-id').textContent = refCode;
 
       // Submit Button Loading State
@@ -448,9 +450,13 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>Submitting Application...</span> <i class="fa-solid fa-circle-notch fa-spin"></i>';
 
+      // Prepare Form Data & append explicit Ref NO and Issue Date
+      const formData = new FormData(document.getElementById('applicationForm'));
+      formData.append('refId', refCode);
+      formData.append('issueDate', issueDateStr);
+
       // Post Form Data to Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbxfdBflSujerNzavhsumzVghwP49Ctz1fAklfM2dyVeaWAZdW0JcfFCiLgCKpWDuV06/exec';
-      const formData = new FormData(document.getElementById('applicationForm'));
 
       try {
         await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
