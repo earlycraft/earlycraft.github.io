@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | EarlyCraft</title>
+  
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="styles/index.css">
+  <link rel="stylesheet" href="styles/about.css">
+
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  </script>
+</head>
+<body class="page-entering">
+
+  <!-- FLOATING NAVIGATION BAR -->
+  <header class="navbar-wrapper">
+    <nav class="navbar-container">
+      <a href="index.html" class="nav-brand nav-link" aria-label="EarlyCraft Home">
+        <img src="assets/logo.png" alt="EarlyCraft Logo" class="nav-brand-logo" onerror="this.style.display='none'">
+        <img src="assets/logofont.png" alt="EarlyCraft" class="nav-brand-font" onerror="this.style.display='none'">
+      </a>
+      
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item-link nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-item-link nav-link active">About</a></li>
+        <li><a href="internship.html" class="nav-item-link nav-link">Internship</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ABOUT HERO SECTION -->
+  <section class="about-hero">
+    <div class="about-hero-content">
+      <h1 class="about-hero-title">Shaping Minds with <span>Practical Tech</span></h1>
+      <p class="about-hero-subtitle">
+        Delivering affordable technical training and real-world internships directly to schools and colleges.
+      </p>
+    </div>
+  </section>
+
+  <!-- DYNAMIC VISION & MISSION SECTION -->
+  <section class="dynamic-vision-section">
+    <div class="about-container">
+      
+      <div class="toggle-control-wrapper">
+        <button class="toggle-btn active" id="btnVision" onclick="switchDynamicTab('vision')">
+          <i class="fa-solid fa-eye"></i> Our Vision
+        </button>
+        <button class="toggle-btn" id="btnMission" onclick="switchDynamicTab('mission')">
+          <i class="fa-solid fa-bullseye"></i> Our Mission
+        </button>
+      </div>
+
+      <div class="dynamic-display-card">
+        <!-- Vision View -->
+        <div class="dynamic-tab-content active" id="visionTab">
+          <div class="tab-header">
+            <div class="tab-icon-badge">
+              <i class="fa-solid fa-compass"></i>
+            </div>
+            <h2>Our Vision</h2>
+          </div>
+          <ul class="bullet-list">
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Industry Alignment:</strong> Bridge academic curriculums with live production technology.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Early Technical Start:</strong> Introduce real programming to students while still in school and early college.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Affordable Excellence:</strong> Ensure high-value, quality tech education remains accessible to everyone.</li>
+          </ul>
+        </div>
+
+        <!-- Mission View -->
+        <div class="dynamic-tab-content" id="missionTab">
+          <div class="tab-header">
+            <div class="tab-icon-badge">
+              <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h2>Our Mission</h2>
+          </div>
+          <ul class="bullet-list">
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Campus Outreach:</strong> Conduct live training programs directly in schools and colleges.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Hands-on Internships:</strong> Build real-world projects through structured, budget-friendly programs.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Skill Certification:</strong> Validate student readiness with industry-recognized performance badges.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHAT WE DO SECTION -->
+  <section class="goals-section">
+    <div class="about-container">
+      <div class="section-header">
+        <h2 class="section-title">What We Do</h2>
+      </div>
+
+      <div class="goals-grid">
+        <div class="goal-card">
+          <div class="goal-icon">
+            <i class="fa-solid fa-chalkboard-user"></i>
+          </div>
+          <h3>School & College Classes</h3>
+          <p>We deliver hands-on technical workshops, guest lectures, and practical coding labs directly to institutional campuses.</p>
+        </div>
+
+        <div class="goal-card">
+          <div class="goal-icon">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+          </div>
+          <h3>Low-Cost Education</h3>
+          <p>We offer highly affordable, budget-conscious training and internship models without exorbitant tuition costs.</p>
+        </div>
+
+        <div class="goal-card">
+          <div class="goal-icon">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <h3>Practical Internships</h3>
+          <p>Students work on live software development projects, mastering code architecture, Git workflows, and deployment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-bar">
+    <div class="footer-rights">
+      <span class="footer-brand">EarlyCraft EdTech</span> &copy; All Rights Reserved
+    </div>
+    <div class="footer-contacts">
+      <a href="tel:7010885804" class="footer-pill">
+        <i class="fa-solid fa-phone"></i> +91 7010885804
+      </a>
+      <a href="mailto:earlycraftedtech@gmail.com" class="footer-pill">
+        <i class="fa-solid fa-envelope"></i> earlycraftedtech@gmail.com
+      </a>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    // Smooth Page Enter Logic
+    function triggerEnterAnimation() {
+      requestAnimationFrame(() => {
+        document.body.classList.remove("page-entering", "page-exiting");
+        document.body.classList.add("page-loaded");
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => triggerEnterAnimation());
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) triggerEnterAnimation();
+    });
+
+    // Dynamic Tab Switching
+    function switchDynamicTab(tab) {
+      const visionTab = document.getElementById('visionTab');
+      const missionTab = document.getElementById('missionTab');
+      const btnVision = document.getElementById('btnVision');
+      const btnMission = document.getElementById('btnMission');
+
+      if (tab === 'vision') {
+        visionTab.classList.add('active');
+        missionTab.classList.remove('active');
+        btnVision.classList.add('active');
+        btnMission.classList.remove('active');
+      } else {
+        missionTab.classList.add('active');
+        visionTab.classList.remove('active');
+        btnMission.classList.add('active');
+        btnVision.classList.remove('active');
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Mobile Navigation
+      const mobileNavToggle = document.getElementById("mobileNavToggle");
+      const navLinksMenu = document.getElementById("navLinks");
+      const toggleIcon = document.getElementById("toggleIcon");
+
+      if (mobileNavToggle && navLinksMenu) {
+        mobileNavToggle.addEventListener("click", () => {
+          navLinksMenu.classList.toggle("active");
+          if (navLinksMenu.classList.contains("active")) {
+            toggleIcon.classList.remove("fa-bars");
+            toggleIcon.classList.add("fa-xmark");
+          } else {
+            toggleIcon.classList.remove("fa-xmark");
+            toggleIcon.classList.add("fa-bars");
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!mobileNavToggle.contains(e.target) && !navLinksMenu.contains(e.target)) {
+            navLinksMenu.classList.remove("active");
+            if (toggleIcon) {
+              toggleIcon.classList.remove("fa-xmark");
+              toggleIcon.classList.add("fa-bars");
+            }
+          }
+        });
+      }
+
+      // Smooth Page Exit Logic
+      const navLinks = document.querySelectorAll(".nav-link");
+      navLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+          const targetUrl = link.getAttribute("href");
+          if (!targetUrl || targetUrl.startsWith("#") || targetUrl.startsWith("javascript")) return;
+
+          e.preventDefault();
+
+          if (navLinksMenu) navLinksMenu.classList.remove("active");
+          document.body.classList.remove("page-loaded");
+          document.body.classList.add("page-exiting");
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 350);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
